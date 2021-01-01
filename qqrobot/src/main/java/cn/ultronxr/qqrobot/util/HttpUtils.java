@@ -30,7 +30,7 @@ public class HttpUtils {
         //WEATHER_REQ_HEADER_MAP.put("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7");
         //WEATHER_REQ_HEADER_MAP.put("Cache-Control", "max-age=0");
         //WEATHER_REQ_HEADER_MAP.put("Connection", "keep-alive");
-        WEATHER_REQ_HEADER_MAP.put("User-Agent", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36");
+        WEATHER_REQ_HEADER_MAP.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36");
     }
 
     /**
