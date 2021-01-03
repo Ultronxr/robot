@@ -1,5 +1,6 @@
 package cn.ultronxr.reminder.reminder;
 
+import cn.ultronxr.reminder.bean.RemindCode;
 import cn.ultronxr.reminder.crawler.WaterAndPowerNewsCrawler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +28,11 @@ public class WaterAndPowerReminder {
             log.info(waterResMap.toString());
             log.info(powerResMap.toString());
 
-            if(waterResMap.get("remindCode").equals(WaterAndPowerNewsCrawler.RemindCode.DoRemind.getStrCode())){
+            if(waterResMap.get("remindCode").equals(RemindCode.DoRemind.getStrCode())){
                 log.info("waterRemind发起提醒！");
                 log.info(waterResMap.get("url"));
             }
-            if(powerResMap.get("remindCode").equals(WaterAndPowerNewsCrawler.RemindCode.DoRemind.getStrCode())){
+            if(powerResMap.get("remindCode").equals(RemindCode.DoRemind.getStrCode())){
                 log.info("powerRemind发起提醒！");
                 log.info(powerResMap.get("url"));
             }
