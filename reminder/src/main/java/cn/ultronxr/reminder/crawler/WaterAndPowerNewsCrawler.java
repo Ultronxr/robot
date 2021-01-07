@@ -1,6 +1,7 @@
 package cn.ultronxr.reminder.crawler;
 
 import cn.hutool.http.HttpRequest;
+import cn.ultronxr.reminder.bean.GlobalData;
 import cn.ultronxr.reminder.bean.RemindCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,27 +14,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class WaterAndPowerNewsCrawler {
+public class WaterAndPowerNewsCrawler extends GlobalData {
 
     /** 网页新闻URL */
-    private static final String NEWS_URL = "http://www.lxnews.cn";
+    private static final String NEWS_URL = RESOURCE_BUNDLE.getString("url.newsUrl");
 
     /** ajax请求获取json数据URL */
-    private static final String AJAX_URL = "http://d.cztvcloud.com/search?d=www.lxnews.cn&sort=1&p=1&size=1&q=";
+    private static final String AJAX_URL = RESOURCE_BUNDLE.getString("url.ajaxUrl");
+
+    /** ajax请求获取json数据HOST */
+    private static final String AJAX_HOST = RESOURCE_BUNDLE.getString("url.ajaxHost");
 
     /** 停水和停电的搜索关键词 */
-    private static final String WATER_KEY = "储水准备";
-    private static final String POWER_KEY = "停电通知";
+    private static final String WATER_KEY = getChineseResource("keyword.waterKey");
+    private static final String POWER_KEY = getChineseResource("keyword.powerKey");
 
     /** 新闻content中需要提醒的关键词 */
-    private static final String[] REMIND_KEY = {"马涧", "溪源"};
+    private static final String[] REMIND_KEY = getChineseResource("keyword.remindKey").split(" ");
 
     /**
      * 确保提醒的时效性，单位为秒（LOW <= timestamp <= high）
      * 当前设置时效：未来12小时内
      */
-    private static final long TIMESTAMP_LOW = 12*60*60;
-    private static final long TIMESTAMP_HIGH = 24*60*60;
+    private static final long TIMESTAMP_LOW = Long.parseLong(RESOURCE_BUNDLE.getString("timestamp.low"));
+    private static final long TIMESTAMP_HIGH = Long.parseLong(RESOURCE_BUNDLE.getString("timestamp.high"));
 
 
     /**
@@ -53,9 +57,9 @@ public class WaterAndPowerNewsCrawler {
         return HttpRequest.get(AJAX_URL + keyword)
                 .header("Accept", "application/json, text/javascript, */*; q=0.01")
                 .header("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
-                .header("Host", "d.cztvcloud.com")
-                .header("Origin", "http://www.lxnews.cn")
-                .header("Referer", "http://www.lxnews.cn/")
+                .header("Host", AJAX_HOST)
+                .header("Origin", NEWS_URL)
+                .header("Referer", NEWS_URL)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36")
                 .execute()
                 .body();
@@ -69,7 +73,7 @@ public class WaterAndPowerNewsCrawler {
      *
      * @return
      *          一个{@code Map<String, String>}，其中包含了：
-     *          标识符 code、标识信息 msg、网页URL url、手机端URL mobileUrl、发布时间戳 timestamp、新闻内容 content
+     *          标识符 code、标识信息 msg、网页完整URL url、URL最后一层路径 shortUrl、手机端URL mobileUrl、发布时间戳 timestamp、新闻内容 content
      *
      * @throws JsonProcessingException
      *          json序列化失败抛出的异常信息
@@ -90,6 +94,7 @@ public class WaterAndPowerNewsCrawler {
         resMap.put("code", rootNode.path("code").asText());
         resMap.put("msg", rootNode.path("msg").asText());
         resMap.put("url", NEWS_URL + contentArrNode.get(0).path("url").asText());
+        resMap.put("shortUrl", contentArrNode.get(0).path("url").asText());
         resMap.put("mobileUrl", contentArrNode.get(0).path("referer_url").asText());
         //timestamp指的是新闻发布时间！
         resMap.put("timestamp", contentArrNode.get(0).path("publish_at").asText());
@@ -142,7 +147,7 @@ public class WaterAndPowerNewsCrawler {
      *
      * @return
      *          {@code putRemindCode()}方法处理后的最终结果{@code Map<String, String>}，其中包含了：
-     *          标识符 code、标识信息 msg、网页URL url、手机端URL mobileUrl、发布时间戳 timestamp、新闻内容 content、
+     *          标识符 code、标识信息 msg、网页完整URL url、URL最后一层路径 shortUrl、手机端URL mobileUrl、发布时间戳 timestamp、新闻内容 content、
      *          是否需要提醒标识符 remindCode
      *
      * @throws JsonProcessingException
@@ -158,7 +163,7 @@ public class WaterAndPowerNewsCrawler {
      *
      * @return
      *          {@code putRemindCode()}方法处理后的最终结果{@code Map<String, String>}，其中包含了：
-     *          标识符 code、标识信息 msg、网页URL url、手机端URL mobileUrl、发布时间戳 timestamp、新闻内容 content、
+     *          标识符 code、标识信息 msg、网页完整URL url、URL最后一层路径 shortUrl、手机端URL mobileUrl、发布时间戳 timestamp、新闻内容 content、
      *          是否需要提醒标识符 remindCode
      *
      * @throws JsonProcessingException

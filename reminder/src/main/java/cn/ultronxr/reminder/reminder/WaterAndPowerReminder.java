@@ -1,5 +1,6 @@
 package cn.ultronxr.reminder.reminder;
 
+import cn.ultronxr.reminder.bean.GlobalData;
 import cn.ultronxr.reminder.bean.RemindCode;
 import cn.ultronxr.reminder.crawler.WaterAndPowerNewsCrawler;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,6 +22,14 @@ public class WaterAndPowerReminder {
     @Scheduled(cron = "0 0 7,19 * * ? ")
     //@Scheduled(cron = "0/10 * * * * ? ")
     public void scheduledReminder(){
+        reminderHandler();
+    }
+
+    //public static void main(String[] args) {
+    //    new WaterAndPowerReminder().reminderHandler();
+    //}
+
+    public void reminderHandler(){
         try {
             Map<String, String> waterResMap = WaterAndPowerNewsCrawler.waterReminder(),
                     powerResMap = WaterAndPowerNewsCrawler.powerReminder();
@@ -41,7 +50,6 @@ public class WaterAndPowerReminder {
             log.warn("JsonProcessingException");
             ex.printStackTrace();
         }
-
     }
 
 }

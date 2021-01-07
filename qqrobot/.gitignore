@@ -32,6 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-### config files ###
+### Config Files ###
 configData.properties
 deviceInfo.json
+
