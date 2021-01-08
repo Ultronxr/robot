@@ -34,4 +34,4 @@ build/
 
 ### Config Files ###
 waterAndPowerReminderConfig.properties
-
+tencentCloudConfig.properties

@@ -2,11 +2,10 @@ package cn.ultronxr.reminder.reminder;
 
 import cn.ultronxr.reminder.bean.GlobalData;
 import cn.ultronxr.reminder.bean.RemindCode;
-import cn.ultronxr.reminder.crawler.WaterAndPowerNewsCrawler;
+import cn.ultronxr.reminder.crawler.WaterPowerNewsCrawler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -14,25 +13,25 @@ import java.util.Map;
 @Component
 @EnableScheduling
 @Slf4j
-public class WaterAndPowerReminder {
+public class WaterPowerReminder extends GlobalData {
 
     /**
      * 上午七点、下午七点各执行一次
      */
-    @Scheduled(cron = "0 0 7,19 * * ? ")
+    //@Scheduled(cron = "0 0 7,19 * * ? ")
     //@Scheduled(cron = "0/10 * * * * ? ")
     public void scheduledReminder(){
         reminderHandler();
     }
 
-    //public static void main(String[] args) {
-    //    new WaterAndPowerReminder().reminderHandler();
-    //}
+    public static void main(String[] args) {
+        new WaterPowerReminder().reminderHandler();
+    }
 
     public void reminderHandler(){
         try {
-            Map<String, String> waterResMap = WaterAndPowerNewsCrawler.waterReminder(),
-                    powerResMap = WaterAndPowerNewsCrawler.powerReminder();
+            Map<String, String> waterResMap = WaterPowerNewsCrawler.waterReminder(),
+                    powerResMap = WaterPowerNewsCrawler.powerReminder();
 
             log.info(waterResMap.toString());
             log.info(powerResMap.toString());
@@ -40,10 +39,12 @@ public class WaterAndPowerReminder {
             if(waterResMap.get("remindCode").equals(RemindCode.DoRemind.getStrCode())){
                 log.info("waterRemind发起提醒！");
                 log.info(waterResMap.get("url"));
+                WaterAndPowerNewsUrl.WATER_NEWS_URL = waterResMap.get("url");
             }
             if(powerResMap.get("remindCode").equals(RemindCode.DoRemind.getStrCode())){
                 log.info("powerRemind发起提醒！");
                 log.info(powerResMap.get("url"));
+                WaterAndPowerNewsUrl.POWER_NEWS_URL = waterResMap.get("url");
             }
 
         } catch (JsonProcessingException ex){

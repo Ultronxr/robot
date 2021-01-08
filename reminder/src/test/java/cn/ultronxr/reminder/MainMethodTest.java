@@ -1,10 +1,6 @@
 package cn.ultronxr.reminder;
 
-import cn.ultronxr.reminder.crawler.WaterAndPowerNewsCrawler;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Date;
 
 @Slf4j
 public class MainMethodTest {
@@ -15,12 +11,6 @@ public class MainMethodTest {
 
         //log.info("second timestamp = " + String.valueOf(new Date().getTime() / 1000));
         //log.info("second timestamp = " + String.valueOf(System.currentTimeMillis() / 1000));
-
-        //try {
-        //    log.info(WaterAndPowerNewsCrawler.waterReminder().toString());
-        //} catch (JsonProcessingException e) {
-        //    e.printStackTrace();
-        //}
     }
 
 }

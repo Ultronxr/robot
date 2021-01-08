@@ -13,31 +13,32 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Slf4j
-public class WaterAndPowerNewsCrawler extends GlobalData {
+public class WaterPowerNewsCrawler extends GlobalData {
 
     /** 网页新闻URL */
-    private static final String NEWS_URL = RESOURCE_BUNDLE.getString("url.newsUrl");
+    private static final String NEWS_URL = ResourceBundles.WATER_POWER_REMINDER.getString("url.newsUrl");
 
     /** ajax请求获取json数据URL */
-    private static final String AJAX_URL = RESOURCE_BUNDLE.getString("url.ajaxUrl");
+    private static final String AJAX_URL = ResourceBundles.WATER_POWER_REMINDER.getString("url.ajaxUrl");
 
     /** ajax请求获取json数据HOST */
-    private static final String AJAX_HOST = RESOURCE_BUNDLE.getString("url.ajaxHost");
+    private static final String AJAX_HOST = ResourceBundles.WATER_POWER_REMINDER.getString("url.ajaxHost");
 
     /** 停水和停电的搜索关键词 */
-    private static final String WATER_KEY = getChineseResource("keyword.waterKey");
-    private static final String POWER_KEY = getChineseResource("keyword.powerKey");
+    private static final String WATER_KEY = ResourceBundles.getChineseResource("keyword.waterKey");
+    private static final String POWER_KEY = ResourceBundles.getChineseResource("keyword.powerKey");
 
     /** 新闻content中需要提醒的关键词 */
-    private static final String[] REMIND_KEY = getChineseResource("keyword.remindKey").split(" ");
+    private static final String[] REMIND_KEY = ResourceBundles.getChineseResource("keyword.remindKey").split(" ");
 
     /**
      * 确保提醒的时效性，单位为秒（LOW <= timestamp <= high）
      * 当前设置时效：未来12小时内
      */
-    private static final long TIMESTAMP_LOW = Long.parseLong(RESOURCE_BUNDLE.getString("timestamp.low"));
-    private static final long TIMESTAMP_HIGH = Long.parseLong(RESOURCE_BUNDLE.getString("timestamp.high"));
+    private static final long TIMESTAMP_LOW = Long.parseLong(ResourceBundles.WATER_POWER_REMINDER.getString("timestamp.low"));
+    private static final long TIMESTAMP_HIGH = Long.parseLong(ResourceBundles.WATER_POWER_REMINDER.getString("timestamp.high"));
 
 
     /**
