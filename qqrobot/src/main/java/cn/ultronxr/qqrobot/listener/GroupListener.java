@@ -1,6 +1,7 @@
 package cn.ultronxr.qqrobot.listener;
 
-import cn.ultronxr.qqrobot.data.MiraiLabel;
+import cn.ultronxr.qqrobot.bean.BotEntity;
+import cn.ultronxr.qqrobot.bean.MiraiLabel;
 import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.PicHandlerImpl;
 import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.PingHandlerImpl;
 import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.WeatherHandlerImpl;
@@ -14,8 +15,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import static cn.ultronxr.qqrobot.data.GlobalData.BOT;
-
 
 @Component
 @Slf4j
@@ -24,7 +23,7 @@ public class GroupListener implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        Events.registerEvents(BOT, new SimpleListenerHost() {
+        Events.registerEvents(BotEntity.BOT_ENTITY, new SimpleListenerHost() {
             @EventHandler
             public ListeningStatus onGroupMessage(GroupMessageEvent groupMsgEvent){
                 String labeledMsg = MiraiUtils.getLabeledMsg(groupMsgEvent),

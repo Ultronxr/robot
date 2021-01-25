@@ -33,6 +33,7 @@ build/
 .vscode/
 
 ### Config Files ###
-configData.properties
+botConfig.properties
+aliCloudConfig.properties
 deviceInfo.json
 

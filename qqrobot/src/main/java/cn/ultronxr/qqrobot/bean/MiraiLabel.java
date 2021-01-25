@@ -1,10 +1,10 @@
-package cn.ultronxr.qqrobot.data;
+package cn.ultronxr.qqrobot.bean;
 
 
 public enum MiraiLabel {
     //BOT消息
     //@BOT
-    BOT_AT("@"+GlobalData.BOT_NICK, "[mirai:at:"+GlobalData.BOT_QQ+",@"+GlobalData.BOT_NICK+"]"),
+    BOT_AT("@"+ BotEntity.BOT_NICK, "[mirai:at:"+ BotEntity.BOT_QQ+",@"+ BotEntity.BOT_NICK+"]"),
 
 
     //特殊消息

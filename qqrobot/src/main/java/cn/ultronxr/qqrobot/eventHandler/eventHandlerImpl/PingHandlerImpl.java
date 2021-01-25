@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.hutool.core.util.ReUtil;
-import cn.ultronxr.qqrobot.data.GlobalData;
+import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.PingHandler;
 import cn.ultronxr.qqrobot.util.PingUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @Component
 @Slf4j
-public class PingHandlerImpl implements PingHandler {
+public class PingHandlerImpl extends GlobalData implements PingHandler {
 
     @Override
     public ListeningStatus pingGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
@@ -26,7 +26,7 @@ public class PingHandlerImpl implements PingHandler {
         }
 
         String ipOrDomain = plainMsg.replace("ping", "").trim();
-        if(!ReUtil.isMatch(GlobalData.IP_REGEX, ipOrDomain) && !ReUtil.isMatch(GlobalData.DOMAIN_REGEX, ipOrDomain)){
+        if(!ReUtil.isMatch(Regex.IP, ipOrDomain) && !ReUtil.isMatch(Regex.DOMAIN, ipOrDomain)){
             groupMsgEvent.getGroup().sendMessage("IP或域名错误！");
             return ListeningStatus.LISTENING;
         }
