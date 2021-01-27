@@ -27,10 +27,6 @@ public class WaterPowerReminder extends GlobalData {
         reminderHandler();
     }
 
-    public static void main(String[] args) {
-        new WaterPowerReminder().reminderHandler();
-    }
-
     public void reminderHandler(){
         try {
             Map<String, String> waterResMap = WaterPowerNewsCrawler.waterReminder(),

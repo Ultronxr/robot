@@ -16,6 +16,9 @@ server:
   servlet:
     context-path: /reminder
 
+logging:
+  config: classpath:log4j.properties
+
 ---
 spring:
   profiles: main

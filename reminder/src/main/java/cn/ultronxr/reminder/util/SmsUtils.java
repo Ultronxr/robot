@@ -96,13 +96,4 @@ public class SmsUtils extends GlobalData {
                 ));
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println(tencentSmsReminder(
-                    ResBundle.TENCENT_CLOUD.getString("sms.template.id.waterReminder")
-            ));
-        } catch (TencentCloudSDKException ex){
-            ex.printStackTrace();
-        }
-    }
 }
