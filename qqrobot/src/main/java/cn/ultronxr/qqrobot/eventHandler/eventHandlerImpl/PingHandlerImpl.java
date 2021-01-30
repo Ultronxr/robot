@@ -18,16 +18,26 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
 
     @Override
     public ListeningStatus pingGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
-        if(plainMsg.contains("http") || plainMsg.contains("https")
-                || plainMsg.contains("HTTP") || plainMsg.contains("HTTPS")
-                || plainMsg.contains(":")){
-            groupMsgEvent.getGroup().sendMessage("请勿携带协议标识和端口号！");
+        String address = plainMsg.replace("ping", "").trim();
+        String msg = null;
+
+        if(address.startsWith("http") || address.startsWith("https")
+                || address.startsWith("HTTP") || address.startsWith("HTTPS")
+                || address.contains(":")){
+            log.info("ping命令结果：" + (msg = "请勿携带协议标识和端口号！"));
+            groupMsgEvent.getGroup().sendMessage(msg);
             return ListeningStatus.LISTENING;
         }
 
-        String ipOrDomain = plainMsg.replace("ping", "").trim();
-        if(!ReUtil.isMatch(Regex.IP, ipOrDomain) && !ReUtil.isMatch(Regex.DOMAIN, ipOrDomain)){
-            groupMsgEvent.getGroup().sendMessage("IP或域名错误！");
+        if(!ReUtil.isMatch(Regex.IP, address) && !ReUtil.isMatch(Regex.DOMAIN, address)){
+            log.info("ping命令结果：" + (msg = "IP或域名错误！"));
+            groupMsgEvent.getGroup().sendMessage(msg);
+            return ListeningStatus.LISTENING;
+        }
+
+        if(ReUtil.isMatch(Regex.IP_INTRANET, address) || ReUtil.isMatch(Regex.DOMAIN_INTRANET, address)){
+            log.info("ping命令结果：" + (msg = "禁止ping内网！"));
+            groupMsgEvent.getGroup().sendMessage(msg);
             return ListeningStatus.LISTENING;
         }
 
@@ -35,8 +45,7 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
         try {
             res = PingUtils.pingByCmd(plainMsg.replace("ping", "").trim());
         } catch (IOException e){
-            res = "PING命令处理抛出异常！";
-            log.error(res);
+            log.error("ping命令结果：" + (res = "ping命令处理抛出异常！"));
             e.printStackTrace();
         }
         log.info(res);

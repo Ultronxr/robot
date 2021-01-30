@@ -2,11 +2,12 @@ package cn.ultronxr.qqrobot.util;
 
 import cn.hutool.http.HttpRequest;
 import cn.ultronxr.qqrobot.bean.AliWeatherAPI;
-import cn.ultronxr.qqrobot.bean.GlobalData;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class AliWeatherAPIUtils extends AliWeatherAPI {
 
     /**

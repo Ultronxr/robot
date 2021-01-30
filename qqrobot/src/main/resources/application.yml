@@ -1,1 +1,16 @@
+spring:
+  profiles:
+    active: development
 
+---
+spring:
+  profiles: development
+  application:
+    name: robot-qqrobot
+
+logging:
+  config: classpath:log4j.properties
+
+---
+spring:
+  profiles: main

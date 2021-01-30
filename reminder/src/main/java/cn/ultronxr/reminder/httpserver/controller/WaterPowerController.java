@@ -1,10 +1,12 @@
 package cn.ultronxr.reminder.httpserver.controller;
 
 import cn.ultronxr.reminder.bean.GlobalData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Slf4j
 public class WaterPowerController extends GlobalData {
 
     static {
@@ -17,11 +19,13 @@ public class WaterPowerController extends GlobalData {
 
     @RequestMapping("/water")
     public String waterController(){
+        log.info("访问WaterPowerNewsUrl.WATER_NEWS_URL页面：" + WaterPowerNewsUrl.WATER_NEWS_URL);
         return "redirect:" + WaterPowerNewsUrl.WATER_NEWS_URL;
     }
 
     @RequestMapping("/power")
     public String powerController(){
+        log.info("访问WaterPowerNewsUrl.POWER_NEWS_URL页面：" + WaterPowerNewsUrl.POWER_NEWS_URL);
         return "redirect:" + WaterPowerNewsUrl.POWER_NEWS_URL;
     }
 
