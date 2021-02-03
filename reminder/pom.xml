@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>reminder</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>reminder</name>
     <description>Water cut-off and power cut reminder.</description>
 

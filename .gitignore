@@ -33,7 +33,7 @@ build/
 .vscode/
 
 ### Config Files ###
-
+deviceInfo.json
 
 ### Log Files ###
 logs/

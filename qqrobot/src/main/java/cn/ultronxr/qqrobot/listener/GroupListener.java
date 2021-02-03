@@ -66,7 +66,7 @@ public class GroupListener implements ApplicationRunner {
                     if(plainMsg.contains("图片")){
                         return picHandler.picGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
                     }
-                    if(plainMsg.contains("舔狗")){
+                    if(plainMsg.contains("舔狗") || plainMsg.contains("彩虹屁")){
                         return sentenceHandler.sentenceFlatterGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
                     }
                     if(plainMsg.contains("脏话") || plainMsg.contains("口吐芬芳") || plainMsg.contains("芬芳")){
