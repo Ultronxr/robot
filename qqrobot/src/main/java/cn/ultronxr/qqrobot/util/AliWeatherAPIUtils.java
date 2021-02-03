@@ -33,7 +33,7 @@ public class AliWeatherAPIUtils extends AliWeatherAPI {
         paramMap.put("needHourData", "0");
         paramMap.put("needIndex", "0");
         paramMap.put("needMoreDay", "0");
-
+        //TODO 20200203 完善天气API
         return requestWeather(paramMap);
     }
 

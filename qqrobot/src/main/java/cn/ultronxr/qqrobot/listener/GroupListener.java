@@ -2,15 +2,14 @@ package cn.ultronxr.qqrobot.listener;
 
 import cn.ultronxr.qqrobot.bean.BotEntity;
 import cn.ultronxr.qqrobot.bean.MiraiLabel;
-import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.PicHandlerImpl;
-import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.PingHandlerImpl;
-import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.WeatherHandlerImpl;
+import cn.ultronxr.qqrobot.eventHandler.*;
 import cn.ultronxr.qqrobot.util.MiraiUtils;
 import kotlin.coroutines.CoroutineContext;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.*;
 import net.mamoe.mirai.message.GroupMessageEvent;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +18,22 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class GroupListener implements ApplicationRunner {
+
+    @Autowired
+    private PicHandler picHandler;
+
+    @Autowired
+    private PingHandler pingHandler;
+
+    @Autowired
+    private RobotMenuHandler robotMenuHandler;
+
+    @Autowired
+    private SentenceHandler sentenceHandler;
+
+    @Autowired
+    private WeatherHandler weatherHandler;
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -29,20 +44,37 @@ public class GroupListener implements ApplicationRunner {
                 String labeledMsg = MiraiUtils.getLabeledMsg(groupMsgEvent),
                         unlabeledMsg = MiraiUtils.getUnlabeledMsg(groupMsgEvent),
                         plainMsg = MiraiUtils.getPlainMsg(labeledMsg);
-                log.info("labeledMsg: "+ labeledMsg);
-                log.info("unlabeledMsg: "+ unlabeledMsg);
-                log.info("plainMsg: " + plainMsg);
+                //请勿在全局打印消息记录
 
-                if(labeledMsg.contains(MiraiLabel.BOT_AT.getContent()) && plainMsg.contains("天气")){
-                    return new WeatherHandlerImpl().weatherGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
-                }
+                //@机器人，并提及关键词触发的事件处理Handler
+                if(labeledMsg.contains(MiraiLabel.BOT_AT.getContent())){
 
-                if(labeledMsg.contains(MiraiLabel.BOT_AT.getContent()) && plainMsg.contains("ping")){
-                    return new PingHandlerImpl().pingGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
-                }
+                    log.info("[message-receive] labeledMsg: "+ labeledMsg);
+                    log.info("[message-receive] unlabeledMsg: "+ unlabeledMsg);
+                    log.info("[message-receive] plainMsg: " + plainMsg);
 
-                if(labeledMsg.contains(MiraiLabel.BOT_AT.getContent()) && "图片".equals(plainMsg)){
-                    return new PicHandlerImpl().picGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                    if(plainMsg.contains("功能") || plainMsg.contains("菜单")){
+                        log.info("[function] 查询机器人功能菜单。");
+                        return robotMenuHandler.robotMenuGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                    }
+                    if(plainMsg.contains("天气")){
+                        return weatherHandler.weatherGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                    }
+                    if(plainMsg.contains("ping")){
+                        return pingHandler.pingGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                    }
+                    if(plainMsg.contains("图片")){
+                        return picHandler.picGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                    }
+                    if(plainMsg.contains("舔狗")){
+                        return sentenceHandler.sentenceFlatterGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                    }
+                    if(plainMsg.contains("脏话") || plainMsg.contains("口吐芬芳") || plainMsg.contains("芬芳")){
+                        return sentenceHandler.sentenceAbuseGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg, 1);
+                    }
+                    if(plainMsg.contains("火力全开")){
+                        return sentenceHandler.sentenceAbuseGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg, 2);
+                    }
                 }
 
                 return ListeningStatus.LISTENING;
@@ -55,5 +87,4 @@ public class GroupListener implements ApplicationRunner {
         });
 
     }
-
 }

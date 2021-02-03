@@ -11,7 +11,6 @@ public interface PicHandler {
 
     /**
      * 群聊中的图片处理器
-     * 当有群员@机器人，并提及“图片”关键词时，进行事件处理
      *
      * @param groupMsgEvent GroupMessageEvent群聊消息事件
      * @param labeledMsg    MiraiUtils自定义消息类型一

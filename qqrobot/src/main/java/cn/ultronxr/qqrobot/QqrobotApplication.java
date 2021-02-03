@@ -15,9 +15,9 @@ public class QqrobotApplication {
         SpringApplication.run(QqrobotApplication.class, args);
         try {
             BotEntity.BOT_ENTITY.login();
-            log.info("QQ机器人登录成功。");
+            log.info("[system] QQ机器人登录成功。");
         } catch (Exception ex){
-            log.warn("QQ机器人登录失败！");
+            log.warn("[system] QQ机器人登录失败！");
             ex.printStackTrace();
         }
     }

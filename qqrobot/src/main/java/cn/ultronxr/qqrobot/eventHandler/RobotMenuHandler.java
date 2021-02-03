@@ -3,14 +3,13 @@ package cn.ultronxr.qqrobot.eventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.message.GroupMessageEvent;
 
-
 /**
- * 天气查询处理器Handler
+ * 机器人功能菜单查询处理器Handler
  */
-public interface WeatherHandler {
+public interface RobotMenuHandler {
 
     /**
-     * 群聊中的天气查询处理器
+     * 群聊中的 文字功能菜单查询 处理器
      *
      * @param groupMsgEvent GroupMessageEvent群聊消息事件
      * @param labeledMsg    MiraiUtils自定义消息类型一
@@ -19,6 +18,6 @@ public interface WeatherHandler {
      * @see cn.ultronxr.qqrobot.util.MiraiUtils
      * @return 返回一个ListeningStatus监听状态，用于监听器判断是否继续监听
      */
-    ListeningStatus weatherGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg);
+    ListeningStatus robotMenuGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg);
 
 }
