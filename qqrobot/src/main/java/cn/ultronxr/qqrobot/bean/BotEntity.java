@@ -21,7 +21,7 @@ public class BotEntity extends GlobalData {
 
     public static final String BOT_NICK = ResBundle.BOT.getString("bot.nick");
 
-    public static String DEVICE_INFO_FILE_PATH;
+    private static final String DEVICE_INFO_FILE_PATH;
 
     public static final Bot BOT_ENTITY;
 
