@@ -38,10 +38,10 @@ public class BotEntity extends GlobalData {
             //否则程序无法进入jar包获取deviceInfo.json路径，会报错
             if(classpathFilePath.contains(".jar")){
                 DEVICE_INFO_FILE_PATH = System.getProperty("user.dir") + "/deviceInfo.json";
-                log.info("[system] deviceInfo.json - 在jar包中运行，选择userDir路径。");
+                log.info("[system] deviceInfo.json - 在jar包中运行，使用userDir路径。");
             } else{
                 DEVICE_INFO_FILE_PATH = classpathFilePath;
-                log.info("[system] deviceInfo.json - 不在jar包中运行，选择classpathFilePath路径。");
+                log.info("[system] deviceInfo.json - 不在jar包中运行，使用classpathFilePath路径。");
             }
             log.info("[system] deviceInfo.json - DEVICE_INFO_FILE_PATH : " + DEVICE_INFO_FILE_PATH);
 
