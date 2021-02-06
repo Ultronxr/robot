@@ -1,19 +1,16 @@
 # QQ Robot
 
-很多QQ Robot都挂了，有些三方的要注册购买之类的，最后终于找到一个能用的开源框架[mirai](https://github.com/mamoe/mirai)
+## 框架
 
-这里是对mirai的应用与二次开发，写一点小功能。
+使用开源框架 [mirai](https://github.com/mamoe/mirai) ，其开发文档见 [mirai开发文档](https://github.com/mamoe/mirai/blob/dev/docs/README.md) 。
 
-## QQ机器人lib依赖
+这里是对mirai的功能应用。
 
-`lib/`目录下包含了mirai的两个核心依赖包，请手动安装至本地maven仓库，否则pom.xml中将找不到mirai依赖。
+## 依赖
 
-安装cmd命令如下，请注意执行路径：
+旧版本使用手动安装jar包进行依赖；
 
-```cmd
-mvn install:install-file -Dfile=mirai-core-1.3.0.jar -DgroupId=net.mamoe -DartifactId=mirai-core -Dversion=1.3.0 -Dpackaging=jar
-mvn install:install-file -Dfile=mirai-core-qqandroid-1.3.0.jar -DgroupId=net.mamoe -DartifactId=mirai-core-qqandroid -Dversion=1.3.0 -Dpackaging=jar
-```
+更新 `mirai 2.3.2` 版本时变更为使用maven依赖构建，方法见 [在JVM项目中使用mirai](https://github.com/mamoe/mirai/blob/dev/docs/ConfiguringProjects.md) 。
 
 ## `deviceInfo.json`设备信息文件路径问题
 

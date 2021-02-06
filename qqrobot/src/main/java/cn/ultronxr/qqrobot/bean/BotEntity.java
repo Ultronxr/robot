@@ -2,11 +2,12 @@ package cn.ultronxr.qqrobot.bean;
 
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.BotFactoryJvm;
+import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
@@ -21,9 +22,14 @@ public class BotEntity extends GlobalData {
 
     public static final String BOT_NICK = ResBundle.BOT.getString("bot.nick");
 
+    public static final Bot BOT_ENTITY;
+
     private static final String DEVICE_INFO_FILE_PATH;
 
-    public static final Bot BOT_ENTITY;
+    public static final String LOG_PATH_BOT = ResBundle.BOT.getString("bot.log.path.bot");
+
+    public static final String LOG_PATH_NETWORK = ResBundle.BOT.getString("bot.log.path.network");
+
 
     static {
         String classpathFilePath = "src\\main\\resources\\deviceInfo.json";
@@ -45,9 +51,16 @@ public class BotEntity extends GlobalData {
             }
             log.info("[system] deviceInfo.json - DEVICE_INFO_FILE_PATH : " + DEVICE_INFO_FILE_PATH);
 
-            BOT_ENTITY = BotFactoryJvm.newBot(
+            //实例化机器人BOT
+            //指定设备配置文件路径，指定登录协议Android手机端（支持所有功能。注：请勿在另外的安卓手机端再登录，否则会挤掉）
+            BOT_ENTITY = BotFactory.INSTANCE.newBot(
                     Long.parseLong(BOT_QQ), BOT_PWD,
-                    new BotConfiguration(){{fileBasedDeviceInfo(DEVICE_INFO_FILE_PATH);}}
+                    new BotConfiguration(){{
+                        fileBasedDeviceInfo(DEVICE_INFO_FILE_PATH);
+                        setProtocol(MiraiProtocol.ANDROID_PHONE);
+                        //redirectBotLogToDirectory(new File(LOG_PATH_BOT));
+                        //redirectNetworkLogToDirectory(new File(LOG_PATH_NETWORK));
+                    }}
             );
         }
     }

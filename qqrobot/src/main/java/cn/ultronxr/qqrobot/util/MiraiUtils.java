@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.util;
 
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.message.GroupMessageEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 /**
  * 处理与Mirai有关的功能的工具类库

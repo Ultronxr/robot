@@ -5,7 +5,7 @@ import cn.ultronxr.qqrobot.eventHandler.WeatherHandler;
 import cn.ultronxr.qqrobot.util.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.ListeningStatus;
-import net.mamoe.mirai.message.GroupMessageEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

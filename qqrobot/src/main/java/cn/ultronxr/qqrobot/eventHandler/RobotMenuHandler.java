@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
 import net.mamoe.mirai.event.ListeningStatus;
-import net.mamoe.mirai.message.GroupMessageEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 /**
  * 机器人功能菜单查询处理器Handler

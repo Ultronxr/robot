@@ -3,9 +3,9 @@ package cn.ultronxr.qqrobot.bean;
 
 public abstract class AliWeatherAPI extends GlobalData {
 
-    private static final String APP_KEY = ResBundle.ALI_CLOUD.getString("ali.weatherAPI.app.key");
+    //private static final String APP_KEY = ResBundle.ALI_CLOUD.getString("ali.weatherAPI.app.key");
 
-    private static final String APP_SECRET = ResBundle.ALI_CLOUD.getString("ali.weatherAPI.app.secret");
+    //private static final String APP_SECRET = ResBundle.ALI_CLOUD.getString("ali.weatherAPI.app.secret");
 
     private static final String APP_CODE = ResBundle.ALI_CLOUD.getString("ali.weatherAPI.app.code");
 
