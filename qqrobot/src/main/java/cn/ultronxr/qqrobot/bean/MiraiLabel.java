@@ -4,7 +4,8 @@ package cn.ultronxr.qqrobot.bean;
 public enum MiraiLabel {
     //BOT消息
     //@BOT
-    BOT_AT("@"+ BotEntity.BOT_NICK, "[mirai:at:"+ BotEntity.BOT_QQ+",@"+ BotEntity.BOT_NICK+"]"),
+    //BOT_AT("@"+ BotEntity.BOT_NICK, "[mirai:at:"+ BotEntity.BOT_QQ+",@"+ BotEntity.BOT_NICK+"]"),
+    BOT_AT("@"+ BotEntity.BOT_NICK, "[mirai:at:" + BotEntity.BOT_QQ + "]"),
 
 
     //特殊消息

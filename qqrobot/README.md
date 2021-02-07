@@ -29,7 +29,3 @@
 
 + 如果在jar包中运行，则不使用jar包*classpath*中的`deviceInfo.json`文件路径，改成jar包所在的路径（由jar包内路径改成jar包外路径）。
 
-    由于修改了日志记录方式，认证新设备的链接URL不会在日志中输出，所以无法产生新的`deviceInfo.json`文件，这需要将事先运行产生的deviceInfo.json文件拷贝到jar包的相同目录下。
-    
-    或者在部署时不把日志定向到*/dev/null*，认证新设备的链接URL会在nohup日志中输出。
-

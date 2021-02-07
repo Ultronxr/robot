@@ -1,5 +1,7 @@
 package cn.ultronxr.qqrobot.util;
 
+import cn.ultronxr.qqrobot.bean.GlobalData;
+import cn.ultronxr.qqrobot.bean.MiraiLabel;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 
@@ -7,7 +9,7 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
  * 处理与Mirai有关的功能的工具类库
  */
 @Slf4j
-public class MiraiUtils {
+public class MiraiUtils extends GlobalData {
 
     /**
      * 以下是自定义的几种处理Mirai消息的方法，使用前请仔细阅读如下内容。
@@ -25,15 +27,15 @@ public class MiraiUtils {
      *
      *   注意： plainMsg 由 labeledMsg 得到，注意与 unlabeledMsg 的区别
      */
-    public static String getLabeledMsg(GroupMessageEvent event){
+    public static String getGroupLabeledMsg(GroupMessageEvent event){
         return event.getMessage().toString().trim();
     }
 
-    public static String getUnlabeledMsg(GroupMessageEvent event){
+    public static String getGroupUnlabeledMsg(GroupMessageEvent event){
         return event.getMessage().contentToString().trim();
     }
 
-    public static String getPlainMsg(String labeledMsg){
+    public static String getGroupPlainMsg(String labeledMsg){
         //找到最后一个Mirai标签
         String plainMsg = labeledMsg.substring(labeledMsg.lastIndexOf("[mirai:"));
         int lastIndexOfLabelEnd = plainMsg.indexOf("]");
@@ -41,8 +43,17 @@ public class MiraiUtils {
         return plainMsg;
     }
 
-    public static String getPlainMsg(GroupMessageEvent event){
-        return getPlainMsg(getLabeledMsg(event));
+    public static String getGroupPlainMsg(GroupMessageEvent event){
+        return getGroupPlainMsg(getGroupLabeledMsg(event));
+    }
+
+    /**
+     * 是否在群聊中@机器人
+     * @param groupMsgEvent 群消息事件
+     * @return {@code boolean}布尔值： true - @机器人；false - 没有@机器人
+     */
+    public static boolean isGroupAtBot(GroupMessageEvent groupMsgEvent){
+        return getGroupLabeledMsg(groupMsgEvent).contains(MiraiLabel.BOT_AT.getContent());
     }
 
 }

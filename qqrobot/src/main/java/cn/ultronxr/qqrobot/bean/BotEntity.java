@@ -51,15 +51,19 @@ public class BotEntity extends GlobalData {
             }
             log.info("[system] deviceInfo.json - DEVICE_INFO_FILE_PATH : " + DEVICE_INFO_FILE_PATH);
 
-            //实例化机器人BOT
-            //指定设备配置文件路径，指定登录协议Android手机端（支持所有功能。注：请勿在另外的安卓手机端再登录，否则会挤掉）
+            // 实例化机器人BOT
+            // 1.指定设备配置文件路径
+            // 2.指定登录协议Android手机端（支持所有功能。注：请勿在另外的安卓手机端再登录，否则会挤掉）
+            // 3.设置被挤下线也会自动尝试重新登录
+            // 4/5.把BOT和NETWORK级别的日志全部重定向到指定目录
             BOT_ENTITY = BotFactory.INSTANCE.newBot(
                     Long.parseLong(BOT_QQ), BOT_PWD,
                     new BotConfiguration(){{
                         fileBasedDeviceInfo(DEVICE_INFO_FILE_PATH);
                         setProtocol(MiraiProtocol.ANDROID_PHONE);
-                        //redirectBotLogToDirectory(new File(LOG_PATH_BOT));
-                        //redirectNetworkLogToDirectory(new File(LOG_PATH_NETWORK));
+                        setAutoReconnectOnForceOffline(true);
+                        redirectBotLogToDirectory(new File(LOG_PATH_BOT));
+                        redirectNetworkLogToDirectory(new File(LOG_PATH_NETWORK));
                     }}
             );
         }

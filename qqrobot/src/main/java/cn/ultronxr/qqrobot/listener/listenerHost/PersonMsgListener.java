@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 public class PersonMsgListener extends SimpleListenerHost {
 
 
-
-
     /**
      * 异常处理
      * 上面的所有EventHandler中抛出的Exception都在这里接收并处理
