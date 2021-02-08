@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.listener;
 
 import cn.ultronxr.qqrobot.bean.BotEntity;
-import cn.ultronxr.qqrobot.listener.listenerHost.BotListener;
+import cn.ultronxr.qqrobot.listener.listenerHost.BotEventListener;
 import cn.ultronxr.qqrobot.listener.listenerHost.GroupMsgListener;
 import cn.ultronxr.qqrobot.listener.listenerHost.PersonMsgListener;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 public class AllListenerRegister implements ApplicationRunner {
 
     @Autowired
-    private BotListener botListener;
+    private BotEventListener botEventListener;
 
     @Autowired
     private GroupMsgListener groupMsgListener;
@@ -38,7 +38,7 @@ public class AllListenerRegister implements ApplicationRunner {
     public void run(ApplicationArguments args) {
 
         EventChannel<BotEvent> eventChannel = BotEntity.BOT_ENTITY.getEventChannel();
-        eventChannel.registerListenerHost(botListener);
+        eventChannel.registerListenerHost(botEventListener);
         eventChannel.registerListenerHost(groupMsgListener);
         //eventChannel.registerListenerHost(personMsgListener);
 

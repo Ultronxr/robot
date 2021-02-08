@@ -23,7 +23,7 @@ public class RobotMenuHandlerImpl extends GlobalData implements RobotMenuHandler
             resMsg.append(index).append(". ").append(Arrays.toString(strings)).append("\n");
         });
 
-        groupMsgEvent.getGroup().sendMessage(resMsg.toString());
+        groupMsgEvent.getSubject().sendMessage(resMsg.toString());
         log.info("[message-send] " + resMsg.toString());
         return ListeningStatus.LISTENING;
     }

@@ -1,18 +1,22 @@
 # QQ Robot
 
-## 框架
+## 1. 框架
 
 使用开源框架 [mirai](https://github.com/mamoe/mirai) ，其开发文档见 [mirai开发文档](https://github.com/mamoe/mirai/blob/dev/docs/README.md) 。
 
 这里是对mirai的功能应用。
 
-## 依赖
+## 2. 依赖
 
 旧版本使用手动安装jar包进行依赖；
 
 更新 `mirai 2.3.2` 版本时变更为使用maven依赖构建，方法见 [在JVM项目中使用mirai](https://github.com/mamoe/mirai/blob/dev/docs/ConfiguringProjects.md) 。
 
-## `deviceInfo.json`设备信息文件路径问题
+## 3. `deviceInfo.json`设备信息文件路径问题
+
+有关`deviceInfo.json`设备信息文件说明请查阅[官方说明](https://github.com/mamoe/mirai/blob/dev/docs/Bots.md#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF) 。
+
+在线生成`deviceInfo.json`文件[链接](https://ryoii.github.io/mirai-devicejs-generator/) 。
 
 初始化QQ机器人的库函数只接收`deviceInfo.json`的字符串路径，在IDE中未打jar包时可以使用如*src\main\resources\deviceInfo.json*的路径，且编译运行正常。
 

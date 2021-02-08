@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class BotListener extends SimpleListenerHost {
+public class BotEventListener extends SimpleListenerHost {
 
     @Autowired
     private BotEventHandler botEventHandler;

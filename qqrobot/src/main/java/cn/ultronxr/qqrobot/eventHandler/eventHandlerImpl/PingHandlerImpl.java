@@ -52,7 +52,7 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
             e.printStackTrace();
         }
         log.info("[function]" + res);
-        groupMsgEvent.getGroup().sendMessage(res.contains("异常") ? res : res.substring(1, res.lastIndexOf("来自")-1).trim());
+        groupMsgEvent.getSubject().sendMessage(res.contains("异常") ? res : res.substring(1, res.lastIndexOf("来自")-1).trim());
 
         return ListeningStatus.LISTENING;
     }

@@ -27,7 +27,7 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
                 .header("User-Agent", USER_AGENT)
                 .execute()
                 .body();
-        groupMsgEvent.getGroup().sendMessage(sentenceRes);
+        groupMsgEvent.getSubject().sendMessage(sentenceRes);
         log.info("[message-send] " + sentenceRes);
         return ListeningStatus.LISTENING;
     }
@@ -39,7 +39,7 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
                 .header("Referer", ABUSE_REFERER)
                 .execute()
                 .body();
-        groupMsgEvent.getGroup().sendMessage(sentenceRes);
+        groupMsgEvent.getSubject().sendMessage(sentenceRes);
         log.info("[message-send] " + sentenceRes);
         return ListeningStatus.LISTENING;
     }

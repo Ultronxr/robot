@@ -1,9 +1,12 @@
 package cn.ultronxr.qqrobot.util;
 
 import cn.ultronxr.qqrobot.bean.GlobalData;
-import cn.ultronxr.qqrobot.bean.MiraiLabel;
+import cn.ultronxr.qqrobot.bean.MiraiCodes;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.message.data.At;
+import org.jetbrains.annotations.NotNull;
+
 
 /**
  * 处理与Mirai有关的功能的工具类库
@@ -11,6 +14,7 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 @Slf4j
 public class MiraiUtils extends GlobalData {
 
+    //TODO 2021-2-8 23:58:20 修改这里的三个消息类别，其中部分类别已经失去效果/作用（由MiraiCode替代）
     /**
      * 以下是自定义的几种处理Mirai消息的方法，使用前请仔细阅读如下内容。
      *
@@ -27,12 +31,12 @@ public class MiraiUtils extends GlobalData {
      *
      *   注意： plainMsg 由 labeledMsg 得到，注意与 unlabeledMsg 的区别
      */
-    public static String getGroupLabeledMsg(GroupMessageEvent event){
-        return event.getMessage().toString().trim();
+    public static String getGroupLabeledMsg(GroupMessageEvent groupMsgEvent){
+        return groupMsgEvent.getMessage().toString().trim();
     }
 
-    public static String getGroupUnlabeledMsg(GroupMessageEvent event){
-        return event.getMessage().contentToString().trim();
+    public static String getGroupUnlabeledMsg(GroupMessageEvent groupMsgEvent){
+        return groupMsgEvent.getMessage().contentToString().trim();
     }
 
     public static String getGroupPlainMsg(String labeledMsg){
@@ -43,17 +47,29 @@ public class MiraiUtils extends GlobalData {
         return plainMsg;
     }
 
-    public static String getGroupPlainMsg(GroupMessageEvent event){
-        return getGroupPlainMsg(getGroupLabeledMsg(event));
+    public static String getGroupPlainMsg(GroupMessageEvent groupMsgEvent){
+        return getGroupPlainMsg(getGroupLabeledMsg(groupMsgEvent));
     }
 
     /**
-     * 是否在群聊中@机器人
-     * @param groupMsgEvent 群消息事件
-     * @return {@code boolean}布尔值： true - @机器人；false - 没有@机器人
+     * 获取群聊消息中的Mirai码
+     * 详见{@link MiraiCodes}
+     *
+     * @param groupMsgEvent   群消息事件
+     * @return {@code String} MiraiCodes码/特殊消息类型标识符
      */
-    public static boolean isGroupAtBot(GroupMessageEvent groupMsgEvent){
-        return getGroupLabeledMsg(groupMsgEvent).contains(MiraiLabel.BOT_AT.getContent());
+    public static String getGroupMiraiCodes(@NotNull GroupMessageEvent groupMsgEvent){
+        return groupMsgEvent.getMessage().serializeToMiraiCode();
+    }
+
+    /**
+     * 判断群聊中的某条消息是否@BOT
+     *
+     * @param groupMsgEvent 群消息事件
+     * @return {@code boolean} 布尔值： true - @BOT；false - 没有@BOT
+     */
+    public static boolean isGroupAtBot(@NotNull GroupMessageEvent groupMsgEvent){
+        return groupMsgEvent.getMessage().contains((At) MiraiCodes.AT_BOT.getCodeObj());
     }
 
 }

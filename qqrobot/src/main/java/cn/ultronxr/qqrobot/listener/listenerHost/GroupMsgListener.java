@@ -48,6 +48,7 @@ public class GroupMsgListener extends SimpleListenerHost {
         //请勿在群聊全局打印消息记录
 
         if(MiraiUtils.isGroupAtBot(groupMsgEvent)){
+            log.info("[message-receive] miraiCode: " + MiraiUtils.getGroupMiraiCodes(groupMsgEvent));
             log.info("[message-receive] labeledMsg: "+ labeledMsg);
             log.info("[message-receive] unlabeledMsg: "+ unlabeledMsg);
             log.info("[message-receive] plainMsg: " + plainMsg);

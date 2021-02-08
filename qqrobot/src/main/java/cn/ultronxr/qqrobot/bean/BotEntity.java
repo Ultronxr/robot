@@ -18,6 +18,8 @@ public class BotEntity extends GlobalData {
 
     public static final String BOT_QQ = ResBundle.BOT.getString("bot.qq");
 
+    public static final Long BOT_QQ_LONG = Long.parseLong(BOT_QQ);
+
     private static final String BOT_PWD = ResBundle.BOT.getString("bot.pwd");
 
     public static final String BOT_NICK = ResBundle.BOT.getString("bot.nick");
