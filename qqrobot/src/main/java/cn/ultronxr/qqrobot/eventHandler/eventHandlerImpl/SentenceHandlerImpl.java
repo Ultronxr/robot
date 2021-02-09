@@ -22,7 +22,7 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
 
 
     @Override
-    public ListeningStatus sentenceFlatterGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
+    public ListeningStatus groupSentenceFlatterHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         String sentenceRes = HttpRequest.get(FLATTER_URL)
                 .header("User-Agent", USER_AGENT)
                 .execute()
@@ -33,7 +33,7 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
     }
 
     @Override
-    public ListeningStatus sentenceAbuseGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg, Integer type) {
+    public ListeningStatus groupSentenceAbuseHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain, Integer type) {
         String sentenceRes = HttpRequest.get(type == 2 ? ABUSE_URL_2 : ABUSE_URL_1)
                 .header("User-Agent", USER_AGENT)
                 .header("Referer", ABUSE_REFERER)

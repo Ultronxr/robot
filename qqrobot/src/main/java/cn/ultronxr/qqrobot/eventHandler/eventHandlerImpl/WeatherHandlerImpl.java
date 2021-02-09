@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 public class WeatherHandlerImpl extends GlobalData implements WeatherHandler {
 
     @Override
-    public ListeningStatus weatherGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
+    public ListeningStatus groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         //HashMap<String, String> paramMap = new HashMap<>(2);
         //StringBuilder weatherStr = new StringBuilder();
 

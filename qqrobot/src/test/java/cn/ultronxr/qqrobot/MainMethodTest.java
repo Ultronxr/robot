@@ -1,5 +1,6 @@
 package cn.ultronxr.qqrobot;
 
+import cn.hutool.core.util.ReUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
@@ -19,8 +20,11 @@ public class MainMethodTest {
         //
         //System.out.println(System.getProperty("user.dir"));
 
-        System.out.println(new ClassPathResource("deviceInfo.json").getURL().toString());
-        System.out.println(new ClassPathResource("deviceInfo.json").getURI().toString());
+        //System.out.println(new ClassPathResource("deviceInfo.json").getURL().toString());
+        //System.out.println(new ClassPathResource("deviceInfo.json").getURI().toString());
+
+        String regex = "^(\\[mirai:.*])";
+        System.out.println("[mirai:at:123][mirai:at:123] ZZZ".replaceAll(regex, ""));
     }
 
 }

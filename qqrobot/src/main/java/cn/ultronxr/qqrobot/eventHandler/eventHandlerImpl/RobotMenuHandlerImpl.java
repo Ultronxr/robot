@@ -17,7 +17,7 @@ public class RobotMenuHandlerImpl extends GlobalData implements RobotMenuHandler
 
 
     @Override
-    public ListeningStatus robotMenuGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
+    public ListeningStatus groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         StringBuilder resMsg = new StringBuilder();
         BotEntity.MENU_TEXT.forEach((index, strings) -> {
             resMsg.append(index).append(". ").append(Arrays.toString(strings)).append("\n");

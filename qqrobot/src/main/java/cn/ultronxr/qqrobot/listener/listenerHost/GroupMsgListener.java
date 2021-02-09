@@ -42,38 +42,39 @@ public class GroupMsgListener extends SimpleListenerHost {
      */
     @EventHandler
     public ListeningStatus onGroupMessage(@NotNull GroupMessageEvent groupMsgEvent) throws Exception {
-        String labeledMsg = MiraiUtils.getGroupLabeledMsg(groupMsgEvent),
-                unlabeledMsg = MiraiUtils.getGroupUnlabeledMsg(groupMsgEvent),
-                plainMsg = MiraiUtils.getGroupPlainMsg(labeledMsg);
+        String msgCode = MiraiUtils.getMsgCode(groupMsgEvent),
+                msgContent = MiraiUtils.getMsgContent(groupMsgEvent),
+                msgPlain = MiraiUtils.getMsgPlain(groupMsgEvent);
+                //msgStr = MiraiUtils.getMsgStr(groupMsgEvent);
         //请勿在群聊全局打印消息记录
 
         if(MiraiUtils.isGroupAtBot(groupMsgEvent)){
-            log.info("[message-receive] miraiCode: " + MiraiUtils.getGroupMiraiCodes(groupMsgEvent));
-            log.info("[message-receive] labeledMsg: "+ labeledMsg);
-            log.info("[message-receive] unlabeledMsg: "+ unlabeledMsg);
-            log.info("[message-receive] plainMsg: " + plainMsg);
+            log.info("[message-receive] msgCode: " + msgCode);
+            log.info("[message-receive] msgContent: "+ msgContent);
+            log.info("[message-receive] msgPlain: "+ msgPlain);
+            //log.info("[message-receive] msgStr: " + msgStr);
 
-            if(plainMsg.contains("功能") || plainMsg.contains("菜单")){
+            if(msgPlain.contains("功能") || msgPlain.contains("菜单")){
                 log.info("[function] 查询机器人功能菜单。");
-                return robotMenuHandler.robotMenuGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+                return robotMenuHandler.groupRobotMenuHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
-            if(plainMsg.contains("天气")){
-                return weatherHandler.weatherGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+            if(msgPlain.contains("天气")){
+                return weatherHandler.groupWeatherHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
-            if(plainMsg.contains("ping")){
-                return pingHandler.pingGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+            if(msgPlain.contains("ping")){
+                return pingHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
-            if(plainMsg.contains("图片")){
-                return picHandler.picGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+            if(msgPlain.contains("图片")){
+                return picHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
-            if(plainMsg.contains("舔狗") || plainMsg.contains("彩虹屁")){
-                return sentenceHandler.sentenceFlatterGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg);
+            if(msgPlain.contains("舔狗") || msgPlain.contains("彩虹屁")){
+                return sentenceHandler.groupSentenceFlatterHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
-            if(plainMsg.contains("脏话") || plainMsg.contains("口吐芬芳") || plainMsg.contains("芬芳")){
-                return sentenceHandler.sentenceAbuseGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg, 1);
+            if(msgPlain.contains("脏话") || msgPlain.contains("口吐芬芳") || msgPlain.contains("芬芳")){
+                return sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 1);
             }
-            if(plainMsg.contains("火力全开")){
-                return sentenceHandler.sentenceAbuseGroupHandler(groupMsgEvent, labeledMsg, unlabeledMsg, plainMsg, 2);
+            if(msgPlain.contains("火力全开")){
+                return sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
             }
         }
 

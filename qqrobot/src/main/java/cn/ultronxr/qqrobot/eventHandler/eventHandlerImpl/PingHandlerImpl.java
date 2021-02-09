@@ -17,8 +17,8 @@ import java.io.IOException;
 public class PingHandlerImpl extends GlobalData implements PingHandler {
 
     @Override
-    public ListeningStatus pingGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
-        String address = plainMsg.replace("ping", "").trim();
+    public ListeningStatus groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+        String address = msgPlain.replace("ping", "").trim();
         String msg = null;
 
         if(address.startsWith("http") || address.startsWith("https")
@@ -46,7 +46,7 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
 
         String res = null;
         try {
-            res = PingUtils.pingByCmd(plainMsg.replace("ping", "").trim());
+            res = PingUtils.pingByCmd(msgPlain.replace("ping", "").trim());
         } catch (IOException e){
             log.error("[function] ping命令结果：" + (res = "ping命令处理抛出异常！"));
             e.printStackTrace();

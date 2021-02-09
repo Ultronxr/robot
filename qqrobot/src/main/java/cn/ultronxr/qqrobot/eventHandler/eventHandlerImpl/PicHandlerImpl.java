@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class PicHandlerImpl extends GlobalData implements PicHandler {
 
     @Override
-    public ListeningStatus picGroupHandler(GroupMessageEvent groupMsgEvent, String labeledMsg, String unlabeledMsg, String plainMsg) {
+    public ListeningStatus groupPicHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
 
         return ListeningStatus.LISTENING;
     }
