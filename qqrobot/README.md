@@ -12,11 +12,13 @@
 
 更新 `mirai 2.3.2` 版本时变更为使用maven依赖构建，方法见 [在JVM项目中使用mirai](https://github.com/mamoe/mirai/blob/dev/docs/ConfiguringProjects.md) 。
 
+mirai版本规范见此 [链接](https://github.com/mamoe/mirai/blob/dev/docs/Evolution.md#%E7%89%88%E6%9C%AC%E8%A7%84%E8%8C%83) 。
+
 ## 3. `deviceInfo.json`设备信息文件路径问题
 
-有关`deviceInfo.json`设备信息文件说明请查阅[官方说明](https://github.com/mamoe/mirai/blob/dev/docs/Bots.md#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF) 。
+有关`deviceInfo.json`设备信息文件说明请查阅 [官方说明](https://github.com/mamoe/mirai/blob/dev/docs/Bots.md#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF) 。
 
-在线生成`deviceInfo.json`文件[链接](https://ryoii.github.io/mirai-devicejs-generator/) 。
+在线生成`deviceInfo.json`文件 [链接](https://ryoii.github.io/mirai-devicejs-generator/) 。
 
 初始化QQ机器人的库函数只接收`deviceInfo.json`的字符串路径，在IDE中未打jar包时可以使用如*src\main\resources\deviceInfo.json*的路径，且编译运行正常。
 
