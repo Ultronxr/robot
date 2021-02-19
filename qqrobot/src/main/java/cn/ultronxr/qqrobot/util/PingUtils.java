@@ -8,36 +8,156 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+
 @Slf4j
 public class PingUtils {
 
+    /** 操作系统名称 */
+    private static final String OS_NAME = System.getProperty("os.name");
+
+
+    public static String pingByRuntime(String ipOrDomain) throws IOException {
+        return modifyPingResult(
+                ipOrDomain,
+                pingByRuntime(ipOrDomain, 3, 1000)
+        );
+    }
+
     /**
-     * 调用系统层面的cmd进行ping，并导出cmd的输出内容
+     * 使用Java Runtime调用ping命令
      *
-     * @param ipOrDomain IP地址或域名（不能携带 协议标识 和 端口号）
-     *                   如：可以是baidu.com  不能是https://baidu.com
+     * @param ipOrDomain      IP地址或域名（不能携带 协议标识 和 端口号）
+     * @param pingTimes       ping次数，传入值>0有效
+     * @param timeOutMs       超时时间（单位：毫秒ms），传入值>0有效
+     *
+     * @return {@code String} 返回ping命令执行结果内容
+     * @throws IOException    输入输出流抛出异常、Runtime执行命令抛出异常
      */
-    public static String pingByCmd(String ipOrDomain) throws IOException {
-        String cmdLine = "ping " + ipOrDomain;
-        Process p = Runtime.getRuntime().exec("cmd /c " + cmdLine);
-        InputStreamReader inputStreamReader = new InputStreamReader(p.getInputStream(), Charset.forName("GBK"));
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        StringBuilder output = new StringBuilder();
+    public static String pingByRuntime(String ipOrDomain, Integer pingTimes, Integer timeOutMs) throws IOException {
+        String pingCmd = getPingCmd(ipOrDomain, pingTimes, timeOutMs);
+        Process process = Runtime.getRuntime().exec(pingCmd);
+
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(process.getInputStream(), Charset.forName("GBK")));
         String line = null;
-        while(Objects.nonNull(line = bufferedReader.readLine())){
-            if(line.contains("字节的数据")){
-                continue;
-            }
-            if(line.contains("统计信息")){
-                break;
-            }
-            output.append(line).append("\n");
+        StringBuilder strBuilder = new StringBuilder();
+        while (Objects.nonNull(line = bufferedReader.readLine())){
+            strBuilder.append(line).append("\n");
         }
-
         bufferedReader.close();
-        inputStreamReader.close();
 
-        return output.toString();
+        return strBuilder.toString();
+    }
+
+    /**
+     * 区分操作系统环境，组装不同的ping命令行
+     *
+     * @param ipOrDomain      IP地址或域名（不能携带 协议标识 和 端口号）
+     * @param pingTimes       ping次数，传入值>0有效
+     * @param timeOutMs       超时时间（单位：毫秒ms），传入值>0有效
+     *
+     * @return {@code String} 返回不同操作系统下的完整ping命令行
+     */
+    public static String getPingCmd(String ipOrDomain, Integer pingTimes, Integer timeOutMs){
+        StringBuilder strBuilder = new StringBuilder();
+        if(OS_NAME.contains("Windows")){
+            strBuilder.append("ping ").append(ipOrDomain)
+                    .append((Objects.nonNull(pingTimes) && pingTimes > 0 ? (" -n " + pingTimes) : " "))
+                    .append((Objects.nonNull(timeOutMs) && timeOutMs > 0 ? (" -w " + timeOutMs) : " "));
+        } else if(OS_NAME.contains("Mac")){
+            strBuilder.append("ping ")
+                    .append((Objects.nonNull(pingTimes) && pingTimes > 0 ? (" -c " + pingTimes) : " "))
+                    .append((Objects.nonNull(timeOutMs) && timeOutMs > 0 ? (" -t " + timeOutMs) : " "))
+                    .append(" ").append(ipOrDomain);
+        } else{
+            //linux
+            strBuilder.append("ping ")
+                    .append((Objects.nonNull(pingTimes) && pingTimes > 0 ? (" -c " + pingTimes) : " "))
+                    .append((Objects.nonNull(timeOutMs) && timeOutMs > 0 ? (" -w " + timeOutMs) : " "))
+                    .append(" ").append(ipOrDomain);
+        }
+        return strBuilder.toString();
+    }
+
+    /**
+     * 简化ping命令输出结果（包括内容/格式），以便后续处理
+     * 注：ping命令输出结果参照下面main方法中的内容
+     *
+     * @param ipOrDomain      传入ping命令参数的原IP地址或URL链接
+     *                        （用于直接输出，不用再在ping输出结果里再找一遍）
+     * @param pingResult      ping命令输出结果
+     *
+     * @return {@code String} 简化后的ping命令输出结果
+     */
+    public static String modifyPingResult(String ipOrDomain, String pingResult){
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("--- ping ").append(ipOrDomain).append(" 统计信息 ---\n")
+                .append(modifyPingResult(pingResult));
+
+        return strBuilder.toString();
+    }
+
+    public static String modifyPingResult(String pingResult){
+        if(OS_NAME.contains("Windows")){
+            return pingResult.split("统计信息：\n")[1];
+        } else {
+            return pingResult.split("statistics ---\n")[1];
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String ubuntuPingResult = "PING baidu.com (39.156.69.79) 56(84) bytes of data.\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=1 ttl=49 time=40.2 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=2 ttl=49 time=40.1 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=3 ttl=49 time=40.2 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=4 ttl=49 time=40.4 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=5 ttl=49 time=40.1 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=6 ttl=49 time=40.2 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=7 ttl=49 time=40.2 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=8 ttl=49 time=40.2 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=9 ttl=49 time=40.2 ms\n" +
+                                "64 bytes from 39.156.69.79: icmp_seq=10 ttl=49 time=40.2 ms\n" +
+                                "\n" +
+                                "--- baidu.com ping statistics ---\n" +
+                                "10 packets transmitted, 10 received, 0% packet loss, time 9012ms\n" +
+                                "rtt min/avg/max/mdev = 40.184/40.256/40.489/0.251 ms";
+
+        String centOSPingResult = "PING baidu.com (39.156.69.79) 56(84) bytes of data.\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=1 ttl=52 time=32.6 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=2 ttl=52 time=32.3 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=3 ttl=52 time=31.8 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=4 ttl=52 time=32.2 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=5 ttl=52 time=32.5 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=6 ttl=52 time=32.3 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=7 ttl=52 time=32.2 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=8 ttl=52 time=32.4 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=9 ttl=52 time=32.3 ms\n" +
+                                "64 bytes from 39.156.69.79 (39.156.69.79): icmp_seq=10 ttl=52 time=32.2 ms\n" +
+                                "\n" +
+                                "--- baidu.com ping statistics ---\n" +
+                                "10 packets transmitted, 10 received, 0% packet loss, time 21ms\n" +
+                                "rtt min/avg/max/mdev = 31.751/32.279/32.560/0.287 ms";
+
+        String windowsPingResult = "\n" +
+                                "正在 Ping baidu.com [39.156.69.79] 具有 32 字节的数据:\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=33ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=34ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=33ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=33ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=36ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=33ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=33ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=38ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=34ms TTL=53\n" +
+                                "来自 39.156.69.79 的回复: 字节=32 时间=33ms TTL=53\n" +
+                                "\n" +
+                                "39.156.69.79 的 Ping 统计信息:\n" +
+                                "    数据包: 已发送 = 10，已接收 = 10，丢失 = 0 (0% 丢失)，\n" +
+                                "往返行程的估计时间(以毫秒为单位):\n" +
+                                "    最短 = 33ms，最长 = 38ms，平均 = 34ms";
+
+        System.out.println(modifyPingResult(windowsPingResult));
     }
 
 }

@@ -1,5 +1,6 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
+import cn.hutool.core.lang.PatternPool;
 import cn.hutool.core.util.ReUtil;
 import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.PingHandler;
@@ -10,6 +11,8 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -18,43 +21,72 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
 
     @Override
     public ListeningStatus groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
-        String address = msgPlain.replace("ping", "").trim();
-        String msg = null;
+        log.info("[function] 进入ping命令事件处理器");
+        List<String> fixedAddrList = fixAddrMsg(msgPlain);
+        String pingRes = "";
 
-        if(address.startsWith("http") || address.startsWith("https")
-                || address.startsWith("HTTP") || address.startsWith("HTTPS")
-                || address.contains(":")){
-            log.info("[function] ping命令结果：" + (msg = "请勿携带协议标识和端口号！"));
-            groupMsgEvent.getGroup().sendMessage(msg);
-            log.info("[message-send] "+msg);
-            return ListeningStatus.LISTENING;
-        }
+        log.info("[function] ping命令fix合法标记：" + fixedAddrList.get(0));
+        log.info("[function] ping命令fix结果：" + fixedAddrList.get(1));
 
-        if(!ReUtil.isMatch(Regex.IP, address) && !ReUtil.isMatch(Regex.DOMAIN, address)){
-            log.info("[function] ping命令结果：" + (msg = "IP或域名错误！"));
-            groupMsgEvent.getGroup().sendMessage(msg);
-            log.info("[message-send] "+msg);
-            return ListeningStatus.LISTENING;
+        if("1".equals(fixedAddrList.get(0))){
+            try {
+                pingRes = PingUtils.pingByRuntime(fixedAddrList.get(1));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                pingRes = "ping命令抛出异常！";
+                log.warn("[function] ping命令抛出异常！");
+            } finally {
+                groupMsgEvent.getSubject().sendMessage(pingRes);
+            }
+        } else {
+            groupMsgEvent.getSubject().sendMessage(fixedAddrList.get(1));
         }
-
-        if(ReUtil.isMatch(Regex.IP_INTRANET, address) || ReUtil.isMatch(Regex.DOMAIN_INTRANET, address)){
-            log.info("[function] ping命令结果：" + (msg = "禁止ping内网！"));
-            groupMsgEvent.getGroup().sendMessage(msg);
-            log.info("[message-send] "+msg);
-            return ListeningStatus.LISTENING;
-        }
-
-        String res = null;
-        try {
-            res = PingUtils.pingByCmd(msgPlain.replace("ping", "").trim());
-        } catch (IOException e){
-            log.error("[function] ping命令结果：" + (res = "ping命令处理抛出异常！"));
-            e.printStackTrace();
-        }
-        log.info("[function]" + res);
-        groupMsgEvent.getSubject().sendMessage(res.contains("异常") ? res : res.substring(1, res.lastIndexOf("来自")-1).trim());
 
         return ListeningStatus.LISTENING;
+    }
+
+    /**
+     * 修正传入的address参数，判断是否合法
+     * 返回合法标记、address结果（合法情况）/错误信息（非法情况）
+     *
+     * @param addrMsg 包含传入的IP地址或URL链接的消息
+     * @return {@code List<String>} 返回合法标记、address结果/错误信息
+     *                              合法：{"1", "address结果"}
+     *                              非法：{"0", "错误信息"}
+     */
+    private List<String> fixAddrMsg(String addrMsg){
+        List<String> resList = new ArrayList<>(2);
+
+        // 分别获取经过 IPV4、URL_HTTP 正则匹配后的group
+        // 例：http://www.baidu.com:80/s/test?param=1
+        // URL_HTTP group：[http://www.baidu.com:80/s/test?param=1, http://, baidu., :80, /s/test?param=1]
+
+        String addr = addrMsg.replace("ping", "").trim();
+        List<String> ipv4Groups = ReUtil.getAllGroups(PatternPool.IPV4, addr),
+                ipv6Groups = ReUtil.getAllGroups(PatternPool.IPV6, addr),
+                urlGroups = ReUtil.getAllGroups(PatternPool.URL_HTTP, addr);
+
+        // 必须先判IP再判URL，当IP匹配为空时才else URL，因为IP也能被URL正则识别
+        if(null != ipv4Groups.get(0)){
+            // ping IPv4
+            resList.add("1");
+            resList.add(ipv4Groups.get(0));
+        } else if(null != ipv6Groups.get(0)){
+            // ping IPv6
+            resList.add("1");
+            resList.add(ipv6Groups.get(0));
+        }
+        else if(null != urlGroups.get(0)){
+            // ping URL
+            resList.add("1");
+            resList.add(urlGroups.get(0));
+        } else {
+            // IP地址和URL链接都是错误的
+            resList.add("0");
+            resList.add("IP地址或URL链接错误！");
+        }
+
+        return resList;
     }
 
 }

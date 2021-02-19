@@ -1,5 +1,6 @@
 package cn.ultronxr.qqrobot.bean;
 
+import cn.hutool.core.lang.PatternPool;
 import lombok.Data;
 
 import java.util.ResourceBundle;
@@ -18,20 +19,18 @@ public abstract class GlobalData {
 
     }
 
-    /** 常用正则封装 */
+    /**
+     * 正则表达式
+     * 另外可以使用hutool的库 {@link PatternPool}
+     */
     @Data
     public static class Regex {
 
-        /** IP地址、内网IP地址（仅支持IPv4地址） */
-        public static final String IP = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-        public static final String IP_INTRANET = "^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$";
+        /** 内网IPv4地址 */
+        public static final String IPV4_INTRANET = "^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$";
 
-        /** 域名、内网域名 */
-        public static final String DOMAIN = "(^[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*))|(^localhost.*)";
-        public static final String DOMAIN_INTRANET = "^localhost.*";
-
-        /** 带有协议标识符的网址（http/https+域名） */
-        public static final String URL = "^https?:\\/\\/((www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)|(localhost.*))";
+        /** 内网网址（不带协议标识符） */
+        public static final String URL_INTRANET = "^localhost.*";
 
     }
 

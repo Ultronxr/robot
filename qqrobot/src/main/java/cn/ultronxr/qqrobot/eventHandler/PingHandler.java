@@ -11,6 +11,8 @@ public interface PingHandler {
 
     /**
      * 群聊中的ping命令处理器
+     * 注意：自动修正ping地址参数，使用正则从消息中提取出正确的IP地址或URL链接，
+     *      会自动忽略可能导致命令执行错误的内容（如协议标识、端口号等），不像命令行里一样返回各种错误
      *
      * @param groupMsgEvent GroupMessageEvent群聊消息事件
      * @param msgCode       MiraiUtils自定义消息类型一

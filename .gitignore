@@ -37,3 +37,6 @@ deviceInfo.json
 
 ### Log Files ###
 logs/
+
+### Cache Files ###
+cache/
