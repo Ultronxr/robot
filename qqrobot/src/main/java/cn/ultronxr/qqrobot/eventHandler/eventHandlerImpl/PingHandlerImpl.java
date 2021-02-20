@@ -37,9 +37,11 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
                 log.warn("[function] ping命令抛出异常！");
             } finally {
                 groupMsgEvent.getSubject().sendMessage(pingRes);
+                log.info("[message-send] " + pingRes);
             }
         } else {
             groupMsgEvent.getSubject().sendMessage(fixedAddrList.get(1));
+            log.info("[message-send] " + fixedAddrList.get(1));
         }
 
         return ListeningStatus.LISTENING;
