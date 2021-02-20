@@ -21,7 +21,6 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
 
     @Override
     public ListeningStatus groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
-        log.info("[function] 进入ping命令事件处理器");
         List<String> fixedAddrList = fixAddrMsg(msgPlain);
         String pingRes = "";
 
@@ -31,6 +30,7 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
         if("1".equals(fixedAddrList.get(0))){
             try {
                 pingRes = PingUtils.pingByRuntime(fixedAddrList.get(1));
+                log.info("[function] ping命令执行结果：" + pingRes);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 pingRes = "ping命令抛出异常！";
@@ -67,16 +67,16 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
                 urlGroups = ReUtil.getAllGroups(PatternPool.URL_HTTP, addr);
 
         // 必须先判IP再判URL，当IP匹配为空时才else URL，因为IP也能被URL正则识别
-        if(null != ipv4Groups.get(0)){
+        if(null != ipv4Groups && ipv4Groups.size() > 0 && null != ipv4Groups.get(0)){
             // ping IPv4
             resList.add("1");
             resList.add(ipv4Groups.get(0));
-        } else if(null != ipv6Groups.get(0)){
+        } else if(null != ipv6Groups && ipv6Groups.size() > 0 && null != ipv6Groups.get(0)){
             // ping IPv6
             resList.add("1");
             resList.add(ipv6Groups.get(0));
         }
-        else if(null != urlGroups.get(0)){
+        else if(null != urlGroups && urlGroups.size() > 0 && null != urlGroups.get(0)){
             // ping URL
             resList.add("1");
             resList.add(urlGroups.get(0));

@@ -1,12 +1,19 @@
 package cn.ultronxr.qqrobot.util;
 
+import cn.hutool.core.lang.PatternPool;
+import cn.hutool.core.util.ReUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 
 @Slf4j
@@ -14,6 +21,11 @@ public class PingUtils {
 
     /** 操作系统名称 */
     private static final String OS_NAME = System.getProperty("os.name");
+    //private static final String OS_NAME = "CentOS8";
+
+    /** 用于解析出 ping命令输出内容 中的 <b>统计信息<b/> 的正则表达式 */
+    private static final String PING_RESULT_STATISTIC_REGEX =
+            OS_NAME.contains("Windows") ? "\n.*统计信息.*\n" : "\n.*statistics.*\n";
 
 
     public static String pingByRuntime(String ipOrDomain) throws IOException {
@@ -80,7 +92,7 @@ public class PingUtils {
     }
 
     /**
-     * 简化ping命令输出结果（包括内容/格式），以便后续处理
+     * 简化ping命令输出结果（只保留统计信息），以便后续处理
      * 注：ping命令输出结果参照下面main方法中的内容
      *
      * @param ipOrDomain      传入ping命令参数的原IP地址或URL链接
@@ -91,18 +103,23 @@ public class PingUtils {
      */
     public static String modifyPingResult(String ipOrDomain, String pingResult){
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("--- ping ").append(ipOrDomain).append(" 统计信息 ---\n")
-                .append(modifyPingResult(pingResult));
+
+        String ipStr = ReUtil.get(PatternPool.IPV4, pingResult, 0);
+        if(null == ipStr){
+            ipStr = ReUtil.get(PatternPool.IPV6, pingResult, 0);
+        }
+
+        if(StringUtils.isNotEmpty(ipOrDomain)){
+            strBuilder.append("--- ping  ")
+                    .append(ipOrDomain)
+                    .append(" (")
+                    .append(ipStr)
+                    .append(") ")
+                    .append(" 统计信息 ---\n");
+        }
+        strBuilder.append(pingResult.split(PING_RESULT_STATISTIC_REGEX)[1]);
 
         return strBuilder.toString();
-    }
-
-    public static String modifyPingResult(String pingResult){
-        if(OS_NAME.contains("Windows")){
-            return pingResult.split("统计信息：\n")[1];
-        } else {
-            return pingResult.split("statistics ---\n")[1];
-        }
     }
 
 
@@ -157,7 +174,12 @@ public class PingUtils {
                                 "往返行程的估计时间(以毫秒为单位):\n" +
                                 "    最短 = 33ms，最长 = 38ms，平均 = 34ms";
 
-        System.out.println(modifyPingResult(windowsPingResult));
+        if(OS_NAME.contains("Windows")){
+            System.out.println(modifyPingResult("baidu.com", windowsPingResult));
+        } else {
+            System.out.println(modifyPingResult("baidu.com", centOSPingResult));
+        }
+
     }
 
 }
