@@ -7,6 +7,10 @@ spring:
   profiles: development
   application:
     name: robot-qqrobot
+  # 关闭日志ANSI彩色输出
+  #output:
+  #  ansi:
+  #    enabled: never
 
 logging:
   config: classpath:log4j.properties

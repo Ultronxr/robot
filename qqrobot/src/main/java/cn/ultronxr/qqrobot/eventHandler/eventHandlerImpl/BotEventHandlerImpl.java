@@ -35,15 +35,6 @@ public class BotEventHandlerImpl implements BotEventHandler {
     @Override
     public ListeningStatus botReloginHandler(BotReloginEvent botReloginEvent) {
         log.info("[system] qqrobot机器人（重新）登录事件");
-        try{
-            BotEntity.BOT_ENTITY.login();
-        }finally {
-            if(BotEntity.BOT_ENTITY.isOnline()){
-                log.info("[system] qqrobot机器人（重新）登录完成。");
-            } else {
-                log.warn("[system] qqrobot机器人（重新）登录失败。");
-            }
-        }
 
         return ListeningStatus.LISTENING;
     }
