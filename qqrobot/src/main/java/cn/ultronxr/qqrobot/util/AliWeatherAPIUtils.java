@@ -65,7 +65,7 @@ public class AliWeatherAPIUtils extends AliWeatherAPI {
     }
 
     public static void main(String[] args) {
-        System.out.println(getWeatherByArea("兰溪"));
+        System.out.println(getWeatherByArea("xxx"));
     }
 
 }

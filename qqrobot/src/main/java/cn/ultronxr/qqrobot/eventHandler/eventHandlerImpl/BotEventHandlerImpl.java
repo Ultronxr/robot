@@ -1,6 +1,5 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
-import cn.ultronxr.qqrobot.bean.BotEntity;
 import cn.ultronxr.qqrobot.eventHandler.BotEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.ListeningStatus;

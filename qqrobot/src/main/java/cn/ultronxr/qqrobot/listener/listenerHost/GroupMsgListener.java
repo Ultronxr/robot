@@ -35,6 +35,9 @@ public class GroupMsgListener extends SimpleListenerHost {
     @Autowired
     private WeatherHandler weatherHandler;
 
+    @Autowired
+    private ScheduledTaskHandler scheduledTaskHandler;
+
 
     /**
      * 群聊消息事件监听器
@@ -75,6 +78,9 @@ public class GroupMsgListener extends SimpleListenerHost {
             }
             if(msgPlain.contains("火力全开")){
                 return sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
+            }
+            if(msgPlain.contains("定时")){
+                return scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
         }
 
