@@ -1,6 +1,10 @@
 package cn.ultronxr.qqrobot.bean;
 
 
+/**
+ * 阿里云天气查询接口bean
+ * 相关文档请参看 {@link "https://market.aliyun.com/products/57096001/cmapi010812.html"}
+ */
 public abstract class AliWeatherAPI extends GlobalData {
 
     //private static final String APP_KEY = ResBundle.ALI_CLOUD.getString("ali.weatherAPI.app.key");
