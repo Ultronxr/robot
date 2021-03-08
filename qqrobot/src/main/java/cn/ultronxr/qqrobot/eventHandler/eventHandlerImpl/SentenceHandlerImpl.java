@@ -18,7 +18,7 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
 
     private static final String ABUSE_URL_2 = "https://zuanbot.com/api.php?lang=zh_cn";
 
-    public static final String ABUSE_REFERER = "https://zuanbot.com/";
+    private static final String ABUSE_REFERER = "https://zuanbot.com/";
 
 
     @Override

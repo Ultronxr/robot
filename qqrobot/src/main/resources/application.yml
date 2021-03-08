@@ -11,6 +11,9 @@ spring:
   #output:
   #  ansi:
   #    enabled: never
+  redis:
+    redisson:
+      file: classpath:redission.yaml
 
 logging:
   config: classpath:log4j.properties
