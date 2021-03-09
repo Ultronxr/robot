@@ -80,7 +80,13 @@ public class GroupMsgListener extends SimpleListenerHost {
                 return sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
             }
             if(msgPlain.contains("定时")){
-                return scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                if(msgPlain.contains("定时格式")){
+                    return scheduledTaskHandler.scheduledTaskFormat(groupMsgEvent);
+                } else if(msgPlain.contains("定时说明")){
+                    return scheduledTaskHandler.scheduledTaskExplain(groupMsgEvent);
+                } else {
+                    return scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                }
             }
         }
 

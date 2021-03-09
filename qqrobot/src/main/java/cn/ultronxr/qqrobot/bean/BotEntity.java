@@ -82,7 +82,7 @@ public class BotEntity extends GlobalData {
         put(3, new String[]{"舔狗", "彩虹屁"});
         put(4, new String[]{"脏话", "口吐芬芳", "芬芳"});
         put(5, new String[]{"火力全开"});
-        put(6, new String[]{"定时", "定时任务"});
+        put(6, new String[]{"定时", "定时格式", "定时说明"});
     }};
 
 }
