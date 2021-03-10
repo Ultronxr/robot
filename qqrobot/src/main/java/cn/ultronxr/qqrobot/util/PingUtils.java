@@ -2,6 +2,7 @@ package cn.ultronxr.qqrobot.util;
 
 import cn.hutool.core.lang.PatternPool;
 import cn.hutool.core.util.ReUtil;
+import cn.ultronxr.qqrobot.bean.GlobalData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,18 +10,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 
 @Slf4j
 public class PingUtils {
 
     /** 操作系统名称 */
-    private static final String OS_NAME = System.getProperty("os.name");
+    private static final String OS_NAME = GlobalData.OS_NAME;
     //private static final String OS_NAME = "CentOS8";
 
     /** 用于解析出 ping命令输出内容 中的 <b>统计信息<b/> 的正则表达式 */
