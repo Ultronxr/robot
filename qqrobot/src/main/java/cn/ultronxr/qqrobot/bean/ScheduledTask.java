@@ -35,8 +35,8 @@ public class ScheduledTask {
     /** 重复标记：false-不重复，true-重复 */
     Boolean repeat;
 
-    /** 重复时间Corn表达式 */
-    String repeatCorn;
+    /** 重复时间Cron表达式 */
+    String repeatCron;
 
     /** 操作符：提醒 | 执行 */
     String operator;
