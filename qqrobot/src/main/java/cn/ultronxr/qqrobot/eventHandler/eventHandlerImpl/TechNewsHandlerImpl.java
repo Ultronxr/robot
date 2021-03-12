@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.message.data.Image;
+import net.mamoe.mirai.utils.ExternalResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +33,11 @@ public class TechNewsHandlerImpl implements TechNewsHandler {
             if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) < 1){
                 groupMsgEvent.getSubject().sendMessage("今天的早报未发布哦，先看看昨天的早报吧~");
             }
-            Contact.sendImage(groupMsgEvent.getGroup(), imgFile, "png");
+            // mirai作者推荐使用Contact.sendImage发送图片，但是我在Linux服务器环境下运行报错
+            // 所以修改成另一种发送图片的方法，下同
+            //Contact.sendImage(groupMsgEvent.getGroup(), imgFile, "png");
+            Image image = groupMsgEvent.getSubject().uploadImage(ExternalResource.create(imgFile));
+            groupMsgEvent.getSubject().sendMessage(Image.fromId(image.getImageId()));
             log.info("[message-send] [img]企查查早报");
             return ListeningStatus.LISTENING;
         }
@@ -40,7 +46,9 @@ public class TechNewsHandlerImpl implements TechNewsHandler {
             groupMsgEvent.getSubject().sendMessage("今天的晚报未发布哦，先看看昨天的晚报吧~");
         }
         File imgFile = techNewsService.getQichachaEveningNewsFile();
-        Contact.sendImage(groupMsgEvent.getGroup(), imgFile, "png");
+        //Contact.uploadImage(groupMsgEvent.getGroup(), imgFile, "png");
+        Image image = groupMsgEvent.getSubject().uploadImage(ExternalResource.create(imgFile));
+        groupMsgEvent.getSubject().sendMessage(Image.fromId(image.getImageId()));
         log.info("[message-send] [img]企查查晚报");
 
         return ListeningStatus.LISTENING;

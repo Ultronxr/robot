@@ -59,7 +59,7 @@ public class TechNewsServiceImpl implements TechNewsService {
     private static final String QICHACHA_EVENING_NEWS_URL = "https://apph5.qichacha.com/h5/app/evening-paper/list?_bridge=1&groupId=";
 
     /** 图片保存位置 前导路径 */
-    private static final String QICHACHA_NEWS_PATH_PREFIX = "cache\\qichacha_news\\";
+    private static final String QICHACHA_NEWS_PATH_PREFIX = "cache" + File.separator + "qichacha_news" + File.separator;
 
 
     // 每天 9:00:05 和 17:00:05 自动执行
