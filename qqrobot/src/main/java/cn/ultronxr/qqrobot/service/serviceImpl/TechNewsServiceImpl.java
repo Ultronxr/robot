@@ -94,7 +94,7 @@ public class TechNewsServiceImpl implements TechNewsService {
                     }
                     try {
                         String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX + latestNumber + ".png";
-                        if(PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+latestNumber, outputPathAndFilename, 650, 5000, 1.3f, 5000)){
+                        if(PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+latestNumber, outputPathAndFilename, 650, 6000, 1.3f, 5000)){
                             log.info("[function] 企查查早报网页截图完成。");
                             redisTemplate.opsForHash().put(KEY_QICHACHA_NEWS_MAP, "actualNumber", latestNumber);
                             log.info("[function] redis企查查日报信息MapKey 'actualNumber'-{} 更新完成。", latestNumber);
@@ -112,7 +112,7 @@ public class TechNewsServiceImpl implements TechNewsService {
                     }
                     try {
                         String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX+(latestNumber+1) + ".png";
-                        if(PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber+1), outputPathAndFilename, 650, 5000, 1.3f, 5000)){
+                        if(PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber+1), outputPathAndFilename, 650, 6000, 1.3f, 5000)){
                             log.info("[function] 企查查晚报网页截图完成。");
                             redisTemplate.opsForHash().put(KEY_QICHACHA_NEWS_MAP, "actualNumber", latestNumber+1);
                             log.info("[function] redis企查查日报信息MapKey 'actualNumber'-{} 更新完成。", latestNumber+1);
@@ -137,13 +137,13 @@ public class TechNewsServiceImpl implements TechNewsService {
         int latestNumber = calLatestNumber(calendarNow);
         try {
             if(checkTimeHourPeriod(calendarNow, hours) == 2){
-                PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber+1), QICHACHA_NEWS_PATH_PREFIX+(latestNumber+1) + ".png", 650, 5000, 1.3f, 5000);
+                PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber+1), QICHACHA_NEWS_PATH_PREFIX+(latestNumber+1) + ".png", 650, 6000, 1.3f, 5000);
             }
             if(checkTimeHourPeriod(calendarNow, hours) >= 1){
-                PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+(latestNumber), QICHACHA_NEWS_PATH_PREFIX+(latestNumber) + ".png", 650, 5000, 1.3f, 5000);
+                PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+(latestNumber), QICHACHA_NEWS_PATH_PREFIX+(latestNumber) + ".png", 650, 6000, 1.3f, 5000);
             }
-            PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber-1), QICHACHA_NEWS_PATH_PREFIX+(latestNumber-1) + ".png", 650, 5000, 1.3f, 5000);
-            PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+(latestNumber-2), QICHACHA_NEWS_PATH_PREFIX+(latestNumber-2) + ".png", 650, 5000, 1.3f, 5000);
+            PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber-1), QICHACHA_NEWS_PATH_PREFIX+(latestNumber-1) + ".png", 650, 6000, 1.3f, 5000);
+            PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+(latestNumber-2), QICHACHA_NEWS_PATH_PREFIX+(latestNumber-2) + ".png", 650, 6000, 1.3f, 5000);
         } catch (IOException | InterruptedException ex){
             log.warn("[function] 初始化企查查日报截图数据抛出异常！");
             ex.printStackTrace();
