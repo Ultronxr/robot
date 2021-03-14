@@ -30,7 +30,9 @@ public class TechNewsHandlerImpl implements TechNewsHandler {
         int[] hours = new int[]{9, 17};
         if(type == 1){
             File imgFile = techNewsService.getQichachaMorningNewsFile();
-            if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) < 1){
+            if(DateTimeUtils.isWeekend(calendarNow)){
+                groupMsgEvent.getSubject().sendMessage("周末不更新哦，看看周五的早报吧~");
+            } else if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) < 1){
                 groupMsgEvent.getSubject().sendMessage("今天的早报未发布哦，先看看昨天的早报吧~");
             }
             // mirai作者推荐使用Contact.sendImage发送图片，但是我在Linux服务器环境下运行报错
@@ -38,18 +40,20 @@ public class TechNewsHandlerImpl implements TechNewsHandler {
             //Contact.sendImage(groupMsgEvent.getGroup(), imgFile, "png");
             Image image = groupMsgEvent.getSubject().uploadImage(ExternalResource.create(imgFile));
             groupMsgEvent.getSubject().sendMessage(Image.fromId(image.getImageId()));
-            log.info("[message-send] [img]企查查早报");
+            log.info("[message-send] [img]企查查早报 - {}", image.getImageId());
             return ListeningStatus.LISTENING;
         }
 
-        if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) < 2){
+        if(DateTimeUtils.isWeekend(calendarNow)){
+            groupMsgEvent.getSubject().sendMessage("周末不更新哦，看看周五的晚报吧~");
+        } else if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) < 2){
             groupMsgEvent.getSubject().sendMessage("今天的晚报未发布哦，先看看昨天的晚报吧~");
         }
         File imgFile = techNewsService.getQichachaEveningNewsFile();
         //Contact.uploadImage(groupMsgEvent.getGroup(), imgFile, "png");
         Image image = groupMsgEvent.getSubject().uploadImage(ExternalResource.create(imgFile));
         groupMsgEvent.getSubject().sendMessage(Image.fromId(image.getImageId()));
-        log.info("[message-send] [img]企查查晚报");
+        log.info("[message-send] [img]企查查晚报 - {}", image.getImageId());
 
         return ListeningStatus.LISTENING;
     }

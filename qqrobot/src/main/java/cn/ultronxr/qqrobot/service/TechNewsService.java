@@ -11,7 +11,7 @@ import cn.ultronxr.qqrobot.util.DateTimeUtils;
  *
  * 以下为 企查查早报/晚报 逻辑：
  *
- *   企查查日报一天两更，上午9点发布早报，下午5点发布晚报；
+ *   企查查日报一天两更（周六周日不更），上午9点发布早报，下午5点发布晚报；
  *   定时对早报/晚报截图，并存放在 cache/qichacha_news/ 路径下，以 “期号.png” 格式命名（如“818.png”）；
  *   如果重复获取当天的早报/晚报，就会把缓存中的图片直接发送；否则就先网页截图再发送；
  *
@@ -30,6 +30,7 @@ import cn.ultronxr.qqrobot.util.DateTimeUtils;
  *           1     今天的早报    昨天的晚报
  *           2     今天的早报    今天的晚报
  *       ------------------------------------
+ *       周末发送周五的早报和晚报
  */
 public interface TechNewsService {
 

@@ -2,6 +2,7 @@ package cn.ultronxr.qqrobot.service.serviceImpl;
 
 import cn.hutool.core.date.CalendarUtil;
 import cn.ultronxr.qqrobot.service.TechNewsService;
+import cn.ultronxr.qqrobot.util.DateTimeUtils;
 import cn.ultronxr.qqrobot.util.PhantomjsUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import static cn.ultronxr.qqrobot.util.DateTimeUtils.checkTimeHourPeriod;
 
 
 @Service
@@ -53,10 +52,10 @@ public class TechNewsServiceImpl implements TechNewsService {
 
 
     /** 企查查早报URL（groupId参数为期号，双数） */
-    private static final String QICHACHA_MORNING_NEWS_URL = "https://apph5.qichacha.com/h5/app/morning-paper/paper-list?_bridge=1&groupId=";
+    private static final String QICHACHA_MORNING_NEWS_URL = "https://apph5.qichacha.com/h5/app/morning-paper/paper-list?groupId=";
 
     /** 企查查晚报URL（groupId参数为期号，单数） */
-    private static final String QICHACHA_EVENING_NEWS_URL = "https://apph5.qichacha.com/h5/app/evening-paper/list?_bridge=1&groupId=";
+    private static final String QICHACHA_EVENING_NEWS_URL = "https://apph5.qichacha.com/h5/app/evening-paper/list?groupId=";
 
     /** 图片保存位置 前导路径 */
     private static final String QICHACHA_NEWS_PATH_PREFIX = "cache" + File.separator + "qichacha_news" + File.separator;
@@ -66,14 +65,20 @@ public class TechNewsServiceImpl implements TechNewsService {
     @Scheduled(cron = "5 0 9,17 * * ? ")
     @Override
     public void maintainQichachaNewsFileAndRedisMap() {
+        Calendar calendarNow = Calendar.getInstance();
+        int[] hours = new int[]{9, 17};
+
+        // 周末不发布日报，直接跳过
+        if(DateTimeUtils.isWeekend(calendarNow)){
+            return;
+        }
+
         Boolean hasKeyNewsMap = redisTemplate.hasKey(KEY_QICHACHA_NEWS_MAP);
         hasKeyNewsMap = (hasKeyNewsMap == null ? false : hasKeyNewsMap);
 
         // 1.企查查日报信息Map存在，则进行维护
         if(hasKeyNewsMap) {
-            Calendar calendarNow = Calendar.getInstance();
-            int[] hours = new int[]{9, 17};
-            if(0 == checkTimeHourPeriod(calendarNow, hours)){
+            if(0 == DateTimeUtils.checkTimeHourPeriod(calendarNow, hours)){
                 // 1.1.早报发布前
                 return;
             } else {
@@ -85,7 +90,7 @@ public class TechNewsServiceImpl implements TechNewsService {
                 Integer actualNumber = (Integer) redisTemplate.opsForHash().get(KEY_QICHACHA_NEWS_MAP, "actualNumber");
                 actualNumber = (actualNumber == null ? STANDARD_NUMBER : actualNumber);
 
-                if(1 == checkTimeHourPeriod(calendarNow, hours)){
+                if(1 == DateTimeUtils.checkTimeHourPeriod(calendarNow, hours)){
                     // 1.2.1.晚报发布前（判断早报期号，若未存在，则进行早报截图）
 
                     if(actualNumber == latestNumber){
@@ -136,10 +141,10 @@ public class TechNewsServiceImpl implements TechNewsService {
 
         int latestNumber = calLatestNumber(calendarNow);
         try {
-            if(checkTimeHourPeriod(calendarNow, hours) == 2){
+            if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) == 2){
                 PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber+1), QICHACHA_NEWS_PATH_PREFIX+(latestNumber+1) + ".png", 650, 6000, 1.3f, 5000);
             }
-            if(checkTimeHourPeriod(calendarNow, hours) >= 1){
+            if(DateTimeUtils.checkTimeHourPeriod(calendarNow, hours) >= 1){
                 PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+(latestNumber), QICHACHA_NEWS_PATH_PREFIX+(latestNumber) + ".png", 650, 6000, 1.3f, 5000);
             }
             PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber-1), QICHACHA_NEWS_PATH_PREFIX+(latestNumber-1) + ".png", 650, 6000, 1.3f, 5000);

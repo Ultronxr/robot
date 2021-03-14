@@ -64,4 +64,15 @@ public class DateTimeUtils {
         return increaseHours.length;
     }
 
+    /**
+     * 检查指定日期是否是周末（包括周六和周日）
+     *
+     * @param calendar 待检查的日期
+     * @return true-是周末，false-不是周末
+     */
+    public static Boolean isWeekend(Calendar calendar){
+        return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+    }
+
 }
