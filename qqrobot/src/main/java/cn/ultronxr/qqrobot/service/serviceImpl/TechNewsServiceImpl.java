@@ -35,9 +35,9 @@ public class TechNewsServiceImpl implements TechNewsService {
      * Map中包含：standardNumber（标准期号）、standardDate（标准日期）、
      *            actualNumber（实际已经获取截图的最新一期期号）
      *
-     * 上面的两个标准值是手动获取和设置的，用这两个标准值可以计算出任意一天的早报/晚报期号；
+     * 上面的两个（工作日）标准值是手动获取和设置的，用这两个标准值可以计算出任意一天的早报/晚报期号；
      * 这里用于计算 当天最新期号latestNumber，并与 actualNumber 比较：
-     *     latestNumber = actualNumber + 2*(当前日期-standardDate 相差天数)
+     *     latestNumber = actualNumber + 2*(当前日期-与standardDate相差工作日天数)
      *     {@link TechNewsServiceImpl#calLatestNumber(Calendar)}
      *
      * 期号双数为早报，单数为晚报（当天晚报期号=当天早报期号+1）
@@ -217,9 +217,7 @@ public class TechNewsServiceImpl implements TechNewsService {
         if(calendar.before(STANDARD_DATE_CALENDAR)){
             return -1;
         }
-        long dayGapFromStandardDate =
-                (calendar.getTimeInMillis() - STANDARD_DATE_CALENDAR.getTimeInMillis()) / (24*60*60*1000);
-        return STANDARD_NUMBER + 2 * (int) dayGapFromStandardDate;
+        return STANDARD_NUMBER + 2 * DateTimeUtils.weekdaysBetweenCalendars(STANDARD_DATE_CALENDAR, calendar);
     }
 
 }

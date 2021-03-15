@@ -75,4 +75,67 @@ public class DateTimeUtils {
                 || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
     }
 
+    /**
+     * 计算两个日期之间经过了多少天
+     * 左开右闭
+     *   例（假设同一年同一月）：
+     *       1号-1号 经过了 零天
+     *       1号-2号 经过了 2 一天
+     *       1号-3号 经过了 2、3 两天
+     *
+     * @param calendarStart 起始日
+     * @param calendarEnd   结束日
+     * @return 经过的天数（一个自然数）
+     */
+    public static Integer daysBetweenCalendars(Calendar calendarStart, Calendar calendarEnd){
+        if(calendarEnd.before(calendarStart)){
+            Calendar temp = calendarStart;
+            calendarStart = calendarEnd;
+            calendarEnd = temp;
+        }
+        long daysGap = (calendarEnd.getTimeInMillis() - calendarStart.getTimeInMillis()) / (24*60*60*1000);
+        return (int) daysGap;
+    }
+
+    /**
+     * 计算两个日期之间经过了多少工作日（去掉周六和周日）
+     * 左开右闭
+     *   例（假设同一年同一月，且4、5是周六与周日）：
+     *       1号-1号 经过了 零天
+     *       1号-3号 经过了 2、3 两天
+     *       1号-5号 经过了 2、3 两天
+     *       1号-7号 经过了 2、3、6、7 四天
+     *
+     * @param calendarStart 起始日
+     * @param calendarEnd   结束日
+     * @return 经过的工作日数量（一个自然数）
+     */
+    public static Integer weekdaysBetweenCalendars(Calendar calendarStart, Calendar calendarEnd){
+        if(calendarEnd.before(calendarStart)){
+            Calendar temp = calendarStart;
+            calendarStart = calendarEnd;
+            calendarEnd = temp;
+        }
+        int daysGap = daysBetweenCalendars(calendarStart, calendarEnd);
+        int dowStart = changeFirstDayOfWeek(calendarStart.get(Calendar.DAY_OF_WEEK)),
+                dowEnd = changeFirstDayOfWeek(calendarEnd.get(Calendar.DAY_OF_WEEK));
+        int weekdaysGap = (daysGap + dowStart + 7 - dowEnd) / 7 * 5 - Math.min(dowStart, 5) - (5- Math.min(dowEnd, 5));
+        return weekdaysGap;
+    }
+
+    /**
+     * 修改 Calendar.DAY_OF_WEEK 获取的一周中的第几天的计算方法
+     * 把周一改成一周中的第一天，而不是周日是第一天
+     *
+     * @param dayOfWeek calendar.get(Calendar.DAY_OF_WEEK) 方法获取到的第几天数字
+     * @return 修改后的一周中的第几天
+     */
+    public static Integer changeFirstDayOfWeek(Integer dayOfWeek){
+        if (dayOfWeek == Calendar.SUNDAY) {
+            return 7;
+        } else {
+            return dayOfWeek - 1;
+        }
+    }
+
 }
