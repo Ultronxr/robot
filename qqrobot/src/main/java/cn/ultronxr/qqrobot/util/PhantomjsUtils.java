@@ -4,6 +4,7 @@ import cn.ultronxr.qqrobot.bean.GlobalData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -27,17 +28,17 @@ public class PhantomjsUtils {
      * 这里我修改了其中部分内容（另加一个 pageTimeout 参数），所以是 rasterize_my.js
      * 同样地，在 qqrobot/src/lib/phantomjs 目录下有这个文件，请自行决定这里的路径，确保程序能访问到
      */
-    private static final String RASTERIZE_JS = "cache\\rasterize_my.js";
+    private static final String RASTERIZE_JS = "cache" + File.separator + "rasterize_my.js";
 
     /** 可执行文件/命令名称 */
-    private static final String PHANTOMJS;
+    private static String PHANTOMJS;
 
     static {
-        if(GlobalData.OS_NAME.contains("Windows")){
-            PHANTOMJS = "phantomjs.exe";
-        } else {
-            PHANTOMJS = "phantomjs";
+        PHANTOMJS = "phantomjs";
+        if(GlobalData.OS_NAME.contains("Windows")) {
+            PHANTOMJS += ".exe";
         }
+        PHANTOMJS += " --ignore-ssl-errors=true --ssl-protocol=any";
     }
 
 
@@ -83,16 +84,16 @@ public class PhantomjsUtils {
                 .append(" \"").append(width).append("*").append(height).append("px\" ")
                 .append(zoom).append(" ")
                 .append(timeout);
-
+        log.info("[function] phantomjs截图cmd：{}", cmd);
         Process process = Runtime.getRuntime().exec(cmd.toString());
         process.waitFor();
-        if(!process.isAlive() && 0 == process.exitValue()){
-            log.info("[function] phantomjs网页截图：url-{}, outputPathAndFilename-{}, width*height-{}*{}px, zoom-{}, timeout-{}",
+        if(0 == process.exitValue() && new File(outputPathAndFilename).exists()){
+            log.info("[function] phantomjs网页截图成功：url-{}, outputPathAndFilename-{}, width*height-{}*{}px, zoom-{}, timeout-{}",
                     url, outputPathAndFilename, width, height, zoom, timeout);
             return true;
-        } else {
-            return false;
         }
+        log.info("[function] phantomjs网页截图失败！");
+        return false;
     }
 
 }

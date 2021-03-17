@@ -2,6 +2,7 @@
 var page = require('webpage').create(),
     system = require('system'),
     address, output, size, pageWidth, pageHeight, pageTimeout;
+page.settings.userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36";
 
 if (system.args.length < 3 || system.args.length > 6) {
     //console.log('Usage: rasterize.js URL filename [paperwidth*paperheight|paperformat] [zoom]');

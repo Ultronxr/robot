@@ -62,7 +62,7 @@ public class TechNewsServiceImpl implements TechNewsService {
 
 
     // 每天 9:00:05 和 17:00:05 自动执行
-    @Scheduled(cron = "5 0 9,17 * * ? ")
+    @Scheduled(cron = "5 0,2 9,17 * * ? ")
     @Override
     public void maintainQichachaNewsFileAndRedisMap() {
         Calendar calendarNow = Calendar.getInstance();
@@ -89,6 +89,7 @@ public class TechNewsServiceImpl implements TechNewsService {
                 // 获取redis中的实际期号
                 Integer actualNumber = (Integer) redisTemplate.opsForHash().get(KEY_QICHACHA_NEWS_MAP, "actualNumber");
                 actualNumber = (actualNumber == null ? STANDARD_NUMBER : actualNumber);
+                log.info("[function] 最新期号latestNumber={} , 实际期号actualNumber={}", latestNumber, actualNumber);
 
                 if(1 == DateTimeUtils.checkTimeHourPeriod(calendarNow, hours)){
                     // 1.2.1.晚报发布前（判断早报期号，若未存在，则进行早报截图）
