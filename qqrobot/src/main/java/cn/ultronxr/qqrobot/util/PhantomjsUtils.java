@@ -28,7 +28,7 @@ public class PhantomjsUtils {
      * 这里我修改了其中部分内容（另加一个 pageTimeout 参数），所以是 rasterize_my.js
      * 同样地，在 qqrobot/src/lib/phantomjs 目录下有这个文件，请自行决定这里的路径，确保程序能访问到
      */
-    private static final String RASTERIZE_JS = "cache" + File.separator + "rasterize_my.js";
+    private static final String RASTERIZE_JS = "cache" + File.separator + "rasterize_my_2.js";
 
     /** 可执行文件/命令名称 */
     private static String PHANTOMJS;
@@ -86,7 +86,12 @@ public class PhantomjsUtils {
                 .append(timeout);
         log.info("[function] phantomjs截图cmd：{}", cmd);
 
-        Process process = Runtime.getRuntime().exec(cmd.toString());
+        Process process = null;
+        if(GlobalData.OS_NAME.contains("Windows")){
+            process = Runtime.getRuntime().exec(cmd.toString());
+        } else {
+            process = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", cmd.toString()});
+        }
         process.waitFor();
 
         if(0 == process.exitValue() && new File(outputPathAndFilename).exists()){

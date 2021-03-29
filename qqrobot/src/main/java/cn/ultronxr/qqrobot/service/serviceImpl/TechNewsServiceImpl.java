@@ -223,9 +223,14 @@ public class TechNewsServiceImpl implements TechNewsService {
 
     public static void main(String[] args) {
         //int latestNumber = calLatestNumber(Calendar.getInstance());
-        int latestNumber = 833;
+        int latestNumber = 842;
         String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX + latestNumber + ".png";
-        String url = QICHACHA_EVENING_NEWS_URL + latestNumber;
+        String url;
+        if(latestNumber % 2 == 0){
+            url = QICHACHA_MORNING_NEWS_URL + latestNumber;
+        } else {
+            url = QICHACHA_EVENING_NEWS_URL + latestNumber;
+        }
         try {
             PhantomjsUtils.screenCapture(url, outputPathAndFilename, 650, 6000, 1.3f, 5000);
         } catch (IOException | InterruptedException ex){
