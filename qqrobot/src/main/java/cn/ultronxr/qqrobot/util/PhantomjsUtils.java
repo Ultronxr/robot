@@ -85,14 +85,16 @@ public class PhantomjsUtils {
                 .append(zoom).append(" ")
                 .append(timeout);
         log.info("[function] phantomjs截图cmd：{}", cmd);
+
         Process process = Runtime.getRuntime().exec(cmd.toString());
         process.waitFor();
+
         if(0 == process.exitValue() && new File(outputPathAndFilename).exists()){
             log.info("[function] phantomjs网页截图成功：url-{}, outputPathAndFilename-{}, width*height-{}*{}px, zoom-{}, timeout-{}",
                     url, outputPathAndFilename, width, height, zoom, timeout);
             return true;
         }
-        log.info("[function] phantomjs网页截图失败！");
+        log.warn("[function] phantomjs网页截图失败！");
         return false;
     }
 
