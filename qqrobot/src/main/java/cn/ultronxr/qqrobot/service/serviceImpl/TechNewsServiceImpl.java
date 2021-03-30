@@ -40,29 +40,39 @@ public class TechNewsServiceImpl implements TechNewsService {
      *     latestNumber = actualNumber + 2*(当前日期-与standardDate相差工作日天数)
      *     {@link TechNewsServiceImpl#calLatestNumber(Calendar)}
      *
-     * 期号双数为早报，单数为晚报（当天晚报期号=当天早报期号+1）
+     * 期号奇偶数与早报或晚报取决于下面的NEWS_ODD参数（当天晚报期号=当天早报期号+1）
      */
     private static final String KEY_QICHACHA_NEWS_MAP = "qichacha_news_map";
 
-    private static final Integer STANDARD_NUMBER = 820;
+    private static final Integer STANDARD_NUMBER = 843;
 
-    private static final String STANDARD_DATE = "2021-03-12";
+    private static final String STANDARD_DATE = "2021-03-29";
 
     private static final Calendar STANDARD_DATE_CALENDAR = CalendarUtil.parseByPatterns(STANDARD_DATE, DATE_FORMAT_PATTERN);
 
+    /**
+     * 区分早报和晚报的奇偶参数
+     * （一开始只有偶数早报、奇数晚报的情况，但是企查查那边不知什么原因有一期是空白的，所以奇偶调换）
+     * （为了防止这种情况再发生，这里加一个奇偶参数）
+     * 期数groupId % 2 = NEWS_ODD
+     * NEWS_ODD = 0 偶数早报、奇数晚报
+     * NEWS_ODD = 1 奇数早报、偶数晚报
+     */
+    private static final Integer NEWS_ODD = 1;
 
-    /** 企查查早报URL（groupId参数为期号，双数） */
+
+    /** 企查查早报URL（groupId参数为期号） */
     private static final String QICHACHA_MORNING_NEWS_URL = "https://apph5.qichacha.com/h5/app/morning-paper/paper-list?groupId=";
 
-    /** 企查查晚报URL（groupId参数为期号，单数） */
+    /** 企查查晚报URL（groupId参数为期号） */
     private static final String QICHACHA_EVENING_NEWS_URL = "https://apph5.qichacha.com/h5/app/evening-paper/list?groupId=";
 
     /** 图片保存位置 前导路径 */
     private static final String QICHACHA_NEWS_PATH_PREFIX = "cache" + File.separator + "qichacha_news" + File.separator;
 
 
-    // 每天 9:00:05 和 17:00:05 自动执行
-    @Scheduled(cron = "5 0,2 9,17 * * ? ")
+    // 每天 9:01:05 和 17:01:05 自动执行
+    @Scheduled(cron = "5 1,2 9,17 * * ? ")
     @Override
     public void maintainQichachaNewsFileAndRedisMap() {
         Calendar calendarNow = Calendar.getInstance();
@@ -172,7 +182,7 @@ public class TechNewsServiceImpl implements TechNewsService {
             return null;
         }
         // 如果最新的一期是晚报，那么返回上一期早报
-        if(actualNumber % 2 != 0){
+        if(actualNumber % 2 != NEWS_ODD){
             actualNumber -= 1;
         }
         String filename = QICHACHA_NEWS_PATH_PREFIX + actualNumber + ".png";
@@ -188,7 +198,7 @@ public class TechNewsServiceImpl implements TechNewsService {
             return null;
         }
         // 如果最新的一期是早报，那么返回上一期晚报
-        if(actualNumber % 2 == 0){
+        if(actualNumber % 2 == NEWS_ODD){
             actualNumber -= 1;
         }
         String filename = QICHACHA_NEWS_PATH_PREFIX + actualNumber + ".png";
@@ -221,12 +231,16 @@ public class TechNewsServiceImpl implements TechNewsService {
         return STANDARD_NUMBER + 2 * DateTimeUtils.weekdaysBetweenCalendars(STANDARD_DATE_CALENDAR, calendar);
     }
 
+
+    /**
+     * 手动截图main方法，便于测试功能
+     */
     public static void main(String[] args) {
         //int latestNumber = calLatestNumber(Calendar.getInstance());
-        int latestNumber = 842;
+        int latestNumber = 845;
         String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX + latestNumber + ".png";
         String url;
-        if(latestNumber % 2 == 0){
+        if(latestNumber % 2 == NEWS_ODD){
             url = QICHACHA_MORNING_NEWS_URL + latestNumber;
         } else {
             url = QICHACHA_EVENING_NEWS_URL + latestNumber;
