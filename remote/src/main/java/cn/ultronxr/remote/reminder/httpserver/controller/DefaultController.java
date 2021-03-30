@@ -1,4 +1,4 @@
-package cn.ultronxr.reminder.httpserver.controller;
+package cn.ultronxr.remote.reminder.httpserver.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

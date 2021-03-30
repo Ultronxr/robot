@@ -1,6 +1,6 @@
-package cn.ultronxr.reminder.httpserver.controller;
+package cn.ultronxr.remote.reminder.httpserver.controller;
 
-import cn.ultronxr.reminder.bean.GlobalData;
+import cn.ultronxr.remote.reminder.bean.GlobalData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

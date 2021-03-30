@@ -1,4 +1,4 @@
-package cn.ultronxr.reminder.bean;
+package cn.ultronxr.remote.reminder.bean;
 
 /**
  * 标记是否需要提醒的标识{@code enum}

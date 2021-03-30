@@ -1,4 +1,4 @@
-package cn.ultronxr.reminder.bean;
+package cn.ultronxr.remote.reminder.bean;
 
 import lombok.Data;
 

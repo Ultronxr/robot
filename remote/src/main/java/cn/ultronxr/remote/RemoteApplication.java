@@ -1,13 +1,13 @@
-package cn.ultronxr.reminder;
+package cn.ultronxr.remote;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ReminderApplication {
+public class RemoteApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ReminderApplication.class, args);
+        SpringApplication.run(RemoteApplication.class, args);
     }
 
 }

@@ -1,9 +1,9 @@
-package cn.ultronxr.reminder.reminder;
+package cn.ultronxr.remote.reminder.reminder;
 
-import cn.ultronxr.reminder.bean.GlobalData;
-import cn.ultronxr.reminder.bean.RemindCode;
-import cn.ultronxr.reminder.crawler.WaterPowerNewsCrawler;
-import cn.ultronxr.reminder.util.SmsUtils;
+import cn.ultronxr.remote.reminder.bean.GlobalData;
+import cn.ultronxr.remote.reminder.bean.RemindCode;
+import cn.ultronxr.remote.reminder.crawler.WaterPowerNewsCrawler;
+import cn.ultronxr.remote.util.SmsUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import lombok.extern.slf4j.Slf4j;

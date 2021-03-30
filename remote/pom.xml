@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.ultronxr</groupId>
-    <artifactId>reminder</artifactId>
-    <version>1.0.1</version>
-    <name>reminder</name>
-    <description>Water cut-off and power cut reminder.</description>
+    <artifactId>remote</artifactId>
+    <version>1.1.0</version>
+    <name>remote</name>
+    <description>Code running on remote server.</description>
 
     <properties>
         <java.version>1.8</java.version>

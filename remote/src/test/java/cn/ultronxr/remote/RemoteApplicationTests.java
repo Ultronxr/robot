@@ -1,10 +1,10 @@
-package cn.ultronxr.reminder;
+package cn.ultronxr.remote;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ReminderApplicationTests {
+class RemoteApplicationTests {
 
     @Test
     void contextLoads() {

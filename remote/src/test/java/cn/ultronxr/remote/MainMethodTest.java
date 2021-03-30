@@ -1,4 +1,4 @@
-package cn.ultronxr.reminder;
+package cn.ultronxr.remote;
 
 import lombok.extern.slf4j.Slf4j;
 
