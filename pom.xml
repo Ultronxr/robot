@@ -11,7 +11,7 @@
     <modules>
         <module>common</module>
         <module>qqrobot</module>
-        <module>reminder</module>
+        <module>remote</module>
     </modules>
 
 
