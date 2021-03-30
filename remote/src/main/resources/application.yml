@@ -6,7 +6,7 @@ spring:
 spring:
   profiles: development
   application:
-    name: robot-reminder
+    name: robot-remote
 
 server:
   port: 88
