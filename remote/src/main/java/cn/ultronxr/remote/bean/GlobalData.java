@@ -1,4 +1,4 @@
-package cn.ultronxr.remote.reminder.bean;
+package cn.ultronxr.remote.bean;
 
 import lombok.Data;
 
@@ -16,6 +16,8 @@ public abstract class GlobalData {
         public static final ResourceBundle WATER_POWER_REMINDER = ResourceBundle.getBundle("waterAndPowerReminderConfig");
 
         public static final ResourceBundle TENCENT_CLOUD = ResourceBundle.getBundle("tencentCloudConfig");
+
+        public static final ResourceBundle ALI_CLOUD = ResourceBundle.getBundle("aliCloudConfig");
 
         /**
          * 获取.properties资源文件中的字符串数组

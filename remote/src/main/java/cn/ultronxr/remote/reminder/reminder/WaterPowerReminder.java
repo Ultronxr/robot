@@ -1,6 +1,6 @@
 package cn.ultronxr.remote.reminder.reminder;
 
-import cn.ultronxr.remote.reminder.bean.GlobalData;
+import cn.ultronxr.remote.bean.GlobalData;
 import cn.ultronxr.remote.reminder.bean.RemindCode;
 import cn.ultronxr.remote.reminder.crawler.WaterPowerNewsCrawler;
 import cn.ultronxr.remote.util.SmsUtils;

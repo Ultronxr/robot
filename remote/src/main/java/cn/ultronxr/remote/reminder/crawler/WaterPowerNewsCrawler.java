@@ -1,7 +1,7 @@
 package cn.ultronxr.remote.reminder.crawler;
 
 import cn.hutool.http.HttpRequest;
-import cn.ultronxr.remote.reminder.bean.GlobalData;
+import cn.ultronxr.remote.bean.GlobalData;
 import cn.ultronxr.remote.reminder.bean.RemindCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

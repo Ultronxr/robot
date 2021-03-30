@@ -1,6 +1,6 @@
 package cn.ultronxr.remote.util;
 
-import cn.ultronxr.remote.reminder.bean.GlobalData;
+import cn.ultronxr.remote.bean.GlobalData;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
