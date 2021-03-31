@@ -104,12 +104,12 @@ public class TechNewsServiceImpl implements TechNewsService {
                 if(1 == DateTimeUtils.checkTimeHourPeriod(calendarNow, hours)){
                     // 1.2.1.晚报发布前（判断早报期号，若未存在，则进行早报截图）
 
-                    if(actualNumber == latestNumber){
+                    String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX + latestNumber + ".png";
+                    if(actualNumber == latestNumber && new File(outputPathAndFilename).exists()){
                         log.info("[function] 企查查早报截图已存在，无需重复截图。");
                         return;
                     }
                     try {
-                        String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX + latestNumber + ".png";
                         if(PhantomjsUtils.screenCapture(QICHACHA_MORNING_NEWS_URL+latestNumber, outputPathAndFilename, 650, 6000, 1.3f, 5000)){
                             log.info("[function] 企查查早报网页截图完成。");
                             redisTemplate.opsForHash().put(KEY_QICHACHA_NEWS_MAP, "actualNumber", latestNumber);
@@ -122,12 +122,12 @@ public class TechNewsServiceImpl implements TechNewsService {
                 } else {
                     // 1.2.2.晚报发布后（判断晚报期号，若未存在，则进行晚报截图）
 
-                    if(actualNumber == latestNumber+1){
+                    String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX+(latestNumber+1) + ".png";
+                    if(actualNumber == latestNumber+1 && new File(outputPathAndFilename).exists()){
                         log.info("[function] 企查查晚报截图已存在，无需重复截图。");
                         return;
                     }
                     try {
-                        String outputPathAndFilename = QICHACHA_NEWS_PATH_PREFIX+(latestNumber+1) + ".png";
                         if(PhantomjsUtils.screenCapture(QICHACHA_EVENING_NEWS_URL+(latestNumber+1), outputPathAndFilename, 650, 6000, 1.3f, 5000)){
                             log.info("[function] 企查查晚报网页截图完成。");
                             redisTemplate.opsForHash().put(KEY_QICHACHA_NEWS_MAP, "actualNumber", latestNumber+1);
