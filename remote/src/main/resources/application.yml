@@ -7,6 +7,9 @@ spring:
   profiles: development
   application:
     name: robot-remote
+  redis:
+    redisson:
+      file: classpath:redission.yaml
 
 server:
   port: 88

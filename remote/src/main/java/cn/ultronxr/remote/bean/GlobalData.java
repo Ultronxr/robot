@@ -9,6 +9,9 @@ import java.util.ResourceBundle;
 @Data
 public abstract class GlobalData {
 
+    /** 操作系统名称 */
+    public static final String OS_NAME = System.getProperty("os.name");
+
     /** ResourceBundle封装 */
     @Data
     public static class ResBundle {

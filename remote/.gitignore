@@ -36,3 +36,4 @@ build/
 waterAndPowerReminderConfig.properties
 tencentCloudConfig.properties
 aliCloudConfig.properties
+redission.yaml

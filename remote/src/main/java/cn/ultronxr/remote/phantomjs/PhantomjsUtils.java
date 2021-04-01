@@ -1,6 +1,6 @@
-package cn.ultronxr.qqrobot.util;
+package cn.ultronxr.remote.phantomjs;
 
-import cn.ultronxr.qqrobot.bean.GlobalData;
+import cn.ultronxr.remote.bean.GlobalData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
  *   Windows - 把 phantomjs.exe 所在目录加入环境变量
  *   Linux   - 把 phantomjs 放入 /usr/local/bin 目录
  *
- * qqrobot/src/lib/phantomjs 目录有2.1.1版本源文件，请按需取用
+ * remote/src/lib/phantomjs 目录有2.1.1版本源文件，请按需取用
  */
 @Slf4j
 public class PhantomjsUtils {
