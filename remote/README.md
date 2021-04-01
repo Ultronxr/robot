@@ -31,4 +31,4 @@ http://ultronxr.xyz:88/reminder/power
 
 具体截图流程和逻辑请查看代码内注解。
 
-[cn.ultronxr.remote.phantomjs.technews.service.TechNewsService](.\src\main\java\cn\ultronxr\remote\phantomjs\technews\service\TechNewsService.java)
+[cn.ultronxr.remote.phantomjs.technews.service.TechNewsService](./src/main/java/cn/ultronxr/remote/phantomjs/technews/service/TechNewsService.java)
