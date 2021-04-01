@@ -2,11 +2,11 @@
 
 本模块用于存放远程服务器（阿里云ECS）上运行的功能代码。
 
-## reminder
+## 1. reminder
 
 包含各种消息的“提醒器”（reminder）
 
-### 1.停水/停电通知提醒器
+### 停水/停电通知提醒器
 
 定时从新闻网站上爬取停水、停电的通知（水务、电力网上完全找不到通知消息，只能从新闻网爬了），如果该消息包含了居住地区，则发起提醒。
 
@@ -21,6 +21,14 @@ http://ultronxr.xyz:88/reminder/water
 http://ultronxr.xyz:88/reminder/power
 ```
 
-## phantomjs
+## 2. phantomjs
 
-网页截图模块
+无界面渲染网页截图模块
+
+### 企查查日报定时截图
+
+定时对企查查早报和晚报进行截图，并把图片文件上传到OSS对象存储，用于qqrobot获取和发送。
+
+具体截图流程和逻辑请查看代码内注解。
+
+[cn.ultronxr.remote.phantomjs.technews.service.TechNewsService](.\src\main\java\cn\ultronxr\remote\phantomjs\technews\service\TechNewsService.java)

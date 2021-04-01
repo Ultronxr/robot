@@ -1,6 +1,7 @@
-package cn.ultronxr.remote.phantomjs.technews.service;
+package cn.ultronxr.remote.phantomjs.technews.service.serviceImpl;
 
 import cn.hutool.core.date.CalendarUtil;
+import cn.ultronxr.remote.phantomjs.technews.service.TechNewsService;
 import cn.ultronxr.remote.util.AliOSSUtils;
 import cn.ultronxr.remote.util.DateTimeUtils;
 import cn.ultronxr.remote.phantomjs.PhantomjsUtils;

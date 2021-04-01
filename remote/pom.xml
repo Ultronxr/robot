@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>remote</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <name>remote</name>
     <description>Code running on remote server.</description>
 

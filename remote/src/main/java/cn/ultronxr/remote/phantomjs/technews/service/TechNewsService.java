@@ -1,5 +1,6 @@
 package cn.ultronxr.remote.phantomjs.technews.service;
 
+import cn.ultronxr.remote.phantomjs.technews.service.serviceImpl.TechNewsServiceImpl;
 import cn.ultronxr.remote.util.DateTimeUtils;
 
 import java.util.Calendar;
@@ -11,7 +12,8 @@ import java.util.Calendar;
  * 以下为 企查查早报/晚报 逻辑：
  *
  *   企查查日报一天两更（周六周日不更），上午9点发布早报，下午5点发布晚报；
- *   定时对早报/晚报截图，并存放在 cache/qichacha_news/ 路径下，以 “期号.png” 格式命名（如“818.png”）；
+ *   定时对早报/晚报截图，存放在 cache/qichacha_news/ 路径下，以 “期号.png” 格式命名（如“818.png”）；
+ *   截图后把图片文件上传到OSS对象存储；
  *   如果重复获取当天的早报/晚报，就会把缓存中的图片直接发送；否则就先网页截图再发送；
  *
  *   在redis中以 qichacha_news_map 为键维护一个企查查日报信息Map，Map内容请查看：
