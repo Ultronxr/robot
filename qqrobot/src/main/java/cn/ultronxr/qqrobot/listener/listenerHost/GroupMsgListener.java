@@ -38,9 +38,6 @@ public class GroupMsgListener extends SimpleListenerHost {
     @Autowired
     private ScheduledTaskHandler scheduledTaskHandler;
 
-    @Autowired
-    private TechNewsHandler techNewsHandler;
-
 
     /**
      * 群聊消息事件监听器
@@ -90,12 +87,6 @@ public class GroupMsgListener extends SimpleListenerHost {
                 } else {
                     return scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
                 }
-            }
-            if(msgPlain.contains("查查早报")){
-                return techNewsHandler.groupQiChaChaNewsHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 1);
-            }
-            if(msgPlain.contains("查查晚报")){
-                return techNewsHandler.groupQiChaChaNewsHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
             }
         }
 
