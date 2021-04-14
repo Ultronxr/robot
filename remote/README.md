@@ -24,11 +24,3 @@ http://ultronxr.xyz:88/reminder/power
 ## 2. phantomjs
 
 无界面渲染网页截图模块
-
-### 企查查日报定时截图
-
-定时对企查查早报和晚报进行截图，并把图片文件上传到OSS对象存储，用于qqrobot获取和发送。
-
-具体截图流程和逻辑请查看代码内注解。
-
-[cn.ultronxr.remote.phantomjs.technews.service.TechNewsService](./src/main/java/cn/ultronxr/remote/phantomjs/technews/service/TechNewsService.java)
