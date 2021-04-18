@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 
 /**
- * 天气查询处理器Handler
+ * 消息事件 - 天气查询处理器Handler
  */
-public interface WeatherHandler {
+public interface MsgWeatherHandler {
 
     /**
      * 群聊中的天气查询处理器

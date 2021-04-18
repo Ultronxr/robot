@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 
 /**
- * ping命令处理器Handler
+ * 消息事件 - ping命令处理器Handler
  */
-public interface PingHandler {
+public interface MsgPingHandler {
 
     /**
      * 群聊中的ping命令处理器

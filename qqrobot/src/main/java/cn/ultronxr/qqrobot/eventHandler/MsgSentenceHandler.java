@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 
 /**
- * 语句处理器Handler
+ * 消息事件 - 语句处理器Handler
  */
-public interface SentenceHandler {
+public interface MsgSentenceHandler {
 
     /**
      * 群聊中的 舔狗语句 处理器

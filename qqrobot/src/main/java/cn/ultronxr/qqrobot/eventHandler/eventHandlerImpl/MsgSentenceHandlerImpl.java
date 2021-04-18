@@ -2,7 +2,7 @@ package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.hutool.http.HttpRequest;
 import cn.ultronxr.qqrobot.bean.GlobalData;
-import cn.ultronxr.qqrobot.eventHandler.SentenceHandler;
+import cn.ultronxr.qqrobot.eventHandler.MsgSentenceHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
+public class MsgSentenceHandlerImpl extends GlobalData implements MsgSentenceHandler {
 
     private static final String FLATTER_URL = "https://chp.shadiao.app/api.php";
 

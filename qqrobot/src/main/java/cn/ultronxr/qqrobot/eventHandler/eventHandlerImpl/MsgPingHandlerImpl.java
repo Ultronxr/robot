@@ -3,7 +3,7 @@ package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 import cn.hutool.core.lang.PatternPool;
 import cn.hutool.core.util.ReUtil;
 import cn.ultronxr.qqrobot.bean.GlobalData;
-import cn.ultronxr.qqrobot.eventHandler.PingHandler;
+import cn.ultronxr.qqrobot.eventHandler.MsgPingHandler;
 import cn.ultronxr.qqrobot.util.PingUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class PingHandlerImpl extends GlobalData implements PingHandler {
+public class MsgPingHandlerImpl extends GlobalData implements MsgPingHandler {
 
     @Override
     public void groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {

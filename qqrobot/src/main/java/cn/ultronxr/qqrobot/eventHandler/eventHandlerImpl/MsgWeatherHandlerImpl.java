@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.ultronxr.qqrobot.bean.GlobalData;
-import cn.ultronxr.qqrobot.eventHandler.WeatherHandler;
+import cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler;
 import cn.ultronxr.qqrobot.util.AliWeatherAPIUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class WeatherHandlerImpl extends GlobalData implements WeatherHandler {
+public class MsgWeatherHandlerImpl extends GlobalData implements MsgWeatherHandler {
 
     private final ObjectMapper jsonObjMapper = new ObjectMapper();
 

@@ -5,7 +5,7 @@ import net.mamoe.mirai.event.events.BotReloginEvent;
 
 
 /**
- * 有关机器人BOT层的事件处理器
+ * BOT事件 - 有关机器人BOT层的事件处理器
  */
 public interface BotEventHandler {
 

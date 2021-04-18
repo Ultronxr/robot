@@ -1,23 +1,20 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.ultronxr.qqrobot.bean.ScheduledTask;
-import cn.ultronxr.qqrobot.eventHandler.ScheduledTaskHandler;
+import cn.ultronxr.qqrobot.eventHandler.MsgScheduledTaskHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
-import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 
 @Component
 @Slf4j
-public class ScheduledTaskHandlerImpl implements ScheduledTaskHandler {
+public class MsgScheduledTaskHandlerImpl implements MsgScheduledTaskHandler {
 
     @Autowired
     private RedissonClient redissonClient;
