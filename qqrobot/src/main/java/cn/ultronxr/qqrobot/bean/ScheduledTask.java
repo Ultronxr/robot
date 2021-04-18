@@ -12,8 +12,8 @@ import java.util.Date;
  * 定时任务Bean
  *
  * 格式与详细解释说明请参阅：
- * {@link cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.ScheduledTaskHandlerImpl#SCHEDULED_TASK_FORMAT}
- * {@link cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.ScheduledTaskHandlerImpl#SCHEDULED_TASK_EXPLAIN}
+ * {@link cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgScheduledTaskHandlerImpl#SCHEDULED_TASK_FORMAT}
+ * {@link cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgScheduledTaskHandlerImpl#SCHEDULED_TASK_EXPLAIN}
  */
 @Data
 @NoArgsConstructor

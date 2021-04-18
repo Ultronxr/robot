@@ -10,29 +10,30 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * 有关群组消息事件监听器
+ * 消息事件 - 群聊消息事件监听器
+ * 对群聊消息中的特殊关键词进行筛选和预处理，调用对应的消息事件处理器 MsgXxxHandler
  */
 @Component
 @Slf4j
-public class GroupMsgListener {
+public class MsgGroupListener {
 
     @Autowired
-    private PicHandler picHandler;
+    private MsgPicHandler msgPicHandler;
 
     @Autowired
-    private PingHandler pingHandler;
+    private MsgPingHandler msgPingHandler;
 
     @Autowired
-    private RobotMenuHandler robotMenuHandler;
+    private MsgRobotMenuHandler msgRobotMenuHandler;
 
     @Autowired
-    private SentenceHandler sentenceHandler;
+    private MsgSentenceHandler msgSentenceHandler;
 
     @Autowired
-    private WeatherHandler weatherHandler;
+    private MsgWeatherHandler msgWeatherHandler;
 
     @Autowired
-    private ScheduledTaskHandler scheduledTaskHandler;
+    private MsgScheduledTaskHandler msgScheduledTaskHandler;
 
 
     /**
@@ -54,33 +55,33 @@ public class GroupMsgListener {
 
             if(msgPlain.contains("功能") || msgPlain.contains("菜单")){
                 log.info("[function] 查询机器人功能菜单。");
-                robotMenuHandler.groupRobotMenuHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                msgRobotMenuHandler.groupRobotMenuHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("天气")){
-                weatherHandler.groupWeatherHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                msgWeatherHandler.groupWeatherHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("ping")){
-                pingHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                msgPingHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("图片")){
-                picHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                msgPicHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("舔狗") || msgPlain.contains("彩虹屁")){
-                sentenceHandler.groupSentenceFlatterHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                msgSentenceHandler.groupSentenceFlatterHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("脏话") || msgPlain.contains("口吐芬芳") || msgPlain.contains("芬芳")){
-                sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 1);
+                msgSentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 1);
             }
             if(msgPlain.contains("火力全开")){
-                sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
+                msgSentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
             }
             if(msgPlain.contains("定时")){
                 if(msgPlain.contains("定时格式")){
-                    scheduledTaskHandler.scheduledTaskFormat(groupMsgEvent);
+                    msgScheduledTaskHandler.scheduledTaskFormat(groupMsgEvent);
                 } else if(msgPlain.contains("定时说明")){
-                    scheduledTaskHandler.scheduledTaskExplain(groupMsgEvent);
+                    msgScheduledTaskHandler.scheduledTaskExplain(groupMsgEvent);
                 } else {
-                    scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                    msgScheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
                 }
             }
         }

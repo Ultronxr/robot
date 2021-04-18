@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 
 /**
- * 机器人功能菜单查询处理器Handler
+ * 消息事件 - 机器人功能菜单查询处理器Handler
  */
-public interface RobotMenuHandler {
+public interface MsgRobotMenuHandler {
 
     /**
      * 群聊中的 文字功能菜单查询 处理器

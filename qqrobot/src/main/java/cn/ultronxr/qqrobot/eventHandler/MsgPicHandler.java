@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 
 /**
- * 图片处理器Handler
+ * 消息事件 - 图片处理器Handler
  */
-public interface PicHandler {
+public interface MsgPicHandler {
 
     /**
      * 群聊中的图片处理器

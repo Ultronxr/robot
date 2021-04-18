@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
 
 /**
- * 定时任务处理器
+ * 消息事件 - 定时任务处理器
  */
-public interface ScheduledTaskHandler {
+public interface MsgScheduledTaskHandler {
 
     /**
      * 发送 定时格式

@@ -26,30 +26,17 @@ public class AliOSSUtils extends GlobalData {
     public static final String BUCKET_NAME = GlobalData.ResBundle.ALI_CLOUD.getString("ali.oss.bucketName");
 
     /** OSS的存取对象路径（不能携带 Bucket名称 和 位于首位的"/"斜杠字符） */
-    public static final String FOLDER_KEY = GlobalData.ResBundle.ALI_CLOUD.getString("ali.oss.folderKey");
+    //public static final String FOLDER_KEY = GlobalData.ResBundle.ALI_CLOUD.getString("ali.oss.folderKey");
 
 
     /**
-     * 向阿里云OSS中存放文件对象
-     * {@link #putFileObject(String, String, String)} 方法的重载，使用默认 {@link #FOLDER_KEY}
-     *
-     * @param sourceFile   本地的原文件路径和文件名
-     * @param ossFileKey   存入的OSS对象文件名
-     *
-     * @return {@code Boolean} 文件对象的存放结果：true-成功，false-失败
-     */
-    public static Boolean putFileObject(String sourceFile, String ossFileKey){
-        return putFileObject(sourceFile, null, ossFileKey);
-    }
-
-    /**
-     * 向阿里云OSS中存放文件对象
+     * 向阿里云OSS中存放文件对象，会直接覆盖OSS中的同路径同名文件
      *
      * sourceFile              = 本地待存入的原文件
      * ossFolderKey+ossFileKey = 存入的OSS对象文件
      *
      * @param sourceFile   本地的原文件路径和文件名
-     * @param ossFolderKey 存入的OSS对象路径，如果这个参数留空则会套用默认 {@link #FOLDER_KEY}
+     * @param ossFolderKey 存入的OSS对象路径
      * @param ossFileKey   存入的OSS对象文件名
      *
      * @return {@code Boolean} 文件对象的存放结果：true-成功，false-失败
@@ -58,11 +45,7 @@ public class AliOSSUtils extends GlobalData {
         OSS ossClient = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
 
         try {
-            PutObjectRequest putObjectRequest = new PutObjectRequest(
-                    BUCKET_NAME,
-                    (null == ossFolderKey ? FOLDER_KEY : ossFolderKey) + ossFileKey,
-                    new File(sourceFile)
-            );
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME, ossFolderKey + ossFileKey, new File(sourceFile));
 
             // 设置权限
             ObjectMetadata metadata = new ObjectMetadata();
@@ -85,37 +68,27 @@ public class AliOSSUtils extends GlobalData {
 
     /**
      * 从阿里云OSS获取文件对象
-     * {@link #getFileObject(String, String, String)} 方法的重载，使用默认 {@link #FOLDER_KEY}
-     *
-     * @param ossFileKey   待获取的OSS对象文件名
-     * @param targetFile   获取到本地的文件路径和文件名
-     *
-     * @return {@code Boolean} 文件对象的获取结果：true-成功，false-失败
-     */
-    public static Boolean getFileObject(String ossFileKey, String targetFile){
-        return getFileObject(null, ossFileKey, targetFile);
-    }
-
-    /**
-     * 从阿里云OSS获取文件对象
      *
      * ossFolderKey+ossFileKey = 待获取的OSS对象文件
      * targetFile              = 获取到本地的文件
      *
-     * @param ossFolderKey 待获取的OSS对象路径，如果这个参数留空则会套用默认 {@link #FOLDER_KEY}
-     * @param ossFileKey   待获取的OSS对象文件名
-     * @param targetFile   获取到本地的文件路径和文件名
+     * @param ossFolderKey   待获取的OSS对象路径
+     * @param ossFileKey     待获取的OSS对象文件名
+     * @param targetFile     获取到本地的文件路径和文件名
+     * @param fileExistCheck 是否检查本地文件是否已经存在，如果不检查会直接覆盖原文件
+     *                       true-检查，false-不检查
      *
      * @return {@code Boolean} 文件对象的获取结果：true-成功，false-失败
      */
-    public static Boolean getFileObject(String ossFolderKey, String ossFileKey, String targetFile) {
+    public static Boolean getFileObject(String ossFolderKey, String ossFileKey, String targetFile, Boolean fileExistCheck) {
+        if(fileExistCheck && new File(targetFile).exists()){
+            log.info("[function] 待获取的文件在本地已存在，无需重复从OSS获取。");
+            return true;
+        }
         OSS ossClient = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
         try {
             ossClient.getObject(
-                    new GetObjectRequest(
-                            BUCKET_NAME,
-                            (null == ossFolderKey ? FOLDER_KEY : ossFolderKey) + ossFileKey
-                    ),
+                    new GetObjectRequest(BUCKET_NAME, ossFolderKey + ossFileKey),
                     new File(targetFile)
             );
             ossClient.shutdown();
