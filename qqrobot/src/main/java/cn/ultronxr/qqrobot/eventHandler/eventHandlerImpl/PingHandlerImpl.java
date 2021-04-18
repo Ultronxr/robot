@@ -6,7 +6,6 @@ import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.PingHandler;
 import cn.ultronxr.qqrobot.util.PingUtils;
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ import java.util.List;
 public class PingHandlerImpl extends GlobalData implements PingHandler {
 
     @Override
-    public ListeningStatus groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+    public void groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         List<String> fixedAddrList = fixAddrMsg(msgPlain);
         String pingRes = "";
 
@@ -43,8 +42,6 @@ public class PingHandlerImpl extends GlobalData implements PingHandler {
             groupMsgEvent.getSubject().sendMessage(fixedAddrList.get(1));
             log.info("[message-send] " + fixedAddrList.get(1));
         }
-
-        return ListeningStatus.LISTENING;
     }
 
     /**

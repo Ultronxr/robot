@@ -1,12 +1,8 @@
-package cn.ultronxr.qqrobot.listener.listenerHost;
+package cn.ultronxr.qqrobot.listener;
 
 import cn.ultronxr.qqrobot.eventHandler.*;
 import cn.ultronxr.qqrobot.util.MiraiUtils;
-import kotlin.coroutines.CoroutineContext;
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.EventHandler;
-import net.mamoe.mirai.event.ListeningStatus;
-import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class GroupMsgListener extends SimpleListenerHost {
+public class GroupMsgListener {
 
     @Autowired
     private PicHandler picHandler;
@@ -43,8 +39,7 @@ public class GroupMsgListener extends SimpleListenerHost {
      * 群聊消息事件监听器
      * 筛选对机器人的动作（@等）、各种关键词，从而调用不同的事件处理器，执行不同的回复
      */
-    @EventHandler
-    public ListeningStatus onGroupMessage(@NotNull GroupMessageEvent groupMsgEvent) throws Exception {
+    public void onGroupMessage(@NotNull GroupMessageEvent groupMsgEvent) {
         String msgCode = MiraiUtils.getMsgCode(groupMsgEvent),
                 msgContent = MiraiUtils.getMsgContent(groupMsgEvent),
                 msgPlain = MiraiUtils.getMsgPlain(groupMsgEvent);
@@ -59,47 +54,35 @@ public class GroupMsgListener extends SimpleListenerHost {
 
             if(msgPlain.contains("功能") || msgPlain.contains("菜单")){
                 log.info("[function] 查询机器人功能菜单。");
-                return robotMenuHandler.groupRobotMenuHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                robotMenuHandler.groupRobotMenuHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("天气")){
-                return weatherHandler.groupWeatherHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                weatherHandler.groupWeatherHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("ping")){
-                return pingHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                pingHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("图片")){
-                return picHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                picHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("舔狗") || msgPlain.contains("彩虹屁")){
-                return sentenceHandler.groupSentenceFlatterHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                sentenceHandler.groupSentenceFlatterHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("脏话") || msgPlain.contains("口吐芬芳") || msgPlain.contains("芬芳")){
-                return sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 1);
+                sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 1);
             }
             if(msgPlain.contains("火力全开")){
-                return sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
+                sentenceHandler.groupSentenceAbuseHandler(groupMsgEvent, msgCode, msgContent, msgPlain, 2);
             }
             if(msgPlain.contains("定时")){
                 if(msgPlain.contains("定时格式")){
-                    return scheduledTaskHandler.scheduledTaskFormat(groupMsgEvent);
+                    scheduledTaskHandler.scheduledTaskFormat(groupMsgEvent);
                 } else if(msgPlain.contains("定时说明")){
-                    return scheduledTaskHandler.scheduledTaskExplain(groupMsgEvent);
+                    scheduledTaskHandler.scheduledTaskExplain(groupMsgEvent);
                 } else {
-                    return scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+                    scheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
                 }
             }
         }
-
-        return ListeningStatus.LISTENING;
-    }
-
-
-    /**
-     * 异常处理
-     * 上面的所有EventHandler中抛出的Exception都在这里接收并处理
-     */
-    @Override
-    public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        super.handleException(context, exception);
     }
 }

@@ -1,12 +1,13 @@
 package cn.ultronxr.qqrobot.listener;
 
 import cn.ultronxr.qqrobot.bean.BotEntity;
-import cn.ultronxr.qqrobot.listener.listenerHost.BotEventListener;
-import cn.ultronxr.qqrobot.listener.listenerHost.GroupMsgListener;
-import cn.ultronxr.qqrobot.listener.listenerHost.PersonMsgListener;
+import cn.ultronxr.qqrobot.eventHandler.BotEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.EventChannel;
 import net.mamoe.mirai.event.events.BotEvent;
+import net.mamoe.mirai.event.events.BotOfflineEvent;
+import net.mamoe.mirai.event.events.BotReloginEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,18 +15,21 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * 这里是事件监听器（listenerHost）的总列表，所有事件监听器都在这里注册
+ * 这里是事件通道（EventChannel）的总列表，所有事件都在这里注册
  *
- * 在Application启动时同时运行{@code run(ApplicationArguments args)}方法，
- * 在run()方法中为机器人构建事件监听通道。
- * {@link "https://github.com/mamoe/mirai/blob/dev/docs/Events.md#%E7%9B%91%E5%90%AC%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"}
+ * 实现自 {@code ApplicationRunner} 的 {@code run(ApplicationArguments args)} 方法会同 {@code QqrobotApplication} 一起启动
+ *
+ * EventChannel.subscribe：监听事件并自行觉得何时停止
+ * EventChannel.subscribeAlways：一直监听事件
+ * EventChannel.subscribeOnce：只监听一次事件
+ * {@link "https://github.com/mamoe/mirai/blob/dev/docs/Events.md#%E5%9C%A8-eventchannel-%E7%9B%91%E5%90%AC%E4%BA%8B%E4%BB%B6"}
  */
 @Component
 @Slf4j
 public class AllListenerRegister implements ApplicationRunner {
 
     @Autowired
-    private BotEventListener botEventListener;
+    private BotEventHandler botEventHandler;
 
     @Autowired
     private GroupMsgListener groupMsgListener;
@@ -36,14 +40,20 @@ public class AllListenerRegister implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-
         EventChannel<BotEvent> eventChannel = BotEntity.BOT_ENTITY.getEventChannel();
-        eventChannel.registerListenerHost(botEventListener);
-        eventChannel.registerListenerHost(groupMsgListener);
-        //eventChannel.registerListenerHost(personMsgListener);
 
+        // BOT事件较少，事件通道直接调用Handler
+        eventChannel.subscribeAlways(BotOfflineEvent.class, botOfflineEvent -> {
+            botEventHandler.botOfflineHandler(botOfflineEvent);
+        });
+        eventChannel.subscribeAlways(BotReloginEvent.class, botReloginEvent -> {
+            botEventHandler.botReloginHandler(botReloginEvent);
+        });
 
-        //后续转向这种新版监听通道，目前先采用上面的方法
-        //eventChannel.subscribeAlways(GroupMessageEvent.class, groupMsgEvent -> {});
+        // GroupMessage事件较多，事件通道使用GroupMsgListener进行预处理
+        eventChannel.subscribeAlways(GroupMessageEvent.class, groupMsgEvent -> {
+            groupMsgListener.onGroupMessage(groupMsgEvent);
+        });
+
     }
 }

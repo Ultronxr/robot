@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ public class WeatherHandlerImpl extends GlobalData implements WeatherHandler {
 
 
     @Override
-    public ListeningStatus groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+    public void groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         String area = msgPlain.replace("天气", "").trim();
         area = "".equals(area) ? "杭州" : area;
 
@@ -32,7 +31,7 @@ public class WeatherHandlerImpl extends GlobalData implements WeatherHandler {
             ex.printStackTrace();
             log.warn("[function] 天气Handler处理异常！");
             groupMsgEvent.getSubject().sendMessage("天气Handler处理异常！");
-            return ListeningStatus.LISTENING;
+            return;
         }
 
         String resStr = null;
@@ -45,8 +44,6 @@ public class WeatherHandlerImpl extends GlobalData implements WeatherHandler {
         }
         groupMsgEvent.getSubject().sendMessage(resStr);
         log.info("[message-send] " + resStr);
-
-        return ListeningStatus.LISTENING;
     }
 
     /**

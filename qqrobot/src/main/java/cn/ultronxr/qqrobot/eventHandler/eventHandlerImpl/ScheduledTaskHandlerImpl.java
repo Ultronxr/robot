@@ -3,7 +3,6 @@ package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 import cn.ultronxr.qqrobot.bean.ScheduledTask;
 import cn.ultronxr.qqrobot.eventHandler.ScheduledTaskHandler;
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.redisson.api.RLock;
@@ -58,21 +57,19 @@ public class ScheduledTaskHandlerImpl implements ScheduledTaskHandler {
 
 
     @Override
-    public ListeningStatus scheduledTaskFormat(MessageEvent msgEvent) {
+    public void scheduledTaskFormat(MessageEvent msgEvent) {
         msgEvent.getSubject().sendMessage(SCHEDULED_TASK_FORMAT);
         log.info("[message-send] ●定时格式");
-        return ListeningStatus.LISTENING;
     }
 
     @Override
-    public ListeningStatus scheduledTaskExplain(MessageEvent msgEvent) {
+    public void scheduledTaskExplain(MessageEvent msgEvent) {
         msgEvent.getSubject().sendMessage(SCHEDULED_TASK_EXPLAIN);
         log.info("[message-send] ●定时说明");
-        return ListeningStatus.LISTENING;
     }
 
     @Override
-    public ListeningStatus groupScheduledTaskHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+    public void groupScheduledTaskHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         //msgPlain = msgPlain.replaceAll("定时", "").trim();
         //String ops = msgPlain.split(" ")[0],
         //        key = msgPlain.split(" ")[1];
@@ -94,9 +91,6 @@ public class ScheduledTaskHandlerImpl implements ScheduledTaskHandler {
         //str = (null == str ? " " : str);
         //groupMsgEvent.getSubject().sendMessage(str);
         //log.info("[message-send] " + str);
-
-
-        return ListeningStatus.LISTENING;
     }
 
     /**

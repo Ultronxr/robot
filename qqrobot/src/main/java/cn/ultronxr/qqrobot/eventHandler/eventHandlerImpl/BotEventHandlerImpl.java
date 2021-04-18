@@ -2,7 +2,6 @@ package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.ultronxr.qqrobot.eventHandler.BotEventHandler;
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.BotOfflineEvent;
 import net.mamoe.mirai.event.events.BotReloginEvent;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class BotEventHandlerImpl implements BotEventHandler {
 
     @Override
-    public ListeningStatus botOfflineHandler(BotOfflineEvent botOfflineEvent) {
+    public void botOfflineHandler(BotOfflineEvent botOfflineEvent) {
         String reason = "其他未分类或测试原因";
 
         if(botOfflineEvent instanceof BotOfflineEvent.Active){
@@ -27,14 +26,10 @@ public class BotEventHandlerImpl implements BotEventHandler {
         }
 
         log.warn("[system] qqrobot机器人离线事件，原因：" + reason);
-
-        return ListeningStatus.LISTENING;
     }
 
     @Override
-    public ListeningStatus botReloginHandler(BotReloginEvent botReloginEvent) {
+    public void botReloginHandler(BotReloginEvent botReloginEvent) {
         log.info("[system] qqrobot机器人（重新）登录事件");
-
-        return ListeningStatus.LISTENING;
     }
 }

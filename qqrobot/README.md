@@ -1,12 +1,12 @@
 # QQ Robot
 
-当前QQRobot版本：2.5.0
+当前QQRobot版本：2.6.1
 
-依赖mirai版本：2.5.2
+依赖mirai版本：2.6.1
 
 ## 1. 框架
 
-使用开源框架 [mirai](https://github.com/mamoe/mirai) ，其开发文档见 [mirai开发文档](https://github.com/mamoe/mirai/blob/dev/docs/README.md) 。
+使用开源框架 [mirai](https://github.com/mamoe/mirai) ，其开发文档见 [mirai开发文档](https://github.com/mamoe/mirai/blob/dev/docs/README.md) ，其Java API文档见 [Mirai - Core API](https://github.com/mamoe/mirai/blob/dev/docs/CoreAPI.md) 。
 
 这里是对mirai的功能应用。
 

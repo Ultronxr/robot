@@ -4,9 +4,9 @@ import cn.hutool.http.HttpRequest;
 import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.SentenceHandler;
 import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
+
 
 @Component
 @Slf4j
@@ -22,18 +22,17 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
 
 
     @Override
-    public ListeningStatus groupSentenceFlatterHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+    public void groupSentenceFlatterHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
         String sentenceRes = HttpRequest.get(FLATTER_URL)
                 .header("User-Agent", USER_AGENT)
                 .execute()
                 .body();
         groupMsgEvent.getSubject().sendMessage(sentenceRes);
         log.info("[message-send] " + sentenceRes);
-        return ListeningStatus.LISTENING;
     }
 
     @Override
-    public ListeningStatus groupSentenceAbuseHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain, Integer type) {
+    public void groupSentenceAbuseHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain, Integer type) {
         String sentenceRes = HttpRequest.get(type == 2 ? ABUSE_URL_2 : ABUSE_URL_1)
                 .header("User-Agent", USER_AGENT)
                 .header("Referer", ABUSE_REFERER)
@@ -41,7 +40,6 @@ public class SentenceHandlerImpl extends GlobalData implements SentenceHandler{
                 .body();
         groupMsgEvent.getSubject().sendMessage(sentenceRes);
         log.info("[message-send] " + sentenceRes);
-        return ListeningStatus.LISTENING;
     }
 
 }
