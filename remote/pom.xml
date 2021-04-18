@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>remote</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <name>remote</name>
     <description>Code running on remote server.</description>
 
@@ -23,7 +23,7 @@
         <hutool.version>5.5.2</hutool.version>
         <tencentcloud-sdk-java.version>3.1.192</tencentcloud-sdk-java.version>
         <aliyun-sdk-oss.version>3.11.0</aliyun-sdk-oss.version>
-        <redisson.version>3.15.1</redisson.version>
+        <!--<redisson.version>3.15.1</redisson.version>-->
     </properties>
 
     <dependencies>
@@ -131,17 +131,17 @@
         </dependency>
 
         <!-- redis -->
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>${redisson.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        <!--<dependency>-->
+        <!--    <groupId>org.redisson</groupId>-->
+        <!--    <artifactId>redisson-spring-boot-starter</artifactId>-->
+        <!--    <version>${redisson.version}</version>-->
+        <!--    <exclusions>-->
+        <!--        <exclusion>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-web</artifactId>-->
+        <!--        </exclusion>-->
+        <!--    </exclusions>-->
+        <!--</dependency>-->
 
 
     </dependencies>
