@@ -1,6 +1,7 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
 import net.mamoe.mirai.event.events.MemberJoinEvent;
+import net.mamoe.mirai.event.events.MemberLeaveEvent;
 
 
 /**
@@ -11,17 +12,31 @@ import net.mamoe.mirai.event.events.MemberJoinEvent;
 public interface GroupInfoHandler {
 
     /**
+     * 新成员被邀请入群事件处理器
+     *
+     * @param memberJoinInviteEvent 新成员被邀请入群事件
+     */
+    void memberJoinInvite(MemberJoinEvent.Invite memberJoinInviteEvent);
+
+    /**
      * 新成员主动入群事件处理器
      *
-     * @param memberJoinActiveEvent 新成员入群事件
+     * @param memberJoinActiveEvent 新成员主动入群事件
      */
     void memberJoinActive(MemberJoinEvent.Active memberJoinActiveEvent);
 
     /**
-     * 新成员被邀请入群事件处理器
+     * 群成员被踢退群事件处理器
      *
-     * @param memberJoinInviteEvent 新成员入群事件
+     * @param memberLeaveKickEvent 群成员被踢退群事件
      */
-    void memberJoinInvite(MemberJoinEvent.Invite memberJoinInviteEvent);
+    void memberLeaveKick(MemberLeaveEvent.Kick memberLeaveKickEvent);
+
+    /**
+     * 群成员主动退群事件处理器
+     *
+     * @param memberLeaveQuitEvent 群成员主动退群事件
+     */
+    void memberLeaveQuit(MemberLeaveEvent.Quit memberLeaveQuitEvent);
 
 }

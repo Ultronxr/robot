@@ -62,6 +62,9 @@ public class AllListenerRegister implements ApplicationRunner {
         eventChannel.subscribeAlways(MemberJoinEvent.class, memberJoinEvent -> {
             groupInfoListener.onMemberJoin(memberJoinEvent);
         });
+        eventChannel.subscribeAlways(MemberLeaveEvent.class, memberLeaveEvent -> {
+            groupInfoListener.onMemberLeave(memberLeaveEvent);
+        });
 
         // 消息事件
         eventChannel.subscribeAlways(GroupMessageEvent.class, groupMsgEvent -> {

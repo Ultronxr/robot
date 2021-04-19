@@ -5,6 +5,7 @@ import cn.ultronxr.qqrobot.util.AliOSSUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.event.events.MemberJoinEvent;
+import net.mamoe.mirai.event.events.MemberLeaveEvent;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -19,11 +20,14 @@ import java.io.File;
 @Slf4j
 public class GroupInfoHandlerImpl implements GroupInfoHandler {
 
+    /** 新成员入群提醒图片路径 **/
     private static final String GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH = "cache" + File.separator + "groupNewMemberJoin.jpg";
 
+    /** 新成员入群提醒图片文件 **/
     private static File GROUP_NEW_MEMBER_JOIN_JPG_FILE;
 
     static {
+        // 如果本地文件不存在，就从OSS获取文件
         if(!AliOSSUtils.getFileObject(
                 "workspace/java/robot/qqrobot/GroupInfo/",
                 "groupNewMemberJoin.jpg",
@@ -38,21 +42,21 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
 
 
     @Override
+    public void memberJoinInvite(MemberJoinEvent.Invite memberJoinInviteEvent) {
+        Member member = memberJoinInviteEvent.getMember(),
+                invitor = memberJoinInviteEvent.getInvitor();
+        log.info("[function] 新成员受邀请入群事件。新成员信息：QQ {} ，昵称 {} ；邀请人信息：QQ {} ，昵称 {}",
+                member.getId(), member.getNick(), invitor.getId(), invitor.getNick());
+
+        defaultMemberJoinAction(memberJoinInviteEvent, member.getId());
+    }
+
+    @Override
     public void memberJoinActive(MemberJoinEvent.Active memberJoinActiveEvent) {
         Member member = memberJoinActiveEvent.getMember();
         log.info("[function] 新成员主动入群事件。新成员信息：QQ {} ，昵称 {}", member.getId(), member.getNick());
 
         defaultMemberJoinAction(memberJoinActiveEvent, member.getId());
-    }
-
-    @Override
-    public void memberJoinInvite(MemberJoinEvent.Invite memberJoinInviteEvent) {
-        Member member = memberJoinInviteEvent.getMember(),
-               invitor = memberJoinInviteEvent.getInvitor();
-        log.info("[function] 新成员受邀请入群事件。新成员信息：QQ {} ，昵称 {} ；邀请人信息：QQ {} ，昵称 {}",
-                member.getId(), member.getNick(), invitor.getId(), invitor.getNick());
-
-        defaultMemberJoinAction(memberJoinInviteEvent, member.getId());
     }
 
     /**
@@ -77,6 +81,30 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
 
         memberJoinEvent.getGroup().sendMessage(msgChain);
         log.info("[message-send] {}", msgChain.contentToString());
+    }
+
+    @Override
+    public void memberLeaveKick(MemberLeaveEvent.Kick memberLeaveKickEvent) {
+        Member member = memberLeaveKickEvent.getMember(),
+                operator = memberLeaveKickEvent.getOperator();
+        String leaveInfo = "退群成员信息：QQ " + member.getId() + " ，昵称 " + member.getNick() + " ；操作人信息：QQ "
+                + operator.getId() + " ，昵称 " + operator.getNick();
+        String msg = "群成员被踢：" + leaveInfo;
+        log.info("[function] 群成员被踢退群事件。" + leaveInfo);
+
+        memberLeaveKickEvent.getGroup().sendMessage(msg);
+        log.info("[message-send] {}", msg);
+    }
+
+    @Override
+    public void memberLeaveQuit(MemberLeaveEvent.Quit memberLeaveQuitEvent) {
+        Member member = memberLeaveQuitEvent.getMember();
+        String leaveInfo = "退群成员信息：QQ " + member.getId() + " ，昵称 " + member.getNick();
+        String msg = "群成员主动退群：" + leaveInfo;
+        log.info("[function] 群成员主动退群事件。" + leaveInfo);
+
+        memberLeaveQuitEvent.getGroup().sendMessage(msg);
+        log.info("[message-send] {}", msg);
     }
 
 }
