@@ -15,7 +15,7 @@
     <description>Common functions and utils.</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <jackson.version>2.11.3</jackson.version>
         <apache.commons-lang3.version>3.9</apache.commons-lang3.version>
         <devtools.version>2.3.5.RELEASE</devtools.version>
@@ -105,6 +105,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>

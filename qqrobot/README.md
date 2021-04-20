@@ -13,7 +13,7 @@
 ## 2. 项目主要目录结构
 
 ```text
-|--qqrobot                                     项目根目录
+\--qqrobot                                     项目根目录
    \--src
       |--main                                  主项目文件包
       |  |--java
