@@ -1,5 +1,6 @@
 package cn.ultronxr.qqrobot.util;
 
+import cn.hutool.core.util.ReUtil;
 import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.bean.MiraiCodes;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,13 @@ import org.jetbrains.annotations.NotNull;
  */
 @Slf4j
 public class MiraiUtils extends GlobalData {
+
+    /**
+     * Mirai会在消息内容中转义的符号             ,  :  [  ]
+     * 上面的符号会在msgCode和msgPlain中显示为  \, \: \[ \]
+     * 所以需要把它们去掉反斜杠，转义回来
+     */
+    public static final String MIRAI_PUNCTUATION = "\\\\[,:\\[\\]]";
 
     /*
      * 以下自定义了三种Mirai消息类别：
@@ -52,14 +60,17 @@ public class MiraiUtils extends GlobalData {
 
     /**
      * 获取纯消息主体内容
-     * （最干净的消息类型，不含其它任何内容），由CodesMsg去掉Mirai码得到
+     * （最干净的消息类型，不含其它任何内容），由CodesMsg去掉Mirai码得到，并去转义
+     * @see #MIRAI_PUNCTUATION
      *
      * @param msgEvent        消息事件
      * @return {@code String} 纯消息主体内容
      */
     public static String getMsgPlain(@NotNull MessageEvent msgEvent){
-        //使用正则匹配形如[mirai:TYPE:PROP]的Mirai码，并删去
-        return getMsgCode(msgEvent).replaceAll("^(\\[mirai:.*])", "").trim();
+        // 使用正则匹配形如[mirai:TYPE:PROP]的Mirai码，并删去，.*后面加?变成惰性匹配，否则会把消息正文里的]全部删掉
+        String msgPlain = getMsgCode(msgEvent).replaceAll("(\\[mirai:.*?])", "").strip();
+        // 去转义
+        return escapeMiraiPunctuation(msgPlain);
     }
 
     /**
@@ -74,6 +85,17 @@ public class MiraiUtils extends GlobalData {
         return msgEvent.getMessage().toString();
     }
 
+    /**
+     * 把msgPlain中的Mirai转义符号 去转义
+     * @see #MIRAI_PUNCTUATION
+     *
+     * @param msg 去转义之前的消息内容
+     * @return {@code String} 去转义之后的消息
+     */
+    public static String escapeMiraiPunctuation(String msg){
+        return ReUtil.replaceAll(msg, MIRAI_PUNCTUATION,
+                matcher -> matcher.group().replaceFirst("\\\\", ""));
+    }
 
 
     /**

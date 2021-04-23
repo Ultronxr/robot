@@ -17,13 +17,15 @@ public class MsgRobotMenuHandlerImpl extends GlobalData implements MsgRobotMenuH
 
     @Override
     public void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+        log.info("[function] 查询机器人功能菜单。");
+
         StringBuilder resMsg = new StringBuilder();
         BotEntity.MENU_TEXT.forEach((index, strings) -> {
             resMsg.append(index).append(". ").append(Arrays.toString(strings)).append("\n");
         });
 
         groupMsgEvent.getSubject().sendMessage(resMsg.toString());
-        log.info("[message-send] " + resMsg.toString());
+        log.info("[message-send] {}", resMsg.toString());
     }
 
 }

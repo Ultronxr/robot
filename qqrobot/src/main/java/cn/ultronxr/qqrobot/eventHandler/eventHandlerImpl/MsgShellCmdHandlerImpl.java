@@ -3,8 +3,8 @@ package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 import cn.hutool.core.lang.PatternPool;
 import cn.hutool.core.util.ReUtil;
 import cn.ultronxr.qqrobot.bean.GlobalData;
-import cn.ultronxr.qqrobot.eventHandler.MsgPingHandler;
-import cn.ultronxr.qqrobot.util.PingUtils;
+import cn.ultronxr.qqrobot.eventHandler.MsgShellCmdHandler;
+import cn.ultronxr.qqrobot.util.ShellCmdUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,14 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class MsgPingHandlerImpl extends GlobalData implements MsgPingHandler {
+public class MsgShellCmdHandlerImpl extends GlobalData implements MsgShellCmdHandler {
+
+    /** Linux shell 允许运行的命令 */
+    public static final String[] LINUX_SHELL = {"cat", "tail", "who", "ps", "ping"};
+
+    /** Windows cmd 允许运行的命令 */
+    public static final String[] WINDOWS_CMD = {"ping"};
+
 
     @Override
     public void groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
@@ -28,7 +35,7 @@ public class MsgPingHandlerImpl extends GlobalData implements MsgPingHandler {
 
         if("1".equals(fixedAddrList.get(0))){
             try {
-                pingRes = PingUtils.pingByRuntime(fixedAddrList.get(1));
+                pingRes = ShellCmdUtils.pingByRuntime(fixedAddrList.get(1));
                 log.info("[function] ping命令执行结果：" + pingRes);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -86,6 +93,67 @@ public class MsgPingHandlerImpl extends GlobalData implements MsgPingHandler {
         }
 
         return resList;
+    }
+
+    @Override
+    public void groupShellCmdHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain){
+        String shellCmd = fixShellCmd(msgPlain);
+        log.info("[function] 待运行的命令：{}", shellCmd);
+
+        String resMsg = "";
+        if(shellCmd.isBlank()){
+            resMsg = "不允许运行的命令。";
+            groupMsgEvent.getSubject().sendMessage(resMsg);
+            log.info("[message-send] {}", resMsg);
+            return;
+        }
+
+        // 把ping命令转到上面专门处理ping命令的方法里去
+        if(shellCmd.startsWith("ping")){
+            this.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+            return;
+        }
+
+        try {
+            resMsg = ShellCmdUtils.runShellOrCmd(shellCmd);
+        } catch (IOException ex){
+            ex.printStackTrace();
+            resMsg = "运行Shell/Cmd命令抛出异常！";
+            log.warn("[function] {}", resMsg);
+        } finally {
+            groupMsgEvent.getSubject().sendMessage(resMsg);
+            log.info("[message-send] {}", resMsg);
+        }
+    }
+
+    /**
+     * 从消息中提取出 shell命令 或 cmd命令（取决于运行系统环境）
+     *
+     * @param msgPlain QQ消息
+     * @return {@code String} shell命令 或 cmd命令
+     */
+    public String fixShellCmd(String msgPlain){
+        msgPlain = msgPlain.strip();
+        if(msgPlain.startsWith("shell")){
+            msgPlain = msgPlain.replaceFirst("shell", "").strip();
+        }
+        if(msgPlain.startsWith(">")){
+            msgPlain = msgPlain.replaceFirst(">", "").strip();
+        }
+        if(OS_NAME.contains("Windows")){
+            for(String cmd : WINDOWS_CMD){
+                if(msgPlain.startsWith(cmd)){
+                    return msgPlain;
+                }
+            }
+        } else {
+            for(String cmd : LINUX_SHELL){
+                if(msgPlain.startsWith(cmd)){
+                    return msgPlain;
+                }
+            }
+        }
+        return "";
     }
 
 }

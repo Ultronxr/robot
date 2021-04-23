@@ -14,7 +14,7 @@ import java.util.Objects;
 
 
 @Slf4j
-public class PingUtils {
+public class ShellCmdUtils {
 
     /** 操作系统名称 */
     private static final String OS_NAME = GlobalData.OS_NAME;
@@ -177,6 +177,33 @@ public class PingUtils {
             System.out.println(modifyPingResult("baidu.com", centOSPingResult));
         }
 
+    }
+
+    /**
+     * 使用Java Runtime调用终端运行指定的命令（Windows cmd 或 Linux shell）
+     *
+     * @param shellOrCmd 待运行的命令
+     * @return {@code String} 命令运行的输出结果
+     * @throws IOException
+     */
+    public static String runShellOrCmd(String shellOrCmd) throws IOException {
+        Process process = null;
+        if(OS_NAME.contains("Windows")){
+            process = Runtime.getRuntime().exec(shellOrCmd);
+        } else {
+            process = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", shellOrCmd});
+        }
+
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(process.getInputStream(), Charset.forName("GBK")));
+        String line = null;
+        StringBuilder strBuilder = new StringBuilder();
+        while (Objects.nonNull(line = bufferedReader.readLine())){
+            strBuilder.append(line).append("\n");
+        }
+        bufferedReader.close();
+
+        return strBuilder.toString();
     }
 
 }

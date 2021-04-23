@@ -4,9 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 
 /**
- * 消息事件 - ping命令处理器Handler
+ * 消息事件 - Shell/Cmd命令处理器Handler
  */
-public interface MsgPingHandler {
+public interface MsgShellCmdHandler {
 
     /**
      * 群聊中的ping命令处理器
@@ -20,5 +20,15 @@ public interface MsgPingHandler {
      * @see cn.ultronxr.qqrobot.util.MiraiUtils
      */
     void groupPingHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain);
+
+    /**
+     * 群聊中的shell命令处理器
+     *
+     * @param groupMsgEvent GroupMessageEvent群聊消息事件
+     * @param msgCode       MiraiUtils自定义消息类型一
+     * @param msgContent    MiraiUtils自定义消息类型二
+     * @param msgPlain      MiraiUtils自定义消息类型三
+     */
+    void groupShellCmdHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain);
 
 }

@@ -21,7 +21,7 @@ public class MsgGroupListener {
     private MsgPicHandler msgPicHandler;
 
     @Autowired
-    private MsgPingHandler msgPingHandler;
+    private MsgShellCmdHandler msgShellCmdHandler;
 
     @Autowired
     private MsgRobotMenuHandler msgRobotMenuHandler;
@@ -34,6 +34,9 @@ public class MsgGroupListener {
 
     @Autowired
     private MsgScheduledTaskHandler msgScheduledTaskHandler;
+
+    @Autowired
+    private MsgRandomHandler msgRandomHandler;
 
 
     /**
@@ -54,14 +57,16 @@ public class MsgGroupListener {
             //log.info("[message-receive] msgStr: " + msgStr);
 
             if(msgPlain.contains("功能") || msgPlain.contains("菜单")){
-                log.info("[function] 查询机器人功能菜单。");
                 msgRobotMenuHandler.groupRobotMenuHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("天气")){
                 msgWeatherHandler.groupWeatherHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
-            if(msgPlain.contains("ping")){
-                msgPingHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+            if(msgPlain.startsWith("ping")){
+                msgShellCmdHandler.groupPingHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+            }
+            if(msgPlain.startsWith("shell") || msgPlain.startsWith(">")){
+                msgShellCmdHandler.groupShellCmdHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("图片")){
                 msgPicHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
@@ -83,6 +88,9 @@ public class MsgGroupListener {
                 } else {
                     msgScheduledTaskHandler.groupScheduledTaskHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
                 }
+            }
+            if(msgPlain.startsWith("随机数") || msgPlain.startsWith("random")){
+                msgRandomHandler.groupRandomNumberHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
         }
     }
