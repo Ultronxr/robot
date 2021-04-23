@@ -92,6 +92,11 @@ public class MsgRandomHandlerImpl extends GlobalData implements MsgRandomHandler
         leftNumberL = Math.min(leftNumberL, rightNumberL);
         rightNumberL = Math.max(tempL, rightNumberL);
 
+        if(leftNumberL == rightNumberL){
+            log.info("[function] 区间左右数字相等，随机整数结果：{}", leftNumberL);
+            return leftNumberL;
+        }
+
         // 处理开闭区间问题，这里的区间开闭取决于区间在左还是在右，而不由左右区间哪个数字更大决定，同时需要考虑下面的随机数方法的传参区间开闭
         if(leftBracket.equals("(")){
             leftNumberL += 1;
