@@ -17,6 +17,9 @@ public interface ImgService {
      * 生成PornHub图标样式的图片
      * 如果需要输出成图片文件，请使用 {@code ImageIO.write(bufferedImage, "png", new File("new.png"));}
      *
+     * 这个方法使用Java awt绘制图片，如果需要更完美的解决方案，请访问：
+     * {@link "https://www.logoly.pro/"}
+     *
      * @param prefixText 前缀文字内容（黑底白字）
      * @param suffixText 后缀文字内容（黄底黑字）
      */
