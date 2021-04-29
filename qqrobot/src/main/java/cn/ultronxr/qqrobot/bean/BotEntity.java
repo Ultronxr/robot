@@ -35,6 +35,7 @@ public class BotEntity extends GlobalData {
 
     static {
         String classpathFilePath = "src\\main\\resources\\deviceInfo.json";
+        //DEVICE_INFO_FILE_PATH = BotEntity.class.getResourceAsStream("/deviceInfo.json");
         try {
             //获取deviceInfo.json文件所在绝对路径
             classpathFilePath = new ClassPathResource("deviceInfo.json").getURI().toString().replace("file:/", "");

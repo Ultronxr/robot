@@ -1,6 +1,6 @@
 # QQ Robot
 
-当前QQRobot版本：2.7.8
+当前QQRobot版本：2.7.9
 
 依赖mirai版本：2.6.2
 
@@ -20,11 +20,15 @@
       |  |  \--cn
       |  |     \--ultronxr
       |  |        \--qqrobot                   机器人代码包
+      |  |           |--annotation             自定义注解包
+      |  |           |--aspect                 AOP切面定义与advice内容包
       |  |           |--bean                   通用数据对象Bean包
       |  |           |--config                 项目配置包
       |  |           |--eventHandler           机器人事件处理器接口包
       |  |           |  \--eventHandlerImpl    机器人事件处理器接口实现包
       |  |           |--listener               机器人事件监听器包
+      |  |           |--service                具体逻辑处理代码接口包
+      |  |           |  \--serviceImpl         具体逻辑处理代码接口实现包
       |  |           \--util                   公共方法类包
       |  \--resources                          项目资源文件包
       \--test                                  测试内容包
@@ -44,11 +48,24 @@ mirai版本规范见此 [链接](https://github.com/mamoe/mirai/blob/dev/docs/Ev
 
 在线生成`deviceInfo.json`文件 [链接](https://ryoii.github.io/mirai-devicejs-generator/) 。
 
-初始化QQ机器人的库函数只接收`deviceInfo.json`的字符串路径，在IDE中未打jar包时可以使用如*src\main\resources\deviceInfo.json*的路径，且编译运行正常。
+初始化QQ机器人的库函数只接收 `deviceInfo.json` 的字符串路径，在IDE中未打jar包时可以使用如下路径，编译运行正常：
 
-（编译后该文件会被复制到*classpath*路径下）
+```text
+src\main\resources\deviceInfo.json
+```
 
-但maven package打包成jar包再运行会报错提示找不到该文件。
+但maven package打包成jar包再运行会报错提示找不到该文件，因为jar包中的文件路径是：
+
+```text
+qqrobot.jar!/BOOT-INF/classes!/deviceInfo.json
+```
+
+且使用如下代码也无效：
+
+```java
+BotEntity.class.getResource("/deviceInfo.json").getPath();
+BotEntity.class.getResourceAsStream("/deviceInfo.json");
+```
 
 
 为了解决这个问题，这里采用了如下方式（**是否可以更完善**）：
@@ -57,7 +74,7 @@ mirai版本规范见此 [链接](https://github.com/mamoe/mirai/blob/dev/docs/Ev
 
 + 如果不在jar包中运行，则直接使用*classpath*中的`deviceInfo.json`文件路径。
 
-+ 如果在jar包中运行，则不使用jar包*classpath*中的`deviceInfo.json`文件路径，改成jar包所在的路径（由jar包内路径改成jar包外路径）。
++ 如果在jar包中运行，则不使用jar包*classpath*中的`deviceInfo.json`文件路径，改成jar包所处路径（由jar包内路径改成jar包外路径），当然 **这需要在jar包所处路径手动放置deviceInfo.json文件** 。
 
 ## 5. 事件通道（EventChannel）和事件（Event）监听注册
 
