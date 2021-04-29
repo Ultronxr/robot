@@ -1,7 +1,6 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.ultronxr.qqrobot.eventHandler.GroupInfoHandler;
-import cn.ultronxr.qqrobot.util.AliOSSUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.event.events.MemberJoinEvent;
@@ -13,32 +12,16 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 @Component
 @Slf4j
 public class GroupInfoHandlerImpl implements GroupInfoHandler {
 
-    /** 新成员入群提醒图片路径 **/
-    private static final String GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH = "cache" + File.separator + "groupNewMemberJoin.jpg";
-
-    /** 新成员入群提醒图片文件 **/
-    private static File GROUP_NEW_MEMBER_JOIN_JPG_FILE;
-
-    static {
-        // 如果本地文件不存在，就从OSS获取文件
-        if(!AliOSSUtils.getFileObject(
-                "workspace/java/robot/qqrobot/GroupInfo/",
-                "groupNewMemberJoin.jpg",
-                GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH,
-                true)){
-            log.info("[function] 新成员入群提醒图片文件不存在！");
-        } else {
-            GROUP_NEW_MEMBER_JOIN_JPG_FILE = new File(GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH);
-            log.info("[function] 新成员入群提醒图片文件路径：{}", GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH);
-        }
-    }
+    /** 新成员入群提醒图片文件位于resources下的路径 **/
+    private static final String GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH = "/img/groupNewMemberJoin.jpg";
 
 
     @Override
@@ -68,9 +51,15 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
      */
     private void defaultMemberJoinAction(MemberJoinEvent memberJoinEvent, Long newMemberId){
         Image image = null;
-        if(null != GROUP_NEW_MEMBER_JOIN_JPG_FILE){
-            image = memberJoinEvent.getGroup().uploadImage(ExternalResource.create(GROUP_NEW_MEMBER_JOIN_JPG_FILE));
+        try {
+            InputStream inputStream = this.getClass().getResourceAsStream(GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH);
+            image = memberJoinEvent.getGroup().uploadImage(ExternalResource.create(inputStream));
+            inputStream.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            log.warn("[function] 新成员入群提示图片获取失败！");
         }
+
         MessageChainBuilder msgChainBuilder = new MessageChainBuilder()
                 .append(new At(newMemberId))
                 .append(" 欢迎新成员入群，请先阅读群内公告。");
@@ -80,7 +69,7 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
         MessageChain msgChain = msgChainBuilder.build();
 
         memberJoinEvent.getGroup().sendMessage(msgChain);
-        log.info("[message-send] {}", msgChain.contentToString());
+        log.info("[msg-send] {}", msgChain.contentToString());
     }
 
     @Override
@@ -93,7 +82,7 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
         log.info("[function] 群成员被踢退群事件。" + leaveInfo);
 
         memberLeaveKickEvent.getGroup().sendMessage(msg);
-        log.info("[message-send] {}", msg);
+        log.info("[msg-send] {}", msg);
     }
 
     @Override
@@ -104,7 +93,7 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
         log.info("[function] 群成员主动退群事件。" + leaveInfo);
 
         memberLeaveQuitEvent.getGroup().sendMessage(msg);
-        log.info("[message-send] {}", msg);
+        log.info("[msg-send] {}", msg);
     }
 
 }
