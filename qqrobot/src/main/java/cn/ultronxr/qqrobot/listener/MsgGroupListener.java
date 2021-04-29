@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class MsgGroupListener {
 
     @Autowired
-    private MsgPicHandler msgPicHandler;
+    private MsgImgHandler msgImgHandler;
 
     @Autowired
     private MsgShellCmdHandler msgShellCmdHandler;
@@ -51,6 +51,7 @@ public class MsgGroupListener {
         //请勿在群聊全局打印消息记录
 
         if(MiraiUtils.isGroupAtBot(groupMsgEvent)){
+        //if(msgPlain.startsWith(">")){
             log.info("[message-receive] msgCode: " + msgCode);
             log.info("[message-receive] msgContent: "+ msgContent);
             log.info("[message-receive] msgPlain: "+ msgPlain);
@@ -67,9 +68,6 @@ public class MsgGroupListener {
             }
             if(msgPlain.startsWith("shell") || msgPlain.startsWith(">")){
                 msgShellCmdHandler.groupShellCmdHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
-            }
-            if(msgPlain.contains("图片")){
-                msgPicHandler.groupPicHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
             if(msgPlain.contains("舔狗") || msgPlain.contains("彩虹屁")){
                 msgSentenceHandler.groupSentenceFlatterHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
@@ -91,6 +89,9 @@ public class MsgGroupListener {
             }
             if(msgPlain.startsWith("随机数") || msgPlain.startsWith("random")){
                 msgRandomHandler.groupRandomNumberHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+            }
+            if(msgPlain.startsWith("phub")){
+                msgImgHandler.groupImgPornHubIconHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
         }
     }

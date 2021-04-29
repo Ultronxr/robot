@@ -21,7 +21,8 @@ public class MsgRobotMenuHandlerImpl extends GlobalData implements MsgRobotMenuH
 
         StringBuilder resMsg = new StringBuilder();
         BotEntity.MENU_TEXT.forEach((index, strings) -> {
-            resMsg.append(index).append(". ").append(Arrays.toString(strings)).append("\n");
+            //resMsg.append(index).append(". ").append(Arrays.toString(strings)).append("\n");
+            resMsg.append("● ").append(Arrays.toString(strings)).append("\n");
         });
 
         groupMsgEvent.getSubject().sendMessage(resMsg.toString());

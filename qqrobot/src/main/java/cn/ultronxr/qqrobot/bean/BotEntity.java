@@ -74,13 +74,15 @@ public class BotEntity extends GlobalData {
     /**
      * 文字版机器人功能菜单，仅供查询功能使用
      * TODO 20210203 后续完善：改成可以直接通这个Map直接调用到Handler，在Listener里面无需列一遍所有功能，而是可以遍历这个Map
+     * TODO 2021-4-29 这里的Integer位“编号”暂时不再使用，随便填即可
      */
     public static final LinkedHashMap<Integer, String[]> MENU_TEXT = new LinkedHashMap<Integer, String[]>(){{
         put(0, new String[]{"功能", "菜单"});
+        put(9, new String[]{"群成员入群、退群监控"});
         put(1, new String[]{"ping"});
         put(2, new String[]{"天气"});
-        put(3, new String[]{"定时", "定时格式", "定时说明"});
-        put(4, new String[]{"图片"});
+        //put(3, new String[]{"定时", "定时格式", "定时说明"});
+        put(4, new String[]{"phub"});
         put(5, new String[]{"舔狗", "彩虹屁"});
         put(6, new String[]{"脏话", "口吐芬芳", "芬芳"});
         put(7, new String[]{"火力全开"});
