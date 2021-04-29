@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>qqrobot</artifactId>
-    <version>2.7.4</version>
+    <version>2.7.6</version>
     <name>qqrobot</name>
     <description>A QQ Robot based on Mirai framework.</description>
 
@@ -22,6 +22,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <junit.version>4.12</junit.version>
+        <aspectj.version>1.9.6</aspectj.version>
         <mysql.connector.version>5.1.46</mysql.connector.version>
         <alibaba.druid.version>1.1.24</alibaba.druid.version>
         <redisson.version>3.15.1</redisson.version>
@@ -36,6 +38,7 @@
         <kotlin.version>1.4.21</kotlin.version>
         <aliyun-sdk-oss.version>3.11.0</aliyun-sdk-oss.version>
         <!--<selenium.version>3.141.59</selenium.version>-->
+        <quartz.version>2.3.2</quartz.version>
     </properties>
 
     <dependencies>
@@ -54,6 +57,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
         <!-- 日志（上面starter的exclusions、这里的slf4j-log4j12和log4j2依赖缺一不可，且有顺序要求） -->
@@ -182,6 +203,19 @@
         <!--    <groupId>org.seleniumhq.selenium</groupId>-->
         <!--    <artifactId>selenium-java</artifactId>-->
         <!--    <version>${selenium.version}</version>-->
+        <!--</dependency>-->
+
+        <!-- 定时任务调度框架quartz -->
+        <!--<dependency>-->
+        <!--    <groupId>org.quartz-scheduler</groupId>-->
+        <!--    <artifactId>quartz</artifactId>-->
+        <!--    <version>${quartz.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--    <groupId>org.quartz-scheduler</groupId>-->
+        <!--    <artifactId>quartz-jobs</artifactId>-->
+        <!--    <version>${quartz.version}</version>-->
         <!--</dependency>-->
 
 

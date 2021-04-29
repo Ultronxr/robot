@@ -1,6 +1,6 @@
 # QQ Robot
 
-当前QQRobot版本：2.7.4
+当前QQRobot版本：2.7.6
 
 依赖mirai版本：2.6.2
 

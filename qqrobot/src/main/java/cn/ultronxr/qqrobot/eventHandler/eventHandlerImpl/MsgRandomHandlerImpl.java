@@ -127,7 +127,7 @@ public class MsgRandomHandlerImpl extends GlobalData implements MsgRandomHandler
             resNumber = resNumber.replaceFirst("0", RandomUtil.randomString("123456789", 1));
         }
         // 随机添加负数符号
-        resNumber = (RandomUtil.randomBoolean() ? "" : "-") + resNumber;
+        // resNumber = (RandomUtil.randomBoolean() ? "" : "-") + resNumber;
 
         log.info("[function] 随机整数指定长度：{}", length);
         log.info("[function] 随机整数结果：{}", resNumber);

@@ -50,4 +50,11 @@ public class ScheduledTask {
     /** 定时任务状态：0-未执行，1-已执行，2-废弃 */
     Integer status;
 
+    /**
+     * 把 ScheduledTask对象 输出显示为 格式化的可读字符串文本
+     */
+    @Override
+    public String toString(){
+        return "";
+    }
 }
