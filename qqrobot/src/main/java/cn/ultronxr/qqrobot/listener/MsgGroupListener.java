@@ -38,6 +38,9 @@ public class MsgGroupListener {
     @Autowired
     private MsgRandomHandler msgRandomHandler;
 
+    @Autowired
+    private MsgMagnetHandler msgMagnetHandler;
+
 
     /**
      * 群聊消息事件监听器
@@ -92,6 +95,9 @@ public class MsgGroupListener {
             }
             if(msgPlain.startsWith("phub")){
                 msgImgHandler.groupImgPornHubIconHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
+            }
+            if(msgPlain.startsWith("磁力") || msgPlain.startsWith("种子") || msgPlain.startsWith("车牌") || msgPlain.startsWith("magnet")){
+                msgMagnetHandler.groupMagnetHandler(groupMsgEvent, msgCode, msgContent, msgPlain);
             }
         }
     }
