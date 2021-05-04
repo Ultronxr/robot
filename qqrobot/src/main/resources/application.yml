@@ -15,6 +15,36 @@ spring:
     redisson:
       file: classpath:redission.yaml
 
+  datasource:
+    name: jcy_nb_localhost
+    url: jdbc:mysql://127.0.0.1:3306/jcy_nb_localhost?characterEncoding=utf-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat,wall
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1 from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+mybatis:
+  type-aliases-package: cn.ultronxr.qqrobot.bean.mybatis.bean
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  port: 8093
+  servlet:
+    context-path: /qqrobot
+
 logging:
   config: classpath:log4j.properties
 

@@ -2,7 +2,6 @@ package cn.ultronxr.qqrobot.listener;
 
 import cn.ultronxr.qqrobot.bean.BotEntity;
 import cn.ultronxr.qqrobot.eventHandler.BotEventHandler;
-import cn.ultronxr.qqrobot.eventHandler.GroupInfoHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.EventChannel;
 import net.mamoe.mirai.event.events.*;

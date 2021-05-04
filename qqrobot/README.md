@@ -1,38 +1,44 @@
 # QQ Robot
 
-当前QQRobot版本：2.8.010
+当前QQRobot版本：2.8.101
 
 依赖mirai版本：2.6.2
 
-## 1. 框架
+## 1. 项目主要目录结构
+
+```text
+\--qqrobot                             项目根目录
+   \--src
+      |--main                            主项目文件包
+      |  |--java
+      |  |  \--cn
+      |  |     \--ultronxr
+      |  |        \--qqrobot                 QQ机器人代码包
+      |  |           |--annotation             自定义注解包
+      |  |           |--aspect                 AOP切面定义与advice内容包
+      |  |           |--bean                   通用数据对象bean包
+      |  |           |  \--mybatis               Mybatis数据库表映射对象包
+      |  |           |     |--bean                 数据库表映射bean
+      |  |           |     \--mapper               数据库表映射mapper
+      |  |           |--config                 项目配置包
+      |  |           |--eventHandler           机器人事件处理器接口包
+      |  |           |  \--eventHandlerImpl      机器人事件处理器接口实现包
+      |  |           |--listener               机器人事件监听器包
+      |  |           |--service                具体逻辑处理代码接口包
+      |  |           |  \--serviceImpl           具体逻辑处理代码接口实现包
+      |  |           \--util                   公共方法类包
+      |  \--resources                      项目资源文件包
+      |     |--fonts                         字体文件资源
+      |     |--img                           图像文件资源
+      |     \--mapper                        数据库表映射mapper.xml
+      \--test                            项目测试包
+```
+
+## 2. 框架
 
 使用开源框架 [mirai](https://github.com/mamoe/mirai) ，其开发文档见 [mirai开发文档](https://github.com/mamoe/mirai/blob/dev/docs/README.md) ，其Java API文档见 [Mirai - Core API](https://github.com/mamoe/mirai/blob/dev/docs/CoreAPI.md) 。
 
 这里是对mirai的功能应用。
-
-## 2. 项目主要目录结构
-
-```text
-\--qqrobot                                     项目根目录
-   \--src
-      |--main                                  主项目文件包
-      |  |--java
-      |  |  \--cn
-      |  |     \--ultronxr
-      |  |        \--qqrobot                   机器人代码包
-      |  |           |--annotation             自定义注解包
-      |  |           |--aspect                 AOP切面定义与advice内容包
-      |  |           |--bean                   通用数据对象Bean包
-      |  |           |--config                 项目配置包
-      |  |           |--eventHandler           机器人事件处理器接口包
-      |  |           |  \--eventHandlerImpl    机器人事件处理器接口实现包
-      |  |           |--listener               机器人事件监听器包
-      |  |           |--service                具体逻辑处理代码接口包
-      |  |           |  \--serviceImpl         具体逻辑处理代码接口实现包
-      |  |           \--util                   公共方法类包
-      |  \--resources                          项目资源文件包
-      \--test                                  测试内容包
-```
 
 ## 3. 依赖
 
