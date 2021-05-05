@@ -41,18 +41,25 @@ public class MsgGroupListener {
     @Autowired
     private MsgMagnetHandler msgMagnetHandler;
 
+    @Autowired
+    private MsgGroupChatStatisticsHandler msgGroupChatStatisticsHandler;
+
 
     /**
      * 群聊消息事件监听器
      * 筛选对机器人的动作（@等）、各种关键词，从而调用不同的事件处理器，执行不同的回复
      */
     public void onGroupMessage(@NotNull GroupMessageEvent groupMsgEvent) {
+        // 请避免在群聊全局打印消息记录
         String msgCode = MiraiUtils.getMsgCode(groupMsgEvent),
                 msgContent = MiraiUtils.getMsgContent(groupMsgEvent),
                 msgPlain = MiraiUtils.getMsgPlain(groupMsgEvent);
                 //msgStr = MiraiUtils.getMsgStr(groupMsgEvent);
-        //请勿在群聊全局打印消息记录
 
+        // 群消息活跃统计
+        msgGroupChatStatisticsHandler.groupChatStatisticsHandler(groupMsgEvent);
+
+        // @机器人消息事件
         if(MiraiUtils.isGroupAtBot(groupMsgEvent)){
         //if(msgPlain.startsWith(">")){
             log.info("[message-receive] msgCode: " + msgCode);

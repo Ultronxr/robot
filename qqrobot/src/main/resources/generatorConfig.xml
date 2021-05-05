@@ -8,7 +8,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1/test"
+                        connectionURL="jdbc:mysql://127.0.0.1/robot"
                         userId="root"
                         password="root">
         </jdbcConnection>
@@ -31,7 +31,9 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="dbo" tableName="test" domainObjectName="Test" />
+        <table schema="dbo" tableName="qq_group" domainObjectName="QQGroup" />
+        <table schema="dbo" tableName="qq_group_member" domainObjectName="QQGroupMember" />
+        <table schema="dbo" tableName="qq_group_member_chat" domainObjectName="QQGroupMemberChat" />
 
     </context>
 </generatorConfiguration>

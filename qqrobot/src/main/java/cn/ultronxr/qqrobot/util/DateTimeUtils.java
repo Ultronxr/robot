@@ -1,7 +1,10 @@
 package cn.ultronxr.qqrobot.util;
 
 import cn.hutool.core.date.CalendarUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -10,6 +13,13 @@ import java.util.Calendar;
  */
 public class DateTimeUtils {
 
+    public static String getFormattedCalendar(@Nullable Calendar calendar, @NotNull String formatPattern) {
+        if(calendar == null){
+            calendar = Calendar.getInstance();
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatPattern);
+        return simpleDateFormat.format(calendar.getTime());
+    }
 
     /**
      * 修改Calendar对象中的当天时间
