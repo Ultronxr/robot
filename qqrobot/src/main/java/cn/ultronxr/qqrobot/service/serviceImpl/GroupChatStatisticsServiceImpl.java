@@ -133,7 +133,10 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
                 qqGroupMemberChatMapper.insert(chat);
                 log.info("[function] redis群成员发言记录插入数据库：{}", chat);
             });
-            redisTemplate.opsForHash().entries(REDIS_KEY).clear();
+
+            redisTemplate.opsForHash().keys(REDIS_KEY).forEach(key ->
+                redisTemplate.opsForHash().delete(REDIS_KEY, key)
+            );
             log.info("[function] redis群成员发言记录清空。");
         }
     }

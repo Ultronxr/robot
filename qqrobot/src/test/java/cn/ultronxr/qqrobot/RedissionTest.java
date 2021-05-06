@@ -32,10 +32,10 @@ public class RedissionTest {
     @Test
     public void test() {
         String redisKey = "qqrobot_group_member_chats";
-        QQGroupMember member1 = new QQGroupMember("groupId1", "memberId1", 1);
-        QQGroupMember member1Copy = new QQGroupMember("groupId1", "memberId1", 1);
-        Map<QQGroupMember, Integer> map = new HashMap<>();
-        map.put(member1, 10);
+        //QQGroupMember member1 = new QQGroupMember("groupId1", "memberId1", 1);
+        //QQGroupMember member1Copy = new QQGroupMember("groupId1", "memberId1", 1);
+        //Map<QQGroupMember, Integer> map = new HashMap<>();
+        //map.put(member1, 10);
 
 
         //if(redisTemplate.opsForHash().hasKey(redisKey, member1)){
@@ -49,12 +49,13 @@ public class RedissionTest {
         //    log.info("{}", entries.get(key));
         //});
 
+        System.out.println(redisTemplate.opsForHash().entries(redisKey).size());
 
+        redisTemplate.opsForHash().keys(redisKey).forEach(key ->
+            redisTemplate.opsForHash().delete(redisKey, key)
+        );
 
-        redisTemplate.delete(redisKey);
-        Map<Object, Object> entries = redisTemplate.opsForHash().entries(redisKey);
-        System.out.println(entries.size());
-        System.out.println(entries.getClass().getName());
+        System.out.println(redisTemplate.opsForHash().entries(redisKey).size());
     }
 
 }
