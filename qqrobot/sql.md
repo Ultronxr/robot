@@ -21,7 +21,6 @@ CREATE TABLE qq_group_member(
     `group_id` varchar(25) NOT NULL COMMENT 'QQ群号',
     `member_id` varchar(25) NOT NULL COMMENT '群成员QQ号',
     `is_statistic` int(1) NOT NULL DEFAULT 1 COMMENT '是否统计',
-    FOREIGN KEY(`group_id`) references qq_group(`group_id`),
     PRIMARY KEY(`group_id`, `member_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'QQ群成员表';
 
@@ -31,8 +30,7 @@ CREATE TABLE qq_group_member_chat(
     `chat_time` varchar(25) NOT NULL DEFAULT '' COMMENT '发言时间',
     #`chat_time` varchar(25) NOT NULL DEFAULT (date_format(now(), '%y-%m-%d %H:00:00')) COMMENT '发言时间',
     `chat_num` int(5) NOT NULL DEFAULT 1 COMMENT '发言数量',
-    `is_statistic` int(1) NOT NULL DEFAULT 1 COMMENT '是否统计',
-    FOREIGN KEY(`group_id`, member_id) references qq_group_member(`group_id`, `member_id`)
+    `is_statistic` int(1) NOT NULL DEFAULT 1 COMMENT '是否统计'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'QQ群成员发言记录表';
 ```
 

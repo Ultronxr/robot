@@ -15,12 +15,13 @@ public interface GroupChatStatisticsService {
 
     /**
      * 初始化内存中的QQ群及群成员
+     * 从数据库中读取
      */
     void initGroupsAndMembers();
 
     /**
      * 维护QQ群及群成员
-     * 线程安全，优先在内存中维护，避免频繁操作数据库
+     * 线程安全，短时间内QQ群和群成员数量增加不会很大，直接操作数据库
      *
      * @param groupId  QQ群号
      * @param memberId 群成员QQ号
@@ -31,13 +32,18 @@ public interface GroupChatStatisticsService {
 
     /**
      * 维护这一个整点小时内的QQ群成员发言记录
-     * 线程安全，优先在内存中维护，避免频繁操作数据库
+     * 线程安全，短时间内群成员发言数量可能很大，优先在redis中维护，避免频繁操作数据库
      *
      * @param qqGroupMember 群成员对象
      * @param chatNum       发言次数
-     * @see cn.ultronxr.qqrobot.service.serviceImpl.GroupChatStatisticsServiceImpl#CHATS
      */
     void maintainGroupMemberChats(@NotNull QQGroupMember qqGroupMember, int chatNum);
+
+    /**
+     * 定时把redis中的群成员发言记录 插入到数据库中
+     * 线程安全，每小时整点定时运行（也可以手动调用），发言记录插入数据库，Redis中的记录清空
+     */
+    void insertRedisToDb();
 
     /**
      * 查询所有QQ群

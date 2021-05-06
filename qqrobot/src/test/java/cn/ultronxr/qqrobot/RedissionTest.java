@@ -1,0 +1,60 @@
+package cn.ultronxr.qqrobot;
+
+import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroup;
+import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroupMember;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import static java.util.Collections.EMPTY_MAP;
+
+/**
+ * @author Ultronxr
+ * @date 2021/05/06 10:35
+ */
+@Slf4j
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class RedissionTest {
+
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
+
+    @Test
+    public void test() {
+        String redisKey = "qqrobot_group_member_chats";
+        QQGroupMember member1 = new QQGroupMember("groupId1", "memberId1", 1);
+        QQGroupMember member1Copy = new QQGroupMember("groupId1", "memberId1", 1);
+        Map<QQGroupMember, Integer> map = new HashMap<>();
+        map.put(member1, 10);
+
+
+        //if(redisTemplate.opsForHash().hasKey(redisKey, member1)){
+        //    redisTemplate.opsForHash().increment(redisKey, member1, 10);
+        //}
+
+        //Map<Object, Object> entries = redisTemplate.opsForHash().entries(redisKey);
+        //entries.keySet().forEach(key -> {
+        //    LinkedHashMap<String, Object> keyMap = (LinkedHashMap<String, Object>) key;
+        //    log.info("{}", keyMap.get("groupId"));
+        //    log.info("{}", entries.get(key));
+        //});
+
+
+
+        redisTemplate.delete(redisKey);
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(redisKey);
+        System.out.println(entries.size());
+        System.out.println(entries.getClass().getName());
+    }
+
+}

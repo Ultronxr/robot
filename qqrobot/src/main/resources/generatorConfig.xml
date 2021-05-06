@@ -8,7 +8,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1/robot"
+                        connectionURL="jdbc:mysql://127.0.0.1/robot?useSSL=false"
                         userId="root"
                         password="root">
         </jdbcConnection>

@@ -17,9 +17,12 @@ spring:
 
   datasource:
     name: robot
-    url: jdbc:mysql://127.0.0.1:3306/robot?characterEncoding=utf-8
+    #url: jdbc:mysql://127.0.0.1:3306/robot?characterEncoding=utf-8
+    #username: root
+    #password: root
+    url: jdbc:mysql://192.168.1.20:3306/robot?characterEncoding=utf-8&useSSL=false
     username: root
-    password: root
+    password: ULTR999)_+mysql
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat,wall
