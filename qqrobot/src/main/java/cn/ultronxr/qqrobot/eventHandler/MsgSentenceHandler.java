@@ -32,4 +32,6 @@ public interface MsgSentenceHandler {
      */
     void groupSentenceAbuseHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain, Integer type);
 
+    void groupSentenceAbuseHandler(Integer type);
+
 }

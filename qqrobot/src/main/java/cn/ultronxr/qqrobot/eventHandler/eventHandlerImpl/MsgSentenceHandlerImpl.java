@@ -42,4 +42,14 @@ public class MsgSentenceHandlerImpl extends GlobalData implements MsgSentenceHan
         log.info("[message-send] " + sentenceRes);
     }
 
+    @Override
+    public void groupSentenceAbuseHandler(Integer type) {
+        String sentenceRes = HttpRequest.get(type == 2 ? ABUSE_URL_2 : ABUSE_URL_1)
+                .header("User-Agent", USER_AGENT)
+                .header("Referer", ABUSE_REFERER)
+                .execute()
+                .body();
+        log.info("[CLI] 测试结果：{}", sentenceRes);
+    }
+
 }

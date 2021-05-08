@@ -8,6 +8,8 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
+
 /**
  * @author Ultronxr
  * @date 2021/05/05 17:20
@@ -28,6 +30,22 @@ public class MsgGroupChatStatisticsHandlerImpl implements MsgGroupChatStatistics
         QQGroupMember qqGroupMember = statisticsService.maintainGroupsAndMembers(groupId, memberId);
         // 维护发言记录
         statisticsService.maintainGroupMemberChats(qqGroupMember, 1);
+    }
+
+    @Override
+    public void statisticsAllGroup(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+        msgPlain = msgPlain.replaceAll("所有群活跃", "").strip();
+        Calendar calendar = Calendar.getInstance();
+        String regex = "(上|最近)(\\d+)(天|周|月|年)";
+        // TODO 2021-5-6 23:30:34 把这里和下面的方法写完
+
+    }
+
+    @Override
+    public void statisticsGroupAllMember(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
+        msgPlain = msgPlain.replaceAll("群活跃|水群排行|水群排名", "").strip();
+        Calendar calendar = Calendar.getInstance();
+
     }
 
 }

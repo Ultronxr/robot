@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>qqrobot</artifactId>
-    <version>2.8.220</version>
+    <version>2.9.000</version>
     <name>qqrobot</name>
     <description>A QQ Robot based on Mirai framework.</description>
 
@@ -33,15 +33,17 @@
         <apache.commons-lang3.version>3.9</apache.commons-lang3.version>
         <apache.commons-text.version>1.9</apache.commons-text.version>
         <apache.commons-io.version>2.5</apache.commons-io.version>
+        <commons-cli.version>1.4</commons-cli.version>
         <devtools.version>2.3.5.RELEASE</devtools.version>
         <lombok.version>1.18.8</lombok.version>
         <hutool.version>5.5.8</hutool.version>
-        <mirai.version>2.6.2</mirai.version>
+        <mirai.version>2.6.4</mirai.version>
         <kotlin.version>1.4.21</kotlin.version>
         <aliyun-sdk-oss.version>3.11.0</aliyun-sdk-oss.version>
         <!--<selenium.version>3.141.59</selenium.version>-->
         <quartz.version>2.3.2</quartz.version>
         <jsoup.version>1.13.1</jsoup.version>
+        <xk-time.version>3.1.0</xk-time.version>
     </properties>
 
     <dependencies>
@@ -176,6 +178,12 @@
             <version>${apache.commons-io.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>${commons-cli.version}</version>
+        </dependency>
+
         <!-- 开发工具/插件 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -197,7 +205,7 @@
             <version>${hutool.version}</version>
         </dependency>
 
-        <!-- QQ机器人依赖包mirai，及其使用的kotlin版本 -->
+        <!-- QQ机器人依赖包mirai -->
         <dependency>
             <groupId>net.mamoe</groupId>
             <artifactId>mirai-core-jvm</artifactId>
@@ -248,6 +256,14 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
+        </dependency>
+
+        <!-- 一个GitHub上的时间解析框架，我主要用来解析中文自然语言中的时间 -->
+        <!-- https://github.com/xkzhangsan/xk-time -->
+        <dependency>
+            <groupId>com.github.xkzhangsan</groupId>
+            <artifactId>xk-time</artifactId>
+            <version>${xk-time.version}</version>
         </dependency>
 
 

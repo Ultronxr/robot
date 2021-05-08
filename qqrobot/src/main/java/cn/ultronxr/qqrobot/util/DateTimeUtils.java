@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.util;
 
 import cn.hutool.core.date.CalendarUtil;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
@@ -13,13 +13,141 @@ import java.util.Calendar;
  */
 public class DateTimeUtils {
 
-    public static String getFormattedCalendar(@Nullable Calendar calendar, @NotNull String formatPattern) {
-        if(calendar == null){
-            calendar = Calendar.getInstance();
+    public static final String STANDARD_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * 把Calendar日期时间根据指定格式进行格式化
+     *
+     * @param calendar      原 {@code Calendar} 对象，
+     *                      如果为null则获取当前时间的Calendar实例
+     * @param formatPattern 格式化格式
+     *                      如果为null或为空则使用 {@link #STANDARD_FORMAT_PATTERN}
+     * @return 格式化后的日期时间
+     */
+    public static String getFormattedCalendar(@Nullable Calendar calendar, @Nullable String formatPattern) {
+        calendar = ifNullGetInstance(calendar);
+        if(StringUtils.isEmpty(formatPattern)){
+            formatPattern = STANDARD_FORMAT_PATTERN;
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatPattern);
         return simpleDateFormat.format(calendar.getTime());
     }
+
+    /**
+     * 计算Calendar对象加减 x毫秒 之后的时间
+     *
+     * @param calendar     原 {@code Calendar} 对象，
+     *                     如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param milliseconds 加/减x毫秒数，正数加，负数减
+     * @return 加/减x毫秒之后的时间
+     */
+    public static Calendar calculateMilliseconds(@Nullable Calendar calendar, long milliseconds) {
+        calendar = ifNullGetInstance(calendar);
+        return CalendarUtil.calendar(calendar.getTimeInMillis() + milliseconds);
+    }
+
+    /**
+     * 计算Calendar对象加减 x天 之后的时间
+     *
+     * @param calendar 原 {@code Calendar} 对象，
+     *                 如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param day      加/减x天数，正数加，负数减
+     * @return 加/减x天之后的时间
+     */
+    public static Calendar calculateDay(@Nullable Calendar calendar, int day) {
+        calendar = ifNullGetInstance(calendar);
+        calendar.add(Calendar.DATE, day);
+        return calendar;
+    }
+
+    /**
+     * 计算Calendar对象加减 x星期（周） 之后的时间
+     *
+     * @param calendar 原 {@code Calendar} 对象，
+     *                 如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param week     加/减x星期（周），正数加，负数减
+     * @return 加/减x星期（周）之后的时间
+     */
+    public static Calendar calculateWeek(@Nullable Calendar calendar, int week) {
+        calendar = ifNullGetInstance(calendar);
+        calendar.add(Calendar.WEEK_OF_YEAR, week);
+        return calendar;
+    }
+
+    /**
+     * 计算Calendar对象加减 x周 之后的 星期几 的时间
+     * 星期日是按照“一周内星期一为第一天，星期日为第七天”的规则计算的，也就是说这里计算的星期日是Calendar中的下一个星期的星期日
+     *
+     * @param calendar          原 {@code Calendar} 对象，
+     *                          如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param week              加/减x星期（周），正数加，负数减
+     * @param calendarDayOfWeek 星期几
+     *                          填入 {@link Calendar#MONDAY} {@link Calendar#TUESDAY} {@link Calendar#WEDNESDAY} ...
+     * @return 加/减x星期（周）之后的星期几的时间
+     */
+    public static Calendar calculateWeekAndDayOfWeek(@Nullable Calendar calendar, int week, int calendarDayOfWeek) {
+        if(calendarDayOfWeek == Calendar.SUNDAY) {
+            ++week;
+        }
+        calendar = calculateWeek(calendar, week);
+        calendar.set(Calendar.DAY_OF_WEEK, calendarDayOfWeek);
+        return calendar;
+    }
+
+    /**
+     * 计算Calendar对象加减 x月 之后的时间
+     *
+     * @param calendar 原 {@code Calendar} 对象，
+     *                 如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param month    加/减x月，正数加，负数减
+     * @return 加/减x月之后的时间
+     */
+    public static Calendar calculateMonth(@Nullable Calendar calendar, int month) {
+        calendar = ifNullGetInstance(calendar);
+        calendar.add(Calendar.MONTH, month);
+        return calendar;
+    }
+
+    /**
+     * 计算Calendar对象加减 x月 之后的 第几日 的时间
+     * 第几日可填1-31，返回第几日的结果总是在这个月内，即使超出这个月的范围也只会返回这个月的第一日或者最后一日
+     *
+     * @param calendar   原 {@code Calendar} 对象，
+     *                   如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param month      加/减x月，正数加，负数减
+     * @param dayOfMonth 月份中的第几日（可填1-31）
+     * @return 加/减x月之后的第几日时间
+     */
+    public static Calendar calculateMonthAndDayOfMonth(@Nullable Calendar calendar, int month, int dayOfMonth) {
+        calendar = calculateMonth(calendar, month);
+        dayOfMonth = Math.min(dayOfMonth, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        dayOfMonth = Math.max(dayOfMonth, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        return calendar;
+    }
+
+    /**
+     * 计算Calendar对象加减 x年 之后的时间
+     *
+     * @param calendar 原 {@code Calendar} 对象，
+     *                 如果为null则以当前时间的Calendar实例为基础进行计算
+     * @param year     加/减x年，正数加，负数减
+     * @return 加/减x年之后的时间
+     */
+    public static Calendar calculateYear(@Nullable Calendar calendar, int year) {
+        calendar = ifNullGetInstance(calendar);
+        calendar.add(Calendar.YEAR, year);
+        return calendar;
+    }
+
+
+    /**
+     * 如果calendar为null，返回当前时间的Calendar实例
+     */
+    public static Calendar ifNullGetInstance(Calendar calendar) {
+        return calendar == null ? Calendar.getInstance() : calendar;
+    }
+
 
     /**
      * 修改Calendar对象中的当天时间
