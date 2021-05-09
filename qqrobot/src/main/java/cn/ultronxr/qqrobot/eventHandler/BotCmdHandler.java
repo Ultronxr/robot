@@ -27,6 +27,4 @@ public interface BotCmdHandler {
      */
     void botCmdHandler(@NotNull BotCmd botCmd, @NotNull GroupMessageEvent groupMsgEvent, @NotNull String msgPlain);
 
-    void testHandleBotCmd(@NotNull BotCmd botCmd, @NotNull String msgPlain);
-
 }

@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
-import cn.ultronxr.qqrobot.bean.BotCmd;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.Options;
 
 
 /**
@@ -18,6 +18,6 @@ public interface MsgWeatherHandler {
      */
     void groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgPlain);
 
-    //void groupWeatherHandler(BotCmd botCmd, GroupMessageEvent groupMsgEvent);
+    void groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgPlain, Options options);
 
 }

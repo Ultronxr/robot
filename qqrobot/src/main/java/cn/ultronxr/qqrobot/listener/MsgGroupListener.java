@@ -20,37 +20,13 @@ import org.springframework.stereotype.Component;
 public class MsgGroupListener {
 
     @Autowired
-    private MsgImgHandler msgImgHandler;
-
-    @Autowired
-    private MsgShellCmdHandler msgShellCmdHandler;
-
-    @Autowired
-    private MsgRobotMenuHandler msgRobotMenuHandler;
-
-    @Autowired
-    private MsgSentenceHandler msgSentenceHandler;
-
-    @Autowired
-    private MsgWeatherHandler msgWeatherHandler;
-
-    @Autowired
-    private MsgScheduledTaskHandler msgScheduledTaskHandler;
-
-    @Autowired
-    private MsgRandomHandler msgRandomHandler;
-
-    @Autowired
-    private MsgMagnetHandler msgMagnetHandler;
-
-    @Autowired
-    private MsgGroupChatStatisticsHandler msgGroupChatStatisticsHandler;
-
-    @Autowired
     private BotMenu botMenu;
 
     @Autowired
     private BotCmdHandler botCmdHandler;
+
+    @Autowired
+    private MsgGroupChatStatisticsHandler msgGroupChatStatisticsHandler;
 
 
     /**
@@ -62,16 +38,22 @@ public class MsgGroupListener {
         String msgCode = MiraiUtils.getMsgCode(groupMsgEvent),
                 msgContent = MiraiUtils.getMsgContent(groupMsgEvent),
                 msgPlain = MiraiUtils.getMsgPlain(groupMsgEvent);
-                //msgStr = MiraiUtils.getMsgStr(groupMsgEvent);
 
         // 群消息活跃统计
         msgGroupChatStatisticsHandler.groupChatStatisticsHandler(groupMsgEvent);
 
         if(msgPlain.startsWith(">")) {
+            msgPlain = msgPlain.replaceFirst(">", "").strip();
+            log.info("[Msg-Receive] msgPlain: {}", msgPlain);
+
             BotCmd botCmd = botMenu.checkBotCmd(msgPlain);
             if(botCmd != null) {
                 botCmdHandler.botCmdHandler(botCmd, groupMsgEvent, msgPlain);
+                return;
             }
+            String resMsg = "无匹配命令，请检查命令名称或格式。";
+            groupMsgEvent.getSubject().sendMessage(resMsg);
+            log.info("[Msg-Send] {}", resMsg);
         }
 
         // @机器人消息事件

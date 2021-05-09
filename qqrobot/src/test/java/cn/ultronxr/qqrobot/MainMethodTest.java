@@ -4,7 +4,6 @@ import cn.hutool.core.date.CalendarUtil;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.http.HttpRequest;
-import cn.ultronxr.qqrobot.bean.CommonCli;
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroup;
 import cn.ultronxr.qqrobot.util.CommonCliUtils;
 import cn.ultronxr.qqrobot.util.DateTimeUtils;
@@ -79,7 +78,6 @@ public class MainMethodTest {
         //Options options = CommonCli.GroupChatStatistics.allGroup;
 
         //CommandLine cli = null;
-        CommandLineParser cliParser = CommonCli.CLI_PARSER;
         //
         //try {
         //    cli = cliParser.parse(options, cmd.split(" "));

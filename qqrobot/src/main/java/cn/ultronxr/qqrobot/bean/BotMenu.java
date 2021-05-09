@@ -1,7 +1,6 @@
 package cn.ultronxr.qqrobot.bean;
 
-import cn.ultronxr.qqrobot.eventHandler.MsgSentenceHandler;
-import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgSentenceHandlerImpl;
+import cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler;
 import cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgWeatherHandlerImpl;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -23,19 +23,21 @@ import java.util.List;
  *
  * BOT功能菜单
  */
-@Slf4j
 @Data
 @NoArgsConstructor
 @Component
+@Slf4j
 public class BotMenu {
 
-    private ArrayList<BotCmd> botCmds = new ArrayList<>();
+    private static ArrayList<BotCmd> botCmdList = new ArrayList<>();
+
+    @Autowired
+    private MsgWeatherHandler msgWeatherHandler;
 
 
-    {
-        botCmds.add(initBotCmdWeather());
+    public void initBotMenu() {
+        botCmdList.add(initBotCmdWeather());
     }
-
 
     @NotNull
     private ArrayList<Options> defaultOptionsList() {
@@ -55,24 +57,30 @@ public class BotMenu {
         BotCmd botCmd = new BotCmd();
         botCmd.setBriefDesc("天气信息。");
         botCmd.setDetailedDesc("获取指定地区的天气信息；缺省地区为杭州。");
-        botCmd.setTriggers(new ArrayList<>(){{ add("天气"); }});
+        botCmd.setTriggerList(new ArrayList<>(){{ add("天气"); }});
 
         ArrayList<Options> optionsList = defaultOptionsList();
-        Options options1 = new Options();
-        Option option1 = new Option("a", "area", true, "地区");
-        option1.setRequired(true);
-        options1.addOption(option1);
-        optionsList.add(options1);
+        Options options3 = new Options();
+        Option option3 = new Option("a", "area", true, "地区");
+        option3.setRequired(true);
+        options3.addOption(option3);
+        optionsList.add(options3);
         botCmd.setOptionsList(optionsList);
+
+        botCmd.setHandler(msgWeatherHandler);
 
         List<Method> methodList = new ArrayList<>();
         try {
-            methodList.add(MsgWeatherHandlerImpl.class.getDeclaredMethod("groupWeatherHandler", GroupMessageEvent.class, String.class));
+            // 这里处理三种参数组的方法都是同一个
+            Method method = MsgWeatherHandlerImpl.class.getDeclaredMethod("groupWeatherHandler", GroupMessageEvent.class, String.class, Options.class);
+            methodList.add(method);
+            methodList.add(method);
+            methodList.add(method);
         } catch (NoSuchMethodException ex) {
             log.warn("[botCmd] method.getDeclaredMethod添加方法List抛出异常！");
             ex.printStackTrace();
         }
-        botCmd.setMethodList(methodList);
+        botCmd.setHandlerMethodList(methodList);
         return botCmd;
     }
 
@@ -82,7 +90,7 @@ public class BotMenu {
      */
     public String getTextMenu() {
         StringBuilder strBuilder = new StringBuilder();
-        botCmds.forEach(cmd -> strBuilder.append(cmd.getBriefDescription()));
+        botCmdList.forEach(cmd -> strBuilder.append(cmd.getBriefDescription()));
         return strBuilder.toString();
     }
 
@@ -101,9 +109,9 @@ public class BotMenu {
         }
         msgPlain = msgPlain.strip();
         // 数据量不大直接嵌套for
-        for(BotCmd cmd : botCmds) {
-            for(String trigger : cmd.getTriggers()) {
-                if(msgPlain.startsWith(trigger)) {
+        for(BotCmd cmd : botCmdList) {
+            for(String trigger : cmd.getTriggerList()) {
+                if(msgPlain.startsWith(trigger + " ")) {
                     return cmd;
                 }
             }

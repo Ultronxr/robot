@@ -4,13 +4,18 @@ import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler;
 import cn.ultronxr.qqrobot.service.WeatherService;
 import cn.ultronxr.qqrobot.util.AliWeatherAPIUtils;
+import cn.ultronxr.qqrobot.util.CommonCliUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 
 @Component
@@ -49,6 +54,14 @@ public class MsgWeatherHandlerImpl extends GlobalData implements MsgWeatherHandl
         }
         groupMsgEvent.getSubject().sendMessage(resStr);
         log.info("[message-send] " + resStr);
+    }
+
+    @Override
+    public void groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgPlain, Options options) {
+        Collection<Option> OptionCollection = options.getOptions();
+        log.info("[service] weatherService options = {}", CommonCliUtils.describeOptions(options));
+
+
     }
 
 }
