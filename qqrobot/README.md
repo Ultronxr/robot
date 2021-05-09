@@ -1,6 +1,6 @@
 # QQ Robot
 
-当前QQRobot版本：2.9.010
+当前QQRobot版本：2.9.011
 
 依赖mirai版本：2.6.4
 
@@ -100,6 +100,6 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 `BotCmd` 是对BOT业务功能命令的封装，一个BotCmd代表一个业务功能命令，所有BotCmd组合成 `BotMenu` ，即BOT功能菜单，统一管理业务功能。
 
-![qqrobot的BotCmd架构](./qqrobot的BotCmd架构.png)
+![BotCmd架构](./BotCmd架构.png)
 
 （上面的图是白板画的，很粗糙，后续可能会重绘一下）
