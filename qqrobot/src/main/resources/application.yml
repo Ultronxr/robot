@@ -2,15 +2,16 @@ spring:
   profiles:
     active: development
 
+
 ---
 spring:
-  profiles: development
+  config:
+    activate:
+      on-profile: development
+
   application:
     name: robot-qqrobot
-  # 关闭日志ANSI彩色输出
-  #output:
-  #  ansi:
-  #    enabled: never
+
   redis:
     redisson:
       file: classpath:redission.yaml
@@ -51,6 +52,49 @@ server:
 logging:
   config: classpath:log4j.properties
 
+
 ---
 spring:
-  profiles: main
+  config:
+    activate:
+      on-profile: main
+
+  application:
+    name: robot-qqrobot
+
+  redis:
+    redisson:
+      file: classpath:redission.yaml
+
+  datasource:
+    name: robot
+    url: jdbc:mysql://192.168.1.20:3306/robot?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: ULTR999)_+mysql
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat,wall
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1 from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+mybatis:
+  type-aliases-package: cn.ultronxr.qqrobot.bean.mybatis.bean
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  port: 8093
+  servlet:
+    context-path: /qqrobot
+
+logging:
+  config: classpath:log4j.properties

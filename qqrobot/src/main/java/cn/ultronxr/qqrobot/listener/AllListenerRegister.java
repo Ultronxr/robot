@@ -51,7 +51,7 @@ public class AllListenerRegister implements ApplicationRunner {
      */
     @Override
     public void run(ApplicationArguments args) {
-        botMenu.initBotMenu();
+        //botMenu.initBotMenu();
 
         EventChannel<BotEvent> eventChannel = BotEntity.BOT_ENTITY.getEventChannel();
 

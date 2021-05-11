@@ -13,6 +13,9 @@ import com.xkzhangsan.time.nlp.TimeNLPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -20,7 +23,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class MainMethodTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //HashMap<String, Object> paramMap = new HashMap<>();
         //paramMap.put("userid", "20497889");
@@ -75,27 +78,45 @@ public class MainMethodTest {
         String cmd = "所有群活跃 -last 上7天";
         String cmd2 = "所有群活跃 -s 2021-05-01-00 -e 2021-05-31-24";
 
-        //Options options = CommonCli.GroupChatStatistics.allGroup;
+        CommandLineParser cliParser = CommonCliUtils.CLI_PARSER;
+        CommandLine cli = null;
 
-        //CommandLine cli = null;
-        //
-        //try {
-        //    cli = cliParser.parse(options, cmd.split(" "));
-        //
-        //    if(cli.hasOption("l")){
-        //        log.info("{}", cli.getOptionValue("l"));
-        //    }
-        //    if(cli.hasOption("s")){
-        //        log.info("{}", cli.getOptionValue("s"));
-        //    }
-        //    if(cli.hasOption("e")){
-        //        log.info("{}", cli.getOptionValue("e"));
-        //    }
-        //} catch (ParseException e) {
-        //    e.printStackTrace();
-        //}
-        //
-        //System.out.println(CommonCliUtils.describeOptions(options));
+        Options options = new Options();
+        options.addOption(Option.builder("l").longOpt("line").hasArg(true).argName("刷屏行数").type(Integer.class)
+                .desc("刷屏行数").required(true).optionalArg(false).build());
+        //OptionGroup optionGroup;
+
+        String[] args1 = "clear -l 10".split(" ");
+
+        try {
+            cli = cliParser.parse(options, args1);
+
+            //if(cli.hasOption("l")){
+            //    log.info("{}", cli.getOptionValue("l"));
+            //}
+            //if(cli.hasOption("s")){
+            //    log.info("{}", cli.getOptionValue("s"));
+            //}
+            //if(cli.hasOption("e")){
+            //    log.info("{}", cli.getOptionValue("e"));
+            //}
+            log.info("{}", Arrays.asList(cli.getArgs()));
+
+            //for(int i = 0; i < cli.getOptions().length; ++i) {
+            //    System.out.println(cli.getOptions()[i]);
+            //}
+        } catch (ParseException ex) {
+            if(ex instanceof org.apache.commons.cli.MissingOptionException) {
+                log.info("解析失败，缺少参数：{}", ex.getMessage());
+            } else if(ex instanceof org.apache.commons.cli.MissingArgumentException) {
+                log.info("解析失败，缺少参数值：{}", ex.getMessage());
+            }
+            //ex.printStackTrace();
+        }
+
+        System.out.println(CommonCliUtils.describeOptions("clear", options));
+        System.out.println(CommonCliUtils.describeOptions("clear", options));
+        System.out.println(CommonCliUtils.describeOptions("clear", options));
 
         //String regex = "(上|最近)(\\d+)(天|周|月|年)";
         //List<String> list = ReUtil.getAllGroups(Pattern.compile(regex), "上1天");

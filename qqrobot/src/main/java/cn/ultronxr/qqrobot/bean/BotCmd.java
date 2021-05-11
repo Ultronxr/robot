@@ -59,11 +59,11 @@ public class BotCmd {
 
 
     @NotNull
-    private StringBuilder getDescription(String desc) {
+    private StringBuilder getDescription(String key, String desc) {
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("关键词：");
         triggerList.forEach(trigger -> strBuilder.append(trigger).append(" "));
-        strBuilder.append("\n").append(desc).append("\n");
+        strBuilder.append("\n").append(key).append(desc).append("\n");
         return strBuilder;
     }
 
@@ -74,7 +74,7 @@ public class BotCmd {
      * @return 命令关键词、简介
      */
     public String getBriefDescription() {
-        return getDescription(briefDesc).toString();
+        return getDescription("简介：", briefDesc).toString();
     }
 
     /**
@@ -84,8 +84,10 @@ public class BotCmd {
      * @return 命令关键词、详细解释说明、命令参数说明
      */
     public String getDetailedDescription() {
-        StringBuilder strBuilder = getDescription(detailedDesc);
-        optionsList.forEach(opts -> strBuilder.append(CommonCliUtils.describeOptions(opts)));
+        StringBuilder strBuilder = getDescription("详细说明：", detailedDesc);
+        if(optionsList != null) {
+            optionsList.forEach(opts -> strBuilder.append(CommonCliUtils.describeOptions(opts)));
+        }
         strBuilder.append("\n");
         return strBuilder.toString();
     }

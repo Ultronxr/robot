@@ -8,6 +8,7 @@ import cn.ultronxr.qqrobot.util.CommonCliUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.apache.commons.cli.Option;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-
+@NoArgsConstructor
 @Component
 @Slf4j
 public class MsgWeatherHandlerImpl extends GlobalData implements MsgWeatherHandler {
@@ -58,8 +59,9 @@ public class MsgWeatherHandlerImpl extends GlobalData implements MsgWeatherHandl
 
     @Override
     public void groupWeatherHandler(GroupMessageEvent groupMsgEvent, String msgPlain, Options options) {
-        Collection<Option> OptionCollection = options.getOptions();
-        log.info("[service] weatherService options = {}", CommonCliUtils.describeOptions(options));
+        //Collection<Option> OptionCollection = options.getOptions();
+        //log.info("[service] weatherService options = {}", CommonCliUtils.describeOptions(options));
+        System.out.println(msgPlain);
 
 
     }

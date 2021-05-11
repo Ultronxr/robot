@@ -1,12 +1,11 @@
 package cn.ultronxr.qqrobot.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collection;
 
 /**
@@ -19,7 +18,22 @@ import java.util.Collection;
 public class CommonCliUtils {
 
     /** 命令解析器 */
-    public static final CommandLineParser CLI_PARSER = new DefaultParser();
+    public static final CommandLineParser CLI_PARSER;
+
+    /** 命令参数帮助信息格式化工具 */
+    public static final HelpFormatter HELP_FORMATTER;
+
+    private static final StringWriter STRING_WRITER;
+
+    private static final PrintWriter PRINT_WRITER;
+
+
+    static {
+        CLI_PARSER = new DefaultParser();
+        HELP_FORMATTER = new HelpFormatter();
+        STRING_WRITER = new StringWriter();
+        PRINT_WRITER = new PrintWriter(STRING_WRITER);
+    }
 
     /**
      * 列出一个Options中所有参数的解释描述文本
@@ -39,6 +53,23 @@ public class CommonCliUtils {
             return strBuilder.toString();
         }
         return "空参数组";
+    }
+
+    public static String describeOptions(@NotNull String cmdLineSyntax, @NotNull Options options) {
+        HELP_FORMATTER.printHelp(
+                PRINT_WRITER,
+                HelpFormatter.DEFAULT_WIDTH,
+                cmdLineSyntax,
+                null,
+                options,
+                HelpFormatter.DEFAULT_LEFT_PAD,
+                HelpFormatter.DEFAULT_DESC_PAD,
+                null
+        );
+        PRINT_WRITER.flush();
+        String resStr = STRING_WRITER.toString();
+        STRING_WRITER.getBuffer().setLength(0);
+        return resStr;
     }
 
 }
