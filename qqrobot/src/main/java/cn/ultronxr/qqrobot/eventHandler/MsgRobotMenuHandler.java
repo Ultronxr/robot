@@ -1,6 +1,7 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.Options;
 
 
 /**
@@ -18,5 +19,7 @@ public interface MsgRobotMenuHandler {
      * @see cn.ultronxr.qqrobot.util.MiraiUtils
      */
     void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain);
+
+    void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, Options options);
 
 }

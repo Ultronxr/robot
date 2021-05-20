@@ -1,10 +1,23 @@
 package cn.ultronxr.qqrobot;
 
 import cn.ultronxr.qqrobot.bean.BotCmd;
+import cn.ultronxr.qqrobot.bean.BotMenu;
+import cn.ultronxr.qqrobot.eventHandler.MsgRobotMenuHandler;
+import cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler;
+import lombok.extern.slf4j.Slf4j;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ReflectionUtils;
 import org.yaml.snakeyaml.Yaml;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -15,18 +28,52 @@ import java.util.List;
  * @author Ultronxr
  * @date 2021/05/11 15:38
  */
+@Slf4j
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {
+        cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler.class,
+        cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgWeatherHandlerImpl.class,
+        cn.ultronxr.qqrobot.service.WeatherService.class,
+        cn.ultronxr.qqrobot.service.serviceImpl.WeatherServiceImpl.class,
+        cn.ultronxr.qqrobot.eventHandler.MsgRobotMenuHandler.class,
+        cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgRobotMenuHandlerImpl.class,
+})
 public class YamlTest {
 
-    //@SuppressWarnings("unchecked")
-    public static void main(String[] args) {
+    @Autowired
+    private MsgWeatherHandler msgWeatherHandler;
+
+    @Autowired
+    private MsgRobotMenuHandler msgRobotMenuHandler;
+
+    @Test
+    public void test1() {
+        //String fieldName = "msgWeatherHandler";
+        //Field field = ReflectionUtils.findField(this.getClass(), fieldName);
+        //Method method = ReflectionUtils.findMethod(MsgWeatherHandler.class, "groupWeatherHandler", GroupMessageEvent.class, String.class, Options.class);
+        //try {
+        //    ReflectionUtils.invokeMethod(method, field.get(this), null, "1", null);
+        //} catch (IllegalAccessException e) {
+        //    e.printStackTrace();
+        //}
+
+        List<BotCmd> botCmdList = processYaml();
+        BotCmd botCmd = botCmdList.get(0);
+        ReflectionUtils.invokeMethod(botCmd.getHandlerMethodList().get(0), botCmd.getHandler(), null, "1", null);
+
+        log.info("");
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<BotCmd> processYaml() {
         Yaml yaml = new Yaml();
         Iterable<Object> yamlAll = yaml.loadAll(YamlTest.class.getResourceAsStream("/botMenu.yaml"));
 
-        List<BotCmd> botMenu = new ArrayList<>();
+        List<BotCmd> botCmdList = new ArrayList<>();
 
         while (yamlAll.iterator().hasNext()) {
             LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) yamlAll.iterator().next();
-            System.out.println(map);
+            //System.out.println(map);
 
             BotCmd botCmd = new BotCmd();
             botCmd.setBriefDesc(map.get("briefDesc").toString());
@@ -71,54 +118,46 @@ public class YamlTest {
             });
             botCmd.setOptionsList(optionsList);
 
-            Class<?> handlerClass = null;
+            String fieldName = map.get("handler").toString();
+            Field field = ReflectionUtils.findField(this.getClass(), fieldName);
             try {
-                handlerClass = Class.forName(map.get("handler").toString());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            botCmd.setHandler(handlerClass);
-            try {
-                botCmd.setHandler(handlerClass.getDeclaredConstructor().newInstance());
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                botCmd.setHandler(field.get(this));
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
 
             List<Method> methodList = new ArrayList<>(optionsList.size());
             List<LinkedHashMap<String, Object>> methodListYaml = (List<LinkedHashMap<String, Object>>) map.get("handlerMethodList");
-            Class<?> finalHandlerClass = handlerClass;
+            List<Class<?>> defaultArgsClassList = new ArrayList<>(3);
+            defaultArgsClassList.add(GroupMessageEvent.class);
+            defaultArgsClassList.add(String.class);
+            defaultArgsClassList.add(Options.class);
+
             methodListYaml.forEach(methodYaml -> {
                 String methodName = methodYaml.get("method").toString();
-                String[] argsArray = methodYaml.get("args").toString().split(" ");
-                List<Class<?>> classList = new ArrayList<>(argsArray.length);
-                for (String arg : argsArray) {
-                    try {
-                        classList.add(Class.forName(arg));
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                Object args = methodYaml.get("args");
+                List<Class<?>> argsClassList = null;
+                if(args == null || StringUtils.isEmpty(args.toString()) || StringUtils.isBlank(args.toString())) {
+                    argsClassList = defaultArgsClassList;
+                } else {
+                    String[] argsArray = args.toString().split(" ");
+                    argsClassList = new ArrayList<>(argsArray.length);
+                    for (String arg : argsArray) {
+                        try {
+                            argsClassList.add(Class.forName(arg));
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-                try {
-                    Method method = finalHandlerClass.getDeclaredMethod(methodName, classList.toArray(Class[]::new));
-                    methodList.add(method);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+                Method method = ReflectionUtils.findMethod(botCmd.getHandler().getClass(), methodName, argsClassList.toArray(Class[]::new));
+                methodList.add(method);
             });
             botCmd.setHandlerMethodList(methodList);
 
-            botMenu.add(botCmd);
+            botCmdList.add(botCmd);
         }
-
-        BotCmd botCmd = botMenu.get(0);
-        try {
-            botCmd.getHandlerMethodList().get(0).invoke(botCmd.getHandler(), null, "kjhjk", null);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println();
-
+        return botCmdList;
     }
 
 }

@@ -20,9 +20,6 @@ import org.springframework.stereotype.Component;
 public class MsgGroupListener {
 
     @Autowired
-    private BotMenu botMenu;
-
-    @Autowired
     private BotCmdHandler botCmdHandler;
 
     @Autowired
@@ -46,7 +43,7 @@ public class MsgGroupListener {
             msgPlain = msgPlain.replaceFirst(">", "").strip();
             log.info("[Msg-Receive] msgPlain: {}", msgPlain);
 
-            BotCmd botCmd = botMenu.checkBotCmd(msgPlain);
+            BotCmd botCmd = BotMenu.checkBotCmd(msgPlain);
             if(botCmd != null) {
                 botCmdHandler.botCmdHandler(botCmd, groupMsgEvent, msgPlain);
                 return;

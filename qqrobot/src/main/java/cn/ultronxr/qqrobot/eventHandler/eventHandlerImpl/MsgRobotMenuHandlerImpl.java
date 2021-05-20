@@ -1,10 +1,12 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
 import cn.ultronxr.qqrobot.bean.BotEntity;
+import cn.ultronxr.qqrobot.bean.BotMenu;
 import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.MsgRobotMenuHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.Options;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -27,6 +29,15 @@ public class MsgRobotMenuHandlerImpl extends GlobalData implements MsgRobotMenuH
 
         groupMsgEvent.getSubject().sendMessage(resMsg.toString());
         log.info("[message-send] {}", resMsg.toString());
+    }
+
+    @Override
+    public void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, Options options) {
+        StringBuffer buffer = new StringBuffer();
+        BotMenu.botCmdList.forEach(botCmd -> {
+            buffer.append(botCmd.getDetailedDescription());
+        });
+        System.out.println(buffer.toString());
     }
 
 }

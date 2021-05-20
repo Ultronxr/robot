@@ -19,43 +19,29 @@ optionsList:
       hasArg: false
       desc: 命令解释说明
       required: true
-#handler: cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler
-handler: cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgWeatherHandlerImpl
+handler: msgWeatherHandler
 handlerMethodList:
   - method: groupWeatherHandler
-    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
   - method: groupWeatherHandler
-    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
   - method: groupWeatherHandler
-    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
 
----
-briefDesc: 天气信息。
-detailedDesc: 获取指定地区的天气信息；缺省地区为杭州。
-triggerList:
-  - 天气
-  - weather
-optionsList:
-  -
-  -
-    - opt: a
-      longOpt: area
-      hasArg: true
-      argName: 地区地名
-      type: java.lang.String
-      desc: 指定地区地名
-      required: true
-  -
-    - opt: h
-      longOpt: help
-      hasArg: false
-      desc: 命令解释说明
-      required: true
-handler: cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler
-handlerMethodList:
-  - method: groupWeatherHandler
-    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
-  - method: groupWeatherHandler
-    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
-  - method: groupWeatherHandler
-    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
+#---
+#briefDesc: 命令功能菜单。
+#detailedDesc: 获取robot的功能菜单及命令解释。
+#triggerList:
+#  - 菜单
+#  - menu
+#optionsList:
+#  -
+#  -
+#    - opt: a
+#      longOpt: all
+#      hasArg: false
+#      desc: 完整详细的解释
+#      required: true
+#handler: msgRobotMenuHandler
+#handlerMethodList:
+#  - method: groupWeatherHandler
+#    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options
+#  - method: groupWeatherHandler
+#    args: net.mamoe.mirai.event.events.GroupMessageEvent java.lang.String org.apache.commons.cli.Options

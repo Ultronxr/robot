@@ -33,7 +33,7 @@ import java.util.List;
 @Slf4j
 public class BotMenu {
 
-    private static ArrayList<BotCmd> botCmdList = new ArrayList<>();
+    public static ArrayList<BotCmd> botCmdList = new ArrayList<>();
 
     //@Autowired
     //public MsgWeatherHandler msgWeatherHandler;
@@ -137,7 +137,7 @@ public class BotMenu {
     /**
      * 返回文字版的功能命令菜单
      */
-    public String getTextMenu() {
+    public static String getTextMenu() {
         StringBuilder strBuilder = new StringBuilder();
         botCmdList.forEach(cmd -> strBuilder.append(cmd.getBriefDescription()));
         return strBuilder.toString();
@@ -152,7 +152,7 @@ public class BotMenu {
      * @param msgPlain 纯文本消息语句
      * @return {@code BotCmd} 触发的BOT功能命令对象，如果没有匹配结果返回null
      */
-    public BotCmd checkBotCmd(String msgPlain) {
+    public static BotCmd checkBotCmd(String msgPlain) {
         if(StringUtils.isEmpty(msgPlain)) {
             return null;
         }

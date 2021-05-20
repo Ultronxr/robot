@@ -30,32 +30,31 @@ public class BotCmd {
     private String detailedDesc;
 
     /**
-     * 功能命令触发关键词List（功能命令名称）<br/>
+     * 命令触发关键词List（功能命令名称）<br/>
      * 当消息文本内容中检测到这些关键词中的任意一个（一般是以某个关键词开头且后跟空格），即进入这个功能命令的处理流程
      */
     private List<String> triggerList;
 
     /**
-     * 功能命令参数组List，这条命令可以携带的每一种（组）命令参数<br/>
+     * 命令参数组列表List，这条命令可以携带的每一种（组）命令参数<br/>
      * List中的每一个 {@link Options} 都代表一组可行的参数组合，每一个Options都需要单独设置
      */
     private List<Options> optionsList;
 
     /**
-     * 处理功能命令的对象（被用于反射获取 {@link Method#invoke(Object, Object...)} ）<br/>
-     * 下面 {@link #handlerMethodList} 中的所有处理方法都被包含在这个handler对象里面
-     */
-    private Object handler;
-
-    /**
-     * 处理功能命令的方法List，
-     * 这里的所有处理方法都被包含在 {@link #handler} 对象里面，使用 {@link Class#getDeclaredMethod(String, Class[])} 方法获取<br/>
+     * 处理功能命令的方法List，上面 {@link #optionsList} 中的每一个命令参数组 options 都对应这里的一个处理方法；<br/>
+     *   例：当index=0，命令参数组是 optionsList.get(0)，处理这条命令和参数组的方法为 handlerMethodList.get(0) <br/>
+     *   （有几个参数组就需要填入几个对应的处理方法，如果几个参数组都对应同一个处理方法，那就在这几个下标位置插入同一个method。）<br/>
      *
-     * {@link #optionsList} 中的每一个命令参数组 options 都对应这里的一个处理方法；
-     * （有几个参数组就需要填入几个对应的处理方法，如果几个参数组都对应同一个处理方法，那就在这几个下标位置插入同一个method。）<br/>
-     * 例如：当index=0，命令参数组是 optionsList.get(0)，处理这条命令和这些参数的方法为 handlerMethodList.get(0)
+     * 这里的所有处理方法都会被下面的 {@link #handler} 对象调用，这些方法使用 {@link Class#getDeclaredMethod(String, Class[])} 方法获取 <br/>
      */
     private List<Method> handlerMethodList;
+
+    /**
+     * 处理命令的对象，即调用上面 {@link #handlerMethodList} 中的所有处理方法的handler <br/>
+     * 被用于反射调用处理方法 {@link Method#invoke(Object, Object...)}
+     */
+    private Object handler;
 
 
     @NotNull
