@@ -1,6 +1,6 @@
 # QQ Robot
 
-当前QQRobot版本：2.9.0_3_1
+当前QQRobot版本：[查看pom.xml文件version标签](./pom.xml#L13)
 
 依赖mirai版本：2.6.4
 

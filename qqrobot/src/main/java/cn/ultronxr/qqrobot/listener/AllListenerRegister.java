@@ -1,7 +1,6 @@
 package cn.ultronxr.qqrobot.listener;
 
 import cn.ultronxr.qqrobot.bean.BotEntity;
-import cn.ultronxr.qqrobot.bean.BotMenu;
 import cn.ultronxr.qqrobot.eventHandler.BotEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.EventChannel;
@@ -39,9 +38,6 @@ public class AllListenerRegister implements ApplicationRunner {
     @Autowired
     private MsgFriendListener msgFriendListener;
 
-    @Autowired
-    private BotMenu botMenu;
-
 
     /**
      * 实现自 {@code ApplicationRunner} 的 {@code run(ApplicationArguments args)} 方法会同 {@code QqrobotApplication} 一起启动
@@ -51,30 +47,18 @@ public class AllListenerRegister implements ApplicationRunner {
      */
     @Override
     public void run(ApplicationArguments args) {
-        //botMenu.initBotMenu();
-
         EventChannel<BotEvent> eventChannel = BotEntity.BOT_ENTITY.getEventChannel();
 
         // BOT事件
-        eventChannel.subscribeAlways(BotOfflineEvent.class, botOfflineEvent -> {
-            botEventHandler.botOfflineHandler(botOfflineEvent);
-        });
-        eventChannel.subscribeAlways(BotReloginEvent.class, botReloginEvent -> {
-            botEventHandler.botReloginHandler(botReloginEvent);
-        });
+        eventChannel.subscribeAlways(BotOfflineEvent.class, botOfflineEvent -> botEventHandler.botOfflineHandler(botOfflineEvent));
+        eventChannel.subscribeAlways(BotReloginEvent.class, botReloginEvent -> botEventHandler.botReloginHandler(botReloginEvent));
 
         // 群事件
-        eventChannel.subscribeAlways(MemberJoinEvent.class, memberJoinEvent -> {
-            groupInfoListener.onMemberJoin(memberJoinEvent);
-        });
-        eventChannel.subscribeAlways(MemberLeaveEvent.class, memberLeaveEvent -> {
-            groupInfoListener.onMemberLeave(memberLeaveEvent);
-        });
+        eventChannel.subscribeAlways(MemberJoinEvent.class, memberJoinEvent -> groupInfoListener.onMemberJoin(memberJoinEvent));
+        eventChannel.subscribeAlways(MemberLeaveEvent.class, memberLeaveEvent -> groupInfoListener.onMemberLeave(memberLeaveEvent));
 
         // 消息事件
-        eventChannel.subscribeAlways(GroupMessageEvent.class, groupMsgEvent -> {
-            msgGroupListener.onGroupMessage(groupMsgEvent);
-        });
+        eventChannel.subscribeAlways(GroupMessageEvent.class, groupMsgEvent -> msgGroupListener.onGroupMessage(groupMsgEvent));
 
     }
 }

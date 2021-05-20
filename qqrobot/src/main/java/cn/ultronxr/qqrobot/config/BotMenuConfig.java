@@ -23,6 +23,13 @@ import java.util.List;
 /**
  * @author Ultronxr
  * @date 2021/05/10 18:44
+ *
+ * TODO 2021-5-20 22:48:54 把eventHandler包里的handler的逻辑处理代码抽取到service包里去，只保留最基本的与groupMessageEvent交互的代码
+ * TODO 2021-5-20 22:39:59 需要在README里面详细写一份添加一条BotCmd需要哪些步骤的说明
+ * 添加一条BotCmd需要的步骤说明：
+ * 例如：1. eventHandler包添加事件handler方法（service对应的逻辑处理方法）
+ *      2. 在botMenu.yaml配置好详细内容
+ *      3.最后在这里Autowired这个handler方法
  */
 @Configuration
 @Slf4j
