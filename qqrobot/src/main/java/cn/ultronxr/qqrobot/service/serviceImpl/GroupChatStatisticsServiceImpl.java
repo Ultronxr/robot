@@ -104,7 +104,8 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
             // 存在该群成员发言记录，增加chatNum
             if(redisTemplate.opsForHash().hasKey(REDIS_KEY, qqGroupMember)){
                 redisTemplate.opsForHash().increment(REDIS_KEY, qqGroupMember, chatNum);
-                log.info("[function] 维护redis发言记录 - {}，增长次数k-v：{} - {}", REDIS_KEY, qqGroupMember.toString(), chatNum);
+                log.info("[function] 维护redis发言记录 - {}，k-v值增长{}：{} = {}",
+                        REDIS_KEY, chatNum, qqGroupMember.toString(), redisTemplate.opsForHash().get(REDIS_KEY, qqGroupMember));
                 return;
             }
             // 不存在该群成员发言记录，新增发言记录

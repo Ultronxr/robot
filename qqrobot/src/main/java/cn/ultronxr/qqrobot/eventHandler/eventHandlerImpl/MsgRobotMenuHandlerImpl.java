@@ -35,7 +35,7 @@ public class MsgRobotMenuHandlerImpl extends GlobalData implements MsgRobotMenuH
     public void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, Options options) {
         StringBuffer buffer = new StringBuffer();
         BotMenu.botCmdList.forEach(botCmd -> {
-            buffer.append(botCmd.getDetailedDescription());
+            buffer.append(botCmd.getDescription());
         });
         System.out.println(buffer.toString());
     }

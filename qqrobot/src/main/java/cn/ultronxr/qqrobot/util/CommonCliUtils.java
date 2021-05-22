@@ -52,7 +52,7 @@ public class CommonCliUtils {
             });
             return strBuilder.toString();
         }
-        return "空参数组";
+        return "空参数组\n";
     }
 
     public static String describeOptions(@NotNull String cmdLineSyntax, @NotNull Options options) {

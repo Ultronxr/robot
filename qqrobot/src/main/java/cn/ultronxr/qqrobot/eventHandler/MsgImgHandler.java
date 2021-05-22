@@ -1,6 +1,8 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
+import cn.ultronxr.qqrobot.bean.BotCmd;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.CommandLine;
 
 
 /**
@@ -9,14 +11,28 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 public interface MsgImgHandler {
 
     /**
-     * 群聊中的 生成PornHub图标样式的图片 处理器
+     * 套用BotCmd/BotMenu框架
+     * 群聊中的 生成PornHub图标样式的图片 命令处理器
      *
-     * @param groupMsgEvent GroupMessageEvent群聊消息事件
-     * @param msgCode       MiraiUtils自定义消息类型一
-     * @param msgContent    MiraiUtils自定义消息类型二
-     * @param msgPlain      MiraiUtils自定义消息类型三
-     * @see cn.ultronxr.qqrobot.util.MiraiUtils
+     * @param botCmd        匹配成功的命令BotCmd对象
+     * @param idx           Options参数组/对应处理方法Method的列表下标idx
+     * @param cmdLine       解析完成的CommandLine对象
+     * @param groupMsgEvent 群消息事件
+     * @param msgPlain      纯消息主体文本内容（MiraiUtils自定义消息类型三）
+     *                      {@link cn.ultronxr.qqrobot.util.MiraiUtils#getMsgPlain(net.mamoe.mirai.event.events.MessageEvent)}
      */
-    void groupImgPornHubIconHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain);
+    void groupImgPornHubIconHandler(BotCmd botCmd, Integer idx, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain);
+
+    /**
+     * 群聊中的 生成PornHub图标样式的图片 命令-help处理器
+     *
+     * @param botCmd        匹配成功的命令BotCmd对象
+     * @param idx           Options参数组/对应处理方法Method的列表下标idx
+     * @param cmdLine       解析完成的CommandLine对象
+     * @param groupMsgEvent 群消息事件
+     * @param msgPlain      纯消息主体文本内容（MiraiUtils自定义消息类型三）
+     *                      {@link cn.ultronxr.qqrobot.util.MiraiUtils#getMsgPlain(net.mamoe.mirai.event.events.MessageEvent)}
+     */
+    void groupImgPornHubIconHelper(BotCmd botCmd, Integer idx, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain);
 
 }

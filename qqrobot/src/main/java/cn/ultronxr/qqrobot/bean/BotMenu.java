@@ -160,7 +160,7 @@ public class BotMenu {
         // 数据量不大直接嵌套for
         for(BotCmd cmd : botCmdList) {
             for(String trigger : cmd.getTriggerList()) {
-                if(msgPlain.startsWith(trigger + " ")) {
+                if(msgPlain.startsWith(trigger)) {
                     return cmd;
                 }
             }

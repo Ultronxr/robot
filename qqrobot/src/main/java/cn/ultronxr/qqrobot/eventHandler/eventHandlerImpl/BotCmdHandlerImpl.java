@@ -10,8 +10,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -25,7 +25,7 @@ public class BotCmdHandlerImpl implements BotCmdHandler {
 
     @Override
     public void botCmdHandler(@NotNull BotCmd botCmd, @NotNull GroupMessageEvent groupMsgEvent, @NotNull String msgPlain) {
-        String[] args = msgPlain.strip().split(" ");
+        String[] args = msgPlain.strip().split(" +");
         List<Options> optionsList = botCmd.getOptionsList();
         CommandLine cmdLine = null;
 
@@ -38,12 +38,14 @@ public class BotCmdHandlerImpl implements BotCmdHandler {
                 continue;
             }
             if(cmdLine != null && cmdLine.getArgs().length > 0) {
-                log.info("[BotCmd] 功能命令参数解析完成（index={}），符合的参数组：{}", idx, CommonCliUtils.describeOptions(optionsList.get(idx)));
+                log.info("[BotCmd] 功能命令参数解析完成（index={}），符合的参数组：\n{}", idx, CommonCliUtils.describeOptions(optionsList.get(idx)));
                 try {
-                    botCmd.getHandlerMethodList().get(idx).invoke(botCmd.getHandler(), groupMsgEvent, msgPlain, optionsList.get(idx));
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    log.warn("[BotCmd] method.invoke() 抛出异常！");
-                    ex.printStackTrace();
+                    // TODO 2021-5-22 23:16:47 这里不应该把传入的参数args写死，而是从handlerMethodList对应的method动态过去，不过不知道怎么实现先这样写
+                    ReflectionUtils.invokeMethod(botCmd.getHandlerMethodList().get(idx), botCmd.getHandler(),
+                            botCmd, idx, cmdLine, groupMsgEvent, msgPlain);
+                } catch (Exception ex) {
+                    log.warn("[BotCmd] 方法调用抛出异常！");
+                    ReflectionUtils.handleReflectionException(ex);
                 }
                 return;
             }

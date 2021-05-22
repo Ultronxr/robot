@@ -57,37 +57,35 @@ public class BotCmd {
     private Object handler;
 
 
-    @NotNull
-    private StringBuilder getDescription(String key, String desc) {
+    /**
+     * 获取这条功能命令的简介说明
+     * （用于菜单，列出所有功能命令）
+     *
+     * @return 这条功能命令的简介说明，包含关键词
+     */
+    public StringBuilder getBriefDescription() {
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("关键词：");
         triggerList.forEach(trigger -> strBuilder.append(trigger).append(" "));
-        strBuilder.append("\n").append(key).append(desc).append("\n");
+        strBuilder.append("\n");
         return strBuilder;
     }
 
     /**
-     * 获取这条功能命令的简介解释说明，
-     * 包括功能命令关键词、简介
+     * 获取这条功能命令的所有内容的解释说明
      *
-     * @return 命令关键词、简介
+     * @return 这条功能命令的所有内容的解释说明
      */
-    public String getBriefDescription() {
-        return getDescription("简介：", briefDesc).toString();
-    }
-
-    /**
-     * 获取这条功能命令的详细解释说明，
-     * 包括功能命令关键词、详细解释说明、命令参数说明
-     *
-     * @return 命令关键词、详细解释说明、命令参数说明
-     */
-    public String getDetailedDescription() {
-        StringBuilder strBuilder = getDescription("详细说明：", detailedDesc);
+    public String getDescription() {
+        StringBuilder strBuilder = getBriefDescription()
+                .append("简介：").append(briefDesc).append("\n")
+                .append("详细说明：").append(detailedDesc).append("\n");
         if(optionsList != null) {
-            optionsList.forEach(opts -> strBuilder.append(CommonCliUtils.describeOptions(opts)));
+            strBuilder.append("参数组列表：\n");
+            for(int i = 0; i < optionsList.size(); ++i) {
+                strBuilder.append(i+1).append(".\n").append(CommonCliUtils.describeOptions(optionsList.get(i))).append("\n");
+            }
         }
-        strBuilder.append("\n");
         return strBuilder.toString();
     }
 

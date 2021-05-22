@@ -32,9 +32,7 @@ public class MsgGroupListener {
      */
     public void onGroupMessage(@NotNull GroupMessageEvent groupMsgEvent) {
         // 请避免在群聊全局打印消息记录
-        String msgCode = MiraiUtils.getMsgCode(groupMsgEvent),
-                msgContent = MiraiUtils.getMsgContent(groupMsgEvent),
-                msgPlain = MiraiUtils.getMsgPlain(groupMsgEvent);
+        String msgPlain = MiraiUtils.getMsgPlain(groupMsgEvent);
 
         // 群消息活跃统计
         msgGroupChatStatisticsHandler.groupChatStatisticsHandler(groupMsgEvent);

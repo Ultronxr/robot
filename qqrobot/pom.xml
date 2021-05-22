@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>qqrobot</artifactId>
-    <version>2.9.0_4_1</version>
+    <version>2.9.0_5_0</version>
     <name>qqrobot</name>
     <description>A QQ Robot based on Mirai framework.</description>
 

@@ -5,6 +5,7 @@ import cn.ultronxr.qqrobot.bean.BotMenu;
 import cn.ultronxr.qqrobot.eventHandler.*;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.StringUtils;
@@ -158,11 +159,18 @@ public class BotMenuConfig {
             List<Method> methodList = new ArrayList<>(optionsList.size());
             List<LinkedHashMap<String, Object>> methodListYaml = (List<LinkedHashMap<String, Object>>) map.get("handlerMethodList");
 
-            // 配置文件中args项为空时，默认的参数列表：GroupMessageEvent, String, Options
+            // 配置文件中方法参数列表args项为空时，统一的默认的参数列表：
+            // BotCmd             匹配成功的命令BotCmd对象
+            // Integer            Options参数组/对应处理方法Method的列表下标idx
+            // CommandLine        解析完成的CommandLine对象
+            // GroupMessageEvent  群消息事件
+            // String             纯消息主体文本内容msgPlain
             List<Class<?>> defaultArgsClassList = new ArrayList<>(3);
+            defaultArgsClassList.add(BotCmd.class);
+            defaultArgsClassList.add(Integer.class);
+            defaultArgsClassList.add(CommandLine.class);
             defaultArgsClassList.add(GroupMessageEvent.class);
             defaultArgsClassList.add(String.class);
-            defaultArgsClassList.add(Options.class);
 
             // 遍历处理方法列表
             methodListYaml.forEach(methodYaml -> {

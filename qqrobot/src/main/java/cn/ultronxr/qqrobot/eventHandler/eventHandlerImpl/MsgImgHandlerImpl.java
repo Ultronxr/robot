@@ -1,5 +1,6 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
+import cn.ultronxr.qqrobot.bean.BotCmd;
 import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.eventHandler.MsgImgHandler;
 import cn.ultronxr.qqrobot.service.ImgService;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.utils.ExternalResource;
+import org.apache.commons.cli.CommandLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,25 +25,39 @@ public class MsgImgHandlerImpl extends GlobalData implements MsgImgHandler {
 
 
     @Override
-    public void groupImgPornHubIconHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
-        msgPlain = msgPlain.replaceFirst("phub", "").strip();
-        String[] texts = msgPlain.split(" +");
-        if(texts.length < 2){
-            String msg = "调用格式：\nphub prefixText suffixText\n（phub 前缀文字 后缀文字）";
-            groupMsgEvent.getSubject().sendMessage(msg);
-            log.info(msg);
-            return;
+    public void groupImgPornHubIconHandler(BotCmd botCmd, Integer idx, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain) {
+        String prefix = "", suffix = "";
+        if(cmdLine.getOptions().length == 0) {
+            String[] texts = msgPlain.replaceFirst("phub", "").strip().split(" +");
+            if(texts.length != 2) {
+                groupImgPornHubIconHelper(botCmd, idx, cmdLine, groupMsgEvent, msgPlain);
+                return;
+            }
+            prefix = texts[0];
+            suffix = texts[1];
+        } else if(cmdLine.hasOption("p") && cmdLine.hasOption("s")) {
+            prefix = cmdLine.getOptionValue("p");
+            suffix = cmdLine.getOptionValue("s");
         }
         try {
-            InputStream inputStream = imgService.createPornHubIconImgInputStream(texts[0], texts[1]);
+            InputStream inputStream = imgService.createPornHubIconImgInputStream(prefix, suffix);
             Image image = groupMsgEvent.getSubject().uploadImage(ExternalResource.create(inputStream));
             inputStream.close();
             groupMsgEvent.getSubject().sendMessage(image);
-            log.info("[msg-send] 发送PornHub图标样式图片：prefix suffix - {} {}", texts[0], texts[1]);
+            log.info("[Msg-Send] 发送PornHub图标样式图片：prefix suffix - {} {}", prefix, suffix);
         } catch (IOException ex) {
             ex.printStackTrace();
-            log.warn("[function] 发送PornHub图标样式图片失败：prefix suffix - {} {}", texts[0], texts[1]);
+            log.warn("[Function] 发送PornHub图标样式图片失败：prefix suffix - {} {}", prefix, suffix);
         }
+    }
+
+    @Override
+    public void groupImgPornHubIconHelper(BotCmd botCmd, Integer idx, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain) {
+        String helper = botCmd.getDescription();
+        String msg = "调用格式：\nphub prefix suffix\n（phub 前缀文字 后缀文字）";
+        groupMsgEvent.getSubject().sendMessage(helper);
+        groupMsgEvent.getSubject().sendMessage(msg);
+        log.info("[Msg-Send] {}", msg);
     }
 
 }
