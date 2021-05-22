@@ -55,7 +55,17 @@ public class CommonCliUtils {
         return "空参数组\n";
     }
 
+    /**
+     * 使用printHelp库方法规范地打印一个Options中所有参数的解释描述文本
+     *
+     * @param cmdLineSyntax 命令使用举例中的语法关键词（"usage: xxx"中的"xxx"）
+     * @param options       {@code Options} 对象
+     * @return 规范化的所有参数的解释描述文本
+     */
     public static String describeOptions(@NotNull String cmdLineSyntax, @NotNull Options options) {
+        if(options.getOptions().size() == 0) {
+            return "usage: 关键词\n 空参数组\n";
+        }
         HELP_FORMATTER.printHelp(
                 PRINT_WRITER,
                 HelpFormatter.DEFAULT_WIDTH,
@@ -64,7 +74,8 @@ public class CommonCliUtils {
                 options,
                 HelpFormatter.DEFAULT_LEFT_PAD,
                 HelpFormatter.DEFAULT_DESC_PAD,
-                null
+                null,
+                true
         );
         PRINT_WRITER.flush();
         String resStr = STRING_WRITER.toString();

@@ -54,10 +54,9 @@ public class MsgImgHandlerImpl extends GlobalData implements MsgImgHandler {
     @Override
     public void groupImgPornHubIconHelper(BotCmd botCmd, Integer idx, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain) {
         String helper = botCmd.getDescription();
-        String msg = "调用格式：\nphub prefix suffix\n（phub 前缀文字 后缀文字）";
+        helper = helper.replaceFirst("usage: 关键词", "usage: 关键词 <前缀> <后缀>");
         groupMsgEvent.getSubject().sendMessage(helper);
-        groupMsgEvent.getSubject().sendMessage(msg);
-        log.info("[Msg-Send] {}", msg);
+        log.info("[Msg-Send] {}", helper);
     }
 
 }

@@ -65,7 +65,7 @@ public class BotCmd {
      */
     public StringBuilder getBriefDescription() {
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("关键词：");
+        strBuilder.append("命令关键词：");
         triggerList.forEach(trigger -> strBuilder.append(trigger).append(" "));
         strBuilder.append("\n");
         return strBuilder;
@@ -83,7 +83,10 @@ public class BotCmd {
         if(optionsList != null) {
             strBuilder.append("参数组列表：\n");
             for(int i = 0; i < optionsList.size(); ++i) {
-                strBuilder.append(i+1).append(".\n").append(CommonCliUtils.describeOptions(optionsList.get(i))).append("\n");
+                strBuilder.append(i+1).append(".\n")
+                        //.append(CommonCliUtils.describeOptions(optionsList.get(i)))
+                        .append(CommonCliUtils.describeOptions("关键词", optionsList.get(i)))
+                        .append("\n");
             }
         }
         return strBuilder.toString();
