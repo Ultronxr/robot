@@ -1,7 +1,6 @@
 package cn.ultronxr.qqrobot;
 
 import cn.ultronxr.qqrobot.bean.BotCmd;
-import cn.ultronxr.qqrobot.bean.BotMenu;
 import cn.ultronxr.qqrobot.eventHandler.MsgRobotMenuHandler;
 import cn.ultronxr.qqrobot.eventHandler.MsgWeatherHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import org.springframework.util.ReflectionUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -38,7 +36,7 @@ import java.util.List;
         cn.ultronxr.qqrobot.eventHandler.MsgRobotMenuHandler.class,
         cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl.MsgRobotMenuHandlerImpl.class,
 })
-public class YamlTest {
+public class BotMenuYamlTest {
 
     @Autowired
     private MsgWeatherHandler msgWeatherHandler;
@@ -67,7 +65,7 @@ public class YamlTest {
     @SuppressWarnings("unchecked")
     private List<BotCmd> processYaml() {
         Yaml yaml = new Yaml();
-        Iterable<Object> yamlAll = yaml.loadAll(YamlTest.class.getResourceAsStream("/botMenu.yaml"));
+        Iterable<Object> yamlAll = yaml.loadAll(BotMenuYamlTest.class.getResourceAsStream("/botMenu.yaml"));
 
         List<BotCmd> botCmdList = new ArrayList<>();
 

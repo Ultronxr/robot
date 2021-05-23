@@ -36,26 +36,56 @@ optionsList:
   -
     - opt: p
       longOpt: prefix
+      desc: 前缀文字内容
       hasArg: true
       argName: 前缀
       type: java.lang.String
-      desc: 前缀文字内容
       required: true
+      optional: false
     - opt: s
       longOpt: suffix
+      desc: 后缀文字内容
       hasArg: true
       argName: 后缀
       type: java.lang.String
-      desc: 后缀文字内容
       required: true
+      optional: false
   -
     - opt: h
       longOpt: help
       hasArg: false
       desc: 命令解释说明
       required: true
+      optional: false
 handler: msgImgHandler
 handlerMethodList:
   - method: groupImgPornHubIconHandler
   - method: groupImgPornHubIconHandler
   - method: groupImgPornHubIconHelper
+
+---
+briefDesc: clear清屏
+detailedDesc: 发送很多空行（换行符）实现清屏/刷屏效果；空行取值区间[1,80]，缺省值25
+triggerList:
+  - clear
+optionsList:
+  -
+    - opt: l
+      longOpt: line
+      desc: 空行数量
+      hasArg: true
+      argName: 空行数量
+      type: java.lang.Integer
+      required: false
+      optional: true
+  -
+    - opt: h
+      longOpt: help
+      hasArg: false
+      desc: 命令解释说明
+      required: true
+      optional: false
+handler: msgClearHandler
+handlerMethodList:
+  - method: groupClearHandler
+  - method: groupClearHelper

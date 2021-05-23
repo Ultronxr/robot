@@ -66,6 +66,9 @@ public class BotMenuConfig {
     @Autowired
     private MsgWeatherHandler msgWeatherHandler;
 
+    @Autowired
+    private MsgClearHandler msgClearHandler;
+
 
     /**
      * 初始化BOT命令菜单BotMenu
@@ -136,6 +139,9 @@ public class BotMenuConfig {
                         }
                         if(optionYaml.containsKey("required")) {
                             option.setRequired(Boolean.parseBoolean(optionYaml.get("required").toString()));
+                        }
+                        if(optionYaml.containsKey("optional")) {
+                            option.setOptionalArg(Boolean.parseBoolean(optionYaml.get("optional").toString()));
                         }
                         options.addOption(option);
                     });

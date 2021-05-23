@@ -116,6 +116,7 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
 
     @Override
     @Scheduled(cron = "0 59 0/1 * * ? ")
+    // TODO 2021-5-23 00:33:48 已知缺陷/问题：如果redis中的发言数据因特殊情况（如程序关闭未执行等）未被插入数据库，那么这些发言数据的时间标记会被一直延后到下一次插入数据库的时间
     public void insertRedisToDb(){
         synchronized (this) {
             log.info("[function] redis群成员发言记录插入数据库 启动...");
