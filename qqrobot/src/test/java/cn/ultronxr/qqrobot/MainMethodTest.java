@@ -24,7 +24,8 @@ import java.util.regex.Pattern;
 public class MainMethodTest {
 
     public static void main(String[] args) {
-        commonCliTest();
+        //commonCliTest();
+        commonCliHelpTest();
     }
 
     /**
@@ -62,10 +63,32 @@ public class MainMethodTest {
         System.out.println(CommonCliUtils.describeOptions("clear", options));
     }
 
+    public static void commonCliHelpTest() {
+        CommandLineParser cliParser = CommonCliUtils.CLI_PARSER;
+        CommandLine cli = null;
+        Options options = new Options();
+        options.addOption(Option.builder().longOpt("help").hasArg(false)
+                .desc("获取命令帮助").required(true).optionalArg(false).build());
+
+        String[] args1 = "clear --help".split(" ");
+        try {
+            cli = cliParser.parse(options, args1);
+            if(cli.hasOption("help")) {
+                System.out.println(11);
+            }
+            if(cli.hasOption("h")) {
+                System.out.println(222);
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(CommonCliUtils.describeOptions("clear", options));
+    }
+
     /**
      * 自然语言时间描述解析测试
      */
-    public void timeNLPTest() {
+    public static void timeNLPTest() {
         //后天上午9点开会，给我定时8点半的闹钟
         List<TimeNLP> list = TimeNLPUtil.parse("七天前");
         list.forEach(l ->
@@ -76,7 +99,7 @@ public class MainMethodTest {
     /**
      * DateTimeUtils测试
      */
-    public void dateTimeUtilsTest() {
+    public static void dateTimeUtilsTest() {
         System.out.println(DateTimeUtils.getFormattedCalendar(DateTimeUtils.calculateDay(null, -0), null));
         System.out.println(DateTimeUtils.getFormattedCalendar(DateTimeUtils.calculateWeek(null, -3), null));
         System.out.println(DateTimeUtils.getFormattedCalendar(DateTimeUtils.calculateWeekAndDayOfWeek(null, -1, Calendar.SUNDAY), null));
@@ -87,7 +110,7 @@ public class MainMethodTest {
     /**
      * 小黑盒游戏资讯API测试
      */
-    public void blackBoxAPITest() {
+    public static void blackBoxAPITest() {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("userid", "20497889");
         paramMap.put("offset", "0");

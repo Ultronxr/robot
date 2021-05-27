@@ -25,7 +25,7 @@ public class MagnetServiceImpl implements MagnetService {
 
     @Override
     public ArrayList<ArrayList<String>> SIXMAGNETSearch(String searchParam, int length) {
-        log.info("[function] 磁力搜索URL= {} ，搜索内容 = {} ，搜索长度 = {}", SIX_MAG_NET_SEARCH_URL, searchParam, length);
+        log.info("[Function] 磁力搜索URL= {} ，搜索内容 = {} ，搜索长度 = {}", SIX_MAG_NET_SEARCH_URL, searchParam, length);
 
         // 获取 磁力链种子列表 网页内容并解析，获取磁力信息
         Elements elements = JSoupUtils.getAndParse(
@@ -35,7 +35,7 @@ public class MagnetServiceImpl implements MagnetService {
 
         // 搜索无结果，直接返回
         if(1 == elements.size() && elements.text().contains("我们未能找到关于")){
-            log.info("[function] 磁力搜索无结果。");
+            log.info("[Function] 磁力搜索无结果。");
             return new ArrayList<>(0);
         }
 
@@ -71,7 +71,7 @@ public class MagnetServiceImpl implements MagnetService {
             resArrays.add(resArray);
         });
 
-        log.info("[function] 磁力搜索完成。");
+        log.info("[Function] 磁力搜索完成。");
         return resArrays;
     }
 

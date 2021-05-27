@@ -1,6 +1,8 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
+import cn.ultronxr.qqrobot.bean.BotCmd;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.apache.commons.cli.CommandLine;
 
 /**
  * @author Ultronxr
@@ -11,14 +13,15 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 public interface MsgMagnetHandler {
 
     /**
-     * 群消息搜索磁力链
+     * 套用BotCmd/BotMenu框架
+     * 群聊中的 搜索磁力链 命令处理器
      *
-     * @param groupMsgEvent GroupMessageEvent群聊消息事件
-     * @param msgCode       MiraiUtils自定义消息类型一
-     * @param msgContent    MiraiUtils自定义消息类型二
-     * @param msgPlain      MiraiUtils自定义消息类型三
-     * @see cn.ultronxr.qqrobot.util.MiraiUtils
+     * @param botCmd        匹配成功的命令BotCmd对象
+     * @param cmdLine       解析完成的CommandLine对象
+     * @param groupMsgEvent 群消息事件
+     * @param msgPlain      纯消息主体文本内容（MiraiUtils自定义消息类型三）
+     *                      {@link cn.ultronxr.qqrobot.util.MiraiUtils#getMsgPlain(net.mamoe.mirai.event.events.MessageEvent)}
      */
-    void groupMagnetHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain);
+    void groupMagnetHandler(BotCmd botCmd, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain);
 
 }

@@ -88,18 +88,68 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 支持的所有 [事件列表](https://github.com/mamoe/mirai/blob/dev/mirai-core-api/src/commonMain/kotlin/event/events/README.md)
 
-+ 机器人事件通道的获取、所有事件的监听注册只在 [`cn.ultronxr.qqrobot.listener.AllListenerRegister`](src/main/java/cn/ultronxr/qqrobot/listener/AllListenerRegister.java) 文件内进行；
++ 机器人事件通道的获取、所有事件的监听（Listener）注册只在 [`cn.ultronxr.qqrobot.listener.AllListenerRegister`](src/main/java/cn/ultronxr/qqrobot/listener/AllListenerRegister.java) 文件内进行；
 
 + [`cn.ultronxr.qqrobot.listener`](src/main/java/cn/ultronxr/qqrobot/listener) 包内的其他Listener用于预处理内容/逻辑繁复的事件，辅助 `AllListenerRegister` 进行事件注册；
 
-+ [`cn.ultronxr.qqrobot.eventHandler`](src/main/java/cn/ultronxr/qqrobot/eventHandler) 包内包括了所有事件处理器接口及其实现方法，被事件监听器调用；
++ [`cn.ultronxr.qqrobot.eventHandler`](src/main/java/cn/ultronxr/qqrobot/eventHandler) 包内包括了所有事件处理器（Handler）接口及其实现方法，被事件监听器调用；
 
 + 上述 `listener` 和 `eventHandler` 包内文件的命名遵循事件分类易读的原则，以 **Bot** 命名开头的文件中的方法都是与 `BOT事件` 相关的；以 **Msg** 命名开头的文件中的方法都是与 `消息事件` 相关的；以 **Group** 命名开头的文件中的方法都是与 `群事件` 相关的；等等；
 
-## 6. `BotCmd` 架构
+## 6. 命令化的消息语句格式
 
-`BotCmd` 是对BOT业务功能命令的封装，一个BotCmd代表一个业务功能命令，所有BotCmd组合成 `BotMenu` ，即BOT功能菜单，统一管理业务功能。
+此QQRobot与QQ消息内容的交互采用 `命令化的消息语句格式` 。
 
-![BotCmd架构](./BotCmd架构.png)
+使用 命令化的消息语句格式 的消息语句包含如下内容：
 
-（上面的图是白板画的，很粗糙，后续可能会重绘一下）
+1. 命令前导符，即“>”符号，指明这是一条功能命令消息语句。
+2. 命令关键词，即命令名称，由此确认这条语句是什么功能命令。
+3. 命令选项，使用命令选项会将功能命令导向不同的逻辑处理分支。
+4. 命令选项参数，向命令选项输入参数内容。
+
+例如我需要QQRobot发送一个 **包含若干空行的清屏（刷屏）消息** ，那么你可以发送以下消息中的任意一行：
+
+```text
+>clear
+>clear 25
+>clear -l 25
+>clear --line 25
+>clear --line=25
+
+注：
+上述消息中；“>”为命令前导符；“clear”为命令关键词；“-l” “--line”为命令选项；“25” “=25”为命令选项参数。
+```
+
+如果我需要让QQRobot发送有关这条命令的帮助信息，那么你可以发送以下消息：
+
+```text
+>clear --help
+
+请注意：
+使用如下消息无法让你获取正确的命令帮助信息，因为帮助信息只能使用--help命令选项获取，命令选项-h保留给其他用途。
+>clear -h
+```
+
+为了实现上述功能，在此引入下面一节内容：[BotCmd与BotMenu架构](#7-botcmd-与-botmenu-架构)
+
+## 7. `BotCmd` 与 `BotMenu` 架构
+
+`BotCmd` 是对BOT功能命令的封装，一个BotCmd代表一个业务功能命令，所有BotCmd组合成 `BotMenu` ，即BOT功能菜单，统一管理业务功能。
+
+（下图是白板鼠标画的，很粗糙，后续可能会重绘一下）
+
+![BotCmd与BotMenu架构](./BotCmd与BotMenu架构.svg)
+
+## 8. 项目代码中使用 `BotCmd` 与 `BotMenu` 架构
+
+1. 在 [botMenu.yaml](src/main/resources/botMenu.yaml) 配置文件中配置功能命令和命令选项；
+2. 在 [eventHandler包](src/main/java/cn/ultronxr/qqrobot/eventHandler) 添加事件处理器（Handler）代码；
+3. 在 [service包](src/main/java/cn/ultronxr/qqrobot/service) 添加业务逻辑处理（Service）代码；
+4. 在 [BotMenuConfig.java](src/main/java/cn/ultronxr/qqrobot/config/BotMenuConfig.java) 文件中注入（@Autowired）handler对象。
+
+注：
+
++ 有关botMenu.yaml配置文件的配置格式，请查看该文件内开头的注释内容，解释了各个配置项的含义和要求；
++ 命令筛查步骤代码请查看 [MsgGroupListener.java](src/main/java/cn/ultronxr/qqrobot/listener/MsgGroupListener.java) ；
++ 命令解析步骤代码请查看 [BotCmdHandler.java](src/main/java/cn/ultronxr/qqrobot/eventHandler/BotCmdHandler.java) ；
++ 涉及到事件监听器和事件处理器的内容，请参见本文前面的 [事件通道（EventChannel）和事件（Event）监听注册](#5-事件通道eventchannel和事件event监听注册) 。

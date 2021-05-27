@@ -12,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import java.util.List;
-
 /**
  * @author Ultronxr
  * @date 2021/05/08 13:38
@@ -26,28 +24,23 @@ public class BotCmdHandlerImpl implements BotCmdHandler {
     @Override
     public void botCmdHandler(@NotNull BotCmd botCmd, @NotNull GroupMessageEvent groupMsgEvent, @NotNull String msgPlain) {
         String[] args = msgPlain.strip().split(" +");
-        List<Options> optionsList = botCmd.getOptionsList();
+        Options options = botCmd.getOptions();
         CommandLine cmdLine = null;
 
-        for(int idx = 0; idx < optionsList.size(); ++idx) {
+        try {
+            cmdLine = CommonCliUtils.CLI_PARSER.parse(options, args);
+        } catch (ParseException e) {
+            log.warn("[BotCmd] 功能命令参数解析抛出异常：参数组不匹配！");
+            CommonCliUtils.defaultOptionExceptionHandler(groupMsgEvent);
+        }
+        log.info("[BotCmd] 功能命令参数解析完成，符合的命令：\n{}", botCmd.getBriefDescription());
+        if(cmdLine != null && cmdLine.getArgs().length > 0) {
             try {
-                cmdLine = CommonCliUtils.CLI_PARSER.parse(optionsList.get(idx), args);
-            } catch (ParseException e) {
-                log.warn("[BotCmd] 功能命令参数解析抛出异常（index={}）：该参数组不匹配！", idx);
-                //e.printStackTrace();
-                continue;
-            }
-            if(cmdLine != null && cmdLine.getArgs().length > 0) {
-                log.info("[BotCmd] 功能命令参数解析完成（index={}），符合的参数组：\n{}", idx, CommonCliUtils.describeOptions(optionsList.get(idx)));
-                try {
-                    // TODO 2021-5-22 23:16:47 这里不应该把传入的参数args写死，而是从handlerMethodList对应的method动态过去，不过不知道怎么实现先这样写
-                    ReflectionUtils.invokeMethod(botCmd.getHandlerMethodList().get(idx), botCmd.getHandler(),
-                            botCmd, idx, cmdLine, groupMsgEvent, msgPlain);
-                } catch (Exception ex) {
-                    log.warn("[BotCmd] 方法调用抛出异常！");
-                    ReflectionUtils.handleReflectionException(ex);
-                }
-                return;
+                // TODO 2021-5-22 23:16:47 这里不应该把传入的参数args写死，而是从handlerMethod对应的方法参数动态传过去，不过不知道怎么实现先这样写
+                ReflectionUtils.invokeMethod(botCmd.getHandlerMethod(), botCmd.getHandler(), botCmd, cmdLine, groupMsgEvent, msgPlain);
+            } catch (Exception ex) {
+                log.warn("[BotCmd] 方法调用invokeMethod抛出异常！");
+                ReflectionUtils.handleReflectionException(ex);
             }
         }
     }

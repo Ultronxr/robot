@@ -1,3 +1,164 @@
+########## botMenu.yaml 配置项解释 ##########
+# 标注*的配置项是必填的，不填会导致配置文件解析出错
+#
+# briefDesc: 命令简介                                                           *
+# detailedDesc: 命令详细解释说明                                                 *
+# triggerList:                                                                 *
+#   - 命令关键词1                                                               *
+#   - 命令关键词2
+#   - ...
+# options:                                                                     *
+#   - opt: 命令选项-短名称（-opt）
+#     longOpt: 命令选项-长名称（--longOpt）                                      *
+#     desc: 命令选项说明                                                        *
+#     hasArg: 该选项是否带有参数（填入true/false）                                *
+#     argName: 选项参数名称                                                     当hasArg=true时*
+#     argNumber: 选项参数个数（填入自然数）                                       当hasArg=true时*
+#     valueSeparator: 选项参数值分割符（--longOpt=xxx里面的等于号=）               当hasArg=true时选填
+#     type: 选项参数对应的Java类（填入全限定类名）                                 当hasArg=true时*
+#     required: 该选项是否是必须的（填入true/false）                              *
+#     optional: 该选项的参数是否是可选的（填入true/false）                         当hasArg=true时*
+#   - ...
+# 下面这个是标准的“命令帮助信息”选项写法，哪个命令需要有帮助信息就把这个选项加上
+#   - longOpt: help
+#     hasArg: false
+#     desc: 命令解释说明
+#     required: false
+# handler: 命令事件处理器handler对象名称（BotMenuConfig中注入的handler对象）        *
+# handlerMethod: 命令事件处理器方法名称                                           *
+# handlerMethodArgs: 命令事件处理器方法参数Java类（填入全限定类名，多个参数之间空格分割）
+#
+# ---
+#
+########## botMenu.yaml 配置项解释 结束 ##########
+
+briefDesc: PornHub图标
+detailedDesc: 生成PornHub图标样式的图片
+triggerList:
+  - pornhub
+  - phub
+options:
+  - opt: p
+    longOpt: prefix
+    desc: 前缀文字内容
+    hasArg: true
+    argName: prefix
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: s
+    longOpt: suffix
+    desc: 后缀文字内容
+    hasArg: true
+    argName: suffix
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgImgHandler
+handlerMethod: groupImgPornHubIconHandler
+
+---
+briefDesc: clear清屏
+detailedDesc: 发送很多空行（换行符）实现清屏/刷屏效果；空行取值区间[1,80]，缺省值25
+triggerList:
+  - clear
+options:
+  - opt: l
+    longOpt: line
+    desc: 空行数量
+    hasArg: true
+    argName: emptyline
+    argNumber: 1
+    type: java.lang.Integer
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgClearHandler
+handlerMethod: groupClearHandler
+
+---
+briefDesc: 车牌号磁力搜索
+detailedDesc: 用“车牌号”搜索磁力链种子
+triggerList:
+  - magnet
+  - 车牌
+options:
+  - opt: k
+    longOpt: key
+    desc: 车牌号（关键词）
+    hasArg: true
+    argName: 车牌号
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgMagnetHandler
+handlerMethod: groupMagnetHandler
+
+---
+briefDesc: 随机整数
+detailedDesc: 获取指定位数或指定区间的随机整数；
+  指定位数时不会出现前导零且总为正数，指定区间左右端点数值时总是取闭区间（包含），与区间相关的取值范围为long类型范围
+triggerList:
+  - random
+options:
+  - opt: f
+    longOpt: figure
+    desc: 随机数位数
+    hasArg: true
+    argName: 位数
+    argNumber: 1
+    type: java.lang.Integer
+    required: false
+    optional: false
+  - opt: l
+    longOpt: left
+    desc: 区间左端点数值（包含，且需要 -r 参数）
+    hasArg: true
+    argName: 最小值
+    argNumber: 1
+    type: java.lang.Long
+    required: false
+    optional: false
+  - opt: r
+    longOpt: right
+    desc: 区间右端点数值（包含，且需要 -l 参数）
+    hasArg: true
+    argName: 最大值
+    argNumber: 1
+    type: java.lang.Long
+    required: false
+    optional: false
+  - opt: i
+    longOpt: interval
+    desc: 区间表达式（表达式中不能有空格，无穷请使用-∞/+∞）
+    hasArg: true
+    argName: 区间
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgRandomHandler
+handlerMethod: groupRandomNumberHandler
+
+#---
 #briefDesc: 天气信息。
 #detailedDesc: 获取指定地区的天气信息；缺省地区为杭州。
 #triggerList:
@@ -25,67 +186,3 @@
 #  - method: groupWeatherHandler
 #  - method: groupWeatherHandler
 #
-#---
-briefDesc: PornHub图标
-detailedDesc: 生成PornHub图标样式的图片
-triggerList:
-  - pornhub
-  - phub
-optionsList:
-  -
-  -
-    - opt: p
-      longOpt: prefix
-      desc: 前缀文字内容
-      hasArg: true
-      argName: 前缀
-      type: java.lang.String
-      required: true
-      optional: false
-    - opt: s
-      longOpt: suffix
-      desc: 后缀文字内容
-      hasArg: true
-      argName: 后缀
-      type: java.lang.String
-      required: true
-      optional: false
-  -
-    - opt: h
-      longOpt: help
-      hasArg: false
-      desc: 命令解释说明
-      required: true
-      optional: false
-handler: msgImgHandler
-handlerMethodList:
-  - method: groupImgPornHubIconHandler
-  - method: groupImgPornHubIconHandler
-  - method: groupImgPornHubIconHelper
-
----
-briefDesc: clear清屏
-detailedDesc: 发送很多空行（换行符）实现清屏/刷屏效果；空行取值区间[1,80]，缺省值25
-triggerList:
-  - clear
-optionsList:
-  -
-    - opt: l
-      longOpt: line
-      desc: 空行数量
-      hasArg: true
-      argName: 空行数量
-      type: java.lang.Integer
-      required: false
-      optional: true
-  -
-    - opt: h
-      longOpt: help
-      hasArg: false
-      desc: 命令解释说明
-      required: true
-      optional: false
-handler: msgClearHandler
-handlerMethodList:
-  - method: groupClearHandler
-  - method: groupClearHelper

@@ -1,6 +1,8 @@
 package cn.ultronxr.qqrobot.util;
 
+import cn.ultronxr.qqrobot.bean.BotCmd;
 import lombok.extern.slf4j.Slf4j;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.apache.commons.cli.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -81,6 +83,32 @@ public class CommonCliUtils {
         String resStr = STRING_WRITER.toString();
         STRING_WRITER.getBuffer().setLength(0);
         return resStr;
+    }
+
+
+    /**
+     * 默认的处理 参数格式错误 的方法，
+     * 发送一个参数格式错误的提示消息
+     *
+     * @param groupMsgEvent 群消息事件
+     */
+    public static void defaultOptionExceptionHandler(@NotNull GroupMessageEvent groupMsgEvent) {
+        String msg = "参数格式错误！请尝试使用 --help 选项获取帮助。";
+        groupMsgEvent.getSubject().sendMessage(msg);
+        log.info("[Msg-Send] {}", msg);
+    }
+
+    /**
+     * 默认的处理 --help选项 的方法，
+     * 发送BotCmd对应的帮助信息
+     *
+     * @param groupMsgEvent 群消息事件
+     * @param botCmd        BotCmd功能命令对象
+     */
+    public static void defaultOptionHelper(@NotNull GroupMessageEvent groupMsgEvent, @NotNull BotCmd botCmd){
+        String helper = botCmd.getDescription();
+        groupMsgEvent.getSubject().sendMessage(helper);
+        log.info("[Msg-Send] {}", helper);
     }
 
 }
