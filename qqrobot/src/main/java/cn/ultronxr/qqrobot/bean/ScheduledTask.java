@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import java.util.Calendar;
 import java.util.Date;
 
-
 /**
+ * @author Ultronxr
+ * @date 2021/03/09 17:12
+ *
  * 定时任务Bean
  *
  * 格式与详细解释说明请参阅：

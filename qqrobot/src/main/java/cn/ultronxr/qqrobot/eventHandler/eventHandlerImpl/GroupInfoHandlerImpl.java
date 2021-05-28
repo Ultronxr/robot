@@ -15,7 +15,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/04/18 10:38
+ */
 @Component
 @Slf4j
 public class GroupInfoHandlerImpl implements GroupInfoHandler {

@@ -9,7 +9,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.net.UnknownHostException;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/03/12 13:28
+ *
+ * Redis 配置
+ */
 @Configuration
 public class RedisConfig {
 

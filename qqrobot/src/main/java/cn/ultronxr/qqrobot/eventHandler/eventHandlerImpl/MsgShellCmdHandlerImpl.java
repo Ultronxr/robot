@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author Ultronxr
+ * @date 2020/12/31 15:03
+ */
 @Component
 @Slf4j
 public class MsgShellCmdHandlerImpl extends GlobalData implements MsgShellCmdHandler {

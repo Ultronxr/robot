@@ -16,7 +16,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * @author Ultronxr
+ * @date 2020/12/31 15:03
+ */
 @Component
 @Slf4j
 public class MsgImgHandlerImpl extends GlobalData implements MsgImgHandler {

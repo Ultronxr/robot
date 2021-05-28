@@ -16,6 +16,8 @@ import static cn.hutool.core.img.ImgUtil.getRectangle;
 /**
  * @author Ultronxr
  * @date 2021/04/29 13:13
+ *
+ * 图像处理 公用方法类库
  */
 @Slf4j
 public class ImgUtils {

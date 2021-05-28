@@ -5,7 +5,12 @@ import lombok.Data;
 
 import java.util.ResourceBundle;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/01/25 21:08
+ *
+ * 全局数据
+ */
 @Data
 public abstract class GlobalData {
 

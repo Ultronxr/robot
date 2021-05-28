@@ -4,8 +4,10 @@ import cn.ultronxr.qqrobot.bean.BotCmd;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.apache.commons.cli.CommandLine;
 
-
 /**
+ * @author Ultronxr
+ * @date 2020/12/31 15:03
+ *
  * 消息事件 - 图片处理器Handler
  */
 public interface MsgImgHandler {

@@ -12,7 +12,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
-
+/**
+ * @author Ultronxr
+ * @date 2020/12/31 15:03
+ */
 @Slf4j
 public class ShellCmdUtils {
 

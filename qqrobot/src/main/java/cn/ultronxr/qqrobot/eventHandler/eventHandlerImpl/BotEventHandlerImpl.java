@@ -6,7 +6,10 @@ import net.mamoe.mirai.event.events.BotOfflineEvent;
 import net.mamoe.mirai.event.events.BotReloginEvent;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/02/06 17:38
+ */
 @Component
 @Slf4j
 public class BotEventHandlerImpl implements BotEventHandler {

@@ -3,8 +3,10 @@ package cn.ultronxr.qqrobot.eventHandler;
 import net.mamoe.mirai.event.events.MemberJoinEvent;
 import net.mamoe.mirai.event.events.MemberLeaveEvent;
 
-
 /**
+ * @author Ultronxr
+ * @date 2021/04/18 10:25
+ *
  * 群事件 - 群聊信息变更事件Handler，包括 群设置、群成员 等
  * （这里的所有方法都针对群聊事件）
  * {@link "https://github.com/mamoe/mirai/blob/dev/mirai-core-api/src/commonMain/kotlin/event/events/README.md#%E7%BE%A4"}

@@ -7,7 +7,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * @author Ultronxr
+ * @date 2020/12/31 14:50
+ */
 @SpringBootApplication
 @Configuration
 @Slf4j

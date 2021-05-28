@@ -10,8 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 /**
+ * @author Ultronxr
+ * @date 2021/02/09 01:09
+ *
  * 消息事件 - 群聊消息事件监听器
  * 对群聊消息中的特殊关键词进行筛选和预处理，调用对应的消息事件处理器 MsgXxxHandler
  */

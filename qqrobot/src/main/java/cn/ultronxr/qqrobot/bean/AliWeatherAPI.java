@@ -1,7 +1,9 @@
 package cn.ultronxr.qqrobot.bean;
 
-
 /**
+ * @author Ultronxr
+ * @date 2021/01/25 21:08
+ *
  * 阿里云天气查询接口bean
  * 相关文档请参看 {@link "https://market.aliyun.com/products/57096001/cmapi010812.html"}
  */

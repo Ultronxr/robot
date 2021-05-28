@@ -9,8 +9,10 @@ import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.At;
 import org.jetbrains.annotations.NotNull;
 
-
 /**
+ * @author Ultronxr
+ * @date 2020/12/31 15:03
+ *
  * 处理与Mirai有关的功能的工具类库
  */
 @Slf4j

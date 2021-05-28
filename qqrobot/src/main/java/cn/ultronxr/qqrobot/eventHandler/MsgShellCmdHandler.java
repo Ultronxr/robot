@@ -2,8 +2,10 @@ package cn.ultronxr.qqrobot.eventHandler;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 
-
 /**
+ * @author Ultronxr
+ * @date 2020/12/31 15:03
+ *
  * 消息事件 - Shell/Cmd命令处理器Handler
  */
 public interface MsgShellCmdHandler {

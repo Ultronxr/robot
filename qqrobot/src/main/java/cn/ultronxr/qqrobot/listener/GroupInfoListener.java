@@ -7,8 +7,10 @@ import net.mamoe.mirai.event.events.MemberLeaveEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 /**
+ * @author Ultronxr
+ * @date 2021/04/18 12:05
+ *
  * 群事件 - 群事件监听器，包括 群设置、群成员 等
  */
 @Component

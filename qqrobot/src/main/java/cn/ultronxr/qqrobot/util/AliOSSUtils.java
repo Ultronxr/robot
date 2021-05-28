@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/04/01 15:09
+ *
+ * 阿里OSS对象存储 公用方法类库
+ */
 @Slf4j
 public class AliOSSUtils extends GlobalData {
 

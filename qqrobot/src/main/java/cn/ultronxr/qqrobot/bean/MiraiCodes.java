@@ -4,6 +4,9 @@ import net.mamoe.mirai.message.data.At;
 
 
 /**
+ * @author Ultronxr
+ * @date 2021/01/25 21:08
+ *
  * MiraiCodes，Mirai码，Mirai特殊消息类型标识符
  * 为了与原对象 {@code net.mamoe.mirai.message.code.MiraiCode} 区别这里命名为MiraiCodes
  * 用于标识QQ消息中针对BOT机器人的各种特殊消息类型（例：@BOT、@全体成员...）

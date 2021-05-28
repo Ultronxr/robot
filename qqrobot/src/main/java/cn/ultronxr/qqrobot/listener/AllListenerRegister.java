@@ -10,8 +10,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-
 /**
+ * @author Ultronxr
+ * @date 2021/02/09 01:09
+ *
  * 这里是事件通道（EventChannel）的总列表，所有事件都在这里注册
  *
  * 事件通道监听事件：
@@ -19,7 +21,6 @@ import org.springframework.stereotype.Component;
  *   EventChannel.subscribeAlways：一直监听事件
  *   EventChannel.subscribeOnce：只监听一次事件
  *   {@link "https://github.com/mamoe/mirai/blob/dev/docs/Events.md#%E5%9C%A8-eventchannel-%E7%9B%91%E5%90%AC%E4%BA%8B%E4%BB%B6"}
- *
  * BOT支持的所有事件列表参阅 {@link "https://github.com/mamoe/mirai/blob/dev/mirai-core-api/src/commonMain/kotlin/event/events/README.md"}
  */
 @Component

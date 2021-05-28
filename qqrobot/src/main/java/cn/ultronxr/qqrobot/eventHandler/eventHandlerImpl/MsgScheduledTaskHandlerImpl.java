@@ -11,7 +11,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/03/06 11:55
+ */
 @Component
 @Slf4j
 public class MsgScheduledTaskHandlerImpl implements MsgScheduledTaskHandler {

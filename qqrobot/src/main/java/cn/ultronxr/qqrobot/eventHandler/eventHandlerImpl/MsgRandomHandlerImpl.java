@@ -1,6 +1,5 @@
 package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.ultronxr.qqrobot.bean.BotCmd;
 import cn.ultronxr.qqrobot.bean.GlobalData;
@@ -10,7 +9,6 @@ import cn.ultronxr.qqrobot.util.CommonCliUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,34 +27,6 @@ public class MsgRandomHandlerImpl extends GlobalData implements MsgRandomHandler
     @Autowired
     private RandomService randomService;
 
-
-    //@Override
-    //public void groupRandomNumberHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain) {
-    //    String resMsg = null;
-    //    List<String> regexGroups = ReUtil.getAllGroups(Pattern.compile(Regex.MATH_INTERVAL), msgPlain.replaceAll(" ", ""));
-    //    log.info("[function] 随机整数区间正则匹配结果：{}", regexGroups);
-    //
-    //    // 下面分三种随机数命令格式，一：指定整数区间表达式；二：指定数字位数；三：不符合上述两种格式。
-    //    if(null != regexGroups && 7 == regexGroups.size()){
-    //        long resNumberL = randomIntervalNumber(regexGroups);
-    //        resMsg = Long.toString(resNumberL);
-    //
-    //        groupMsgEvent.getSubject().sendMessage(resMsg);
-    //        log.info("[message-send] {}", resMsg);
-    //        return;
-    //    } else if(ReUtil.contains("\\d+", msgPlain)){
-    //        String lengthStr = ReUtil.get("\\d+", msgPlain, 0);
-    //        resMsg = randomLengthNumber(Integer.parseInt(lengthStr));
-    //
-    //        groupMsgEvent.getSubject().sendMessage(resMsg);
-    //        log.info("[message-send] {}", resMsg);
-    //        return;
-    //    }
-    //
-    //    resMsg = "随机数命令格式错误！";
-    //    groupMsgEvent.getSubject().sendMessage(resMsg);
-    //    log.info("[message-send] {}", resMsg);
-    //}
 
     @Override
     public void groupRandomNumberHandler(BotCmd botCmd, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain) {

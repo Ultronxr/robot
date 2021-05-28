@@ -4,6 +4,9 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
 
 /**
+ * @author Ultronxr
+ * @date 2021/03/06 11:54
+ *
  * 消息事件 - 定时任务处理器
  */
 public interface MsgScheduledTaskHandler {

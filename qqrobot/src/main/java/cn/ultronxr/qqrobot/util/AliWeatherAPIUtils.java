@@ -7,6 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Ultronxr
+ * @date 2021/01/25 21:08
+ *
+ * 阿里天气API 公用方法类库
+ */
 @Slf4j
 public class AliWeatherAPIUtils extends AliWeatherAPI {
 
