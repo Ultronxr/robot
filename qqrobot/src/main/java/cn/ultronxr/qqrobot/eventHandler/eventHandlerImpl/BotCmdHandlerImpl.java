@@ -33,7 +33,7 @@ public class BotCmdHandlerImpl implements BotCmdHandler {
             log.warn("[BotCmd] 功能命令参数解析抛出异常：参数组不匹配！");
             CommonCliUtils.defaultOptionExceptionHandler(groupMsgEvent);
         }
-        log.info("[BotCmd] 功能命令参数解析完成，符合的命令：\n{}", botCmd.getBriefDescription());
+        log.info("[BotCmd] 功能命令参数解析完成，符合的命令：\n{}", botCmd.getBriefDescription(true));
         if(cmdLine != null && cmdLine.getArgs().length > 0) {
             try {
                 // TODO 2021-5-22 23:16:47 这里不应该把传入的参数args写死，而是从handlerMethod对应的方法参数动态传过去，不过不知道怎么实现先这样写

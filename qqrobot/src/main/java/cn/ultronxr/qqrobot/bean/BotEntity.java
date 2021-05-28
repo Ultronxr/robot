@@ -9,9 +9,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
-
+/**
+ * @author Ultronxr
+ * @date 2021/01/25 21:08
+ *
+ * BOT实例对象
+ */
 @Component
 @Slf4j
 public class BotEntity extends GlobalData {
@@ -71,26 +75,5 @@ public class BotEntity extends GlobalData {
             );
         }
     }
-
-    /**
-     * 文字版机器人功能菜单，仅供查询功能使用
-     * TODO 2021-5-20 22:48:17 BotMenu完成之后把这里的删除
-     */
-    public static final LinkedHashMap<Integer, String[]> MENU_TEXT = new LinkedHashMap<Integer, String[]>(){{
-        put(0, new String[]{"功能", "菜单"});
-        put(9, new String[]{"群成员入群、退群监控"});
-        put(1, new String[]{"ping"});
-        put(13, new String[]{">"});
-        put(2, new String[]{"天气"});
-        //put(3, new String[]{"定时", "定时格式", "定时说明"});
-        put(4, new String[]{"phub"});
-        put(5, new String[]{"舔狗", "彩虹屁"});
-        put(6, new String[]{"脏话", "口吐芬芳", "芬芳"});
-        put(7, new String[]{"火力全开"});
-        put(8, new String[]{"随机数", "random"});
-        put(10, new String[]{"磁力", "种子", "车牌", "magnet"});
-        put(11, new String[]{"所有群活跃"});
-        put(12, new String[]{"群活跃", "水群排行", "水群排名"});
-    }};
 
 }

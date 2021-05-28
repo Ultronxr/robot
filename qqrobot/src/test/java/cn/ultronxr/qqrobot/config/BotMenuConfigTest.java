@@ -1,6 +1,7 @@
 package cn.ultronxr.qqrobot.config;
 
 import cn.ultronxr.qqrobot.bean.BotCmd;
+import cn.ultronxr.qqrobot.bean.BotMenu;
 import cn.ultronxr.qqrobot.util.CommonCliUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
@@ -47,6 +48,12 @@ public class BotMenuConfigTest {
             log.warn("[BotCmd] 方法调用抛出异常！");
             ReflectionUtils.handleReflectionException(ex);
         }
+    }
+
+    @Test
+    public void test1() {
+        botMenuConfig.initBotMenu();
+        System.out.println(BotMenu.getMenuText());
     }
 
 }

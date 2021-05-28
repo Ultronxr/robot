@@ -106,7 +106,7 @@ public class CommonCliUtils {
      * @param botCmd        BotCmd功能命令对象
      */
     public static void defaultOptionHelper(@NotNull GroupMessageEvent groupMsgEvent, @NotNull BotCmd botCmd){
-        String helper = botCmd.getDescription();
+        String helper = botCmd.getDescription(true);
         groupMsgEvent.getSubject().sendMessage(helper);
         log.info("[Msg-Send] {}", helper);
     }

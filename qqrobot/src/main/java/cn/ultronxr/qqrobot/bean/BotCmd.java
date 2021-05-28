@@ -53,32 +53,44 @@ public class BotCmd {
 
 
     /**
-     * 获取这条功能命令的简介说明
-     * （用于菜单，列出所有功能命令）
-     *
-     * @return 这条功能命令的简介说明，包含关键词
+     * 获取这条功能命令的 关键词
      */
-    public StringBuilder getBriefDescription() {
+    public StringBuilder getTriggerListString(boolean hasLabel) {
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("○关键词：");
+        if(hasLabel) {
+            strBuilder.append("○关键词：");
+        }
         triggerList.forEach(trigger -> strBuilder.append(trigger).append(" "));
         strBuilder.append("\n");
         return strBuilder;
     }
 
     /**
-     * 获取这条功能命令的所有内容的解释说明
-     *
-     * @return 这条功能命令的所有内容的解释说明
+     * 获取这条功能命令的 关键词、简介
      */
-    public String getDescription() {
-        StringBuilder strBuilder = getBriefDescription()
-                .append("○简介：").append(briefDesc).append("\n")
-                .append("○详细说明：").append(detailedDesc).append("\n");
+    public StringBuilder getBriefDescription(boolean hasLabel) {
+        StringBuilder strBuilder = getTriggerListString(hasLabel);
+        if(hasLabel) {
+            strBuilder.append("○简介：");
+        }
+        strBuilder.append(briefDesc).append("\n");
+        return strBuilder;
+    }
+
+    /**
+     * 获取这条功能命令的所有内容的解释说明
+     */
+    public String getDescription(boolean hasLabel) {
+        StringBuilder strBuilder = getBriefDescription(hasLabel);
+        if(hasLabel) {
+            strBuilder.append("○详细说明：");
+        }
+        strBuilder.append(detailedDesc).append("\n");
         if(options != null) {
-            strBuilder.append("○命令参数：\n")
-                    .append(CommonCliUtils.describeOptions("关键词", options))
-                    .append("\n");
+            if(hasLabel) {
+                strBuilder.append("○命令参数：\n");
+            }
+            strBuilder.append(CommonCliUtils.describeOptions("关键词", options)).append("\n");
         }
         return strBuilder.toString();
     }

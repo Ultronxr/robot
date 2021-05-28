@@ -71,8 +71,14 @@ public class BotMenuConfig {
      */
     @Bean
     public void initBotMenu() {
-        List<BotCmd> botCmdList = processYaml();
-        BotMenu.botCmdList = (ArrayList<BotCmd>) botCmdList;
+        try {
+            List<BotCmd> botCmdList = processYaml();
+            BotMenu.BOT_MENU = (ArrayList<BotCmd>) botCmdList;
+        } catch (Exception ex) {
+            log.error("[BotMenu] botMenu.yaml解析异常！初始化BotMenu失败！");
+            ex.printStackTrace();
+            return;
+        }
         log.info("[BotMenu] 初始化BotMenu完成。");
     }
 

@@ -1,25 +1,27 @@
 package cn.ultronxr.qqrobot.eventHandler;
 
+import cn.ultronxr.qqrobot.bean.BotCmd;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import org.apache.commons.cli.Options;
-
+import org.apache.commons.cli.CommandLine;
 
 /**
+ * @author Ultronxr
+ * @date 2021/02/03 15:43
+ *
  * 消息事件 - 机器人功能菜单查询处理器Handler
  */
 public interface MsgRobotMenuHandler {
 
     /**
-     * 群聊中的 文字功能菜单查询 处理器
+     * 套用BotCmd/BotMenu框架
+     * 群聊中的 功能命令菜单 命令处理器
      *
-     * @param groupMsgEvent GroupMessageEvent群聊消息事件
-     * @param msgCode       MiraiUtils自定义消息类型一
-     * @param msgContent    MiraiUtils自定义消息类型二
-     * @param msgPlain      MiraiUtils自定义消息类型三
-     * @see cn.ultronxr.qqrobot.util.MiraiUtils
+     * @param botCmd        匹配成功的命令BotCmd对象
+     * @param cmdLine       解析完成的CommandLine对象
+     * @param groupMsgEvent 群消息事件
+     * @param msgPlain      纯消息主体文本内容（MiraiUtils自定义消息类型三）
+     *                      {@link cn.ultronxr.qqrobot.util.MiraiUtils#getMsgPlain(net.mamoe.mirai.event.events.MessageEvent)}
      */
-    void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, String msgContent, String msgPlain);
-
-    void groupRobotMenuHandler(GroupMessageEvent groupMsgEvent, String msgCode, Options options);
+    void groupRobotMenuHandler(BotCmd botCmd, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain);
 
 }

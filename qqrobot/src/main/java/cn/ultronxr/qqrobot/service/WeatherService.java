@@ -11,6 +11,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 public interface WeatherService {
 
     /**
+     * 调用天气API获取天气信息，并把返回结果处理成最终发送的消息结果
+     *
+     * @param area 地区
+     * @return 发送的消息结果
+     */
+    String processWeatherApiAndModifyResult(String area);
+
+    /**
      * 从天气json中提取出需要的内容，以便发送消息和展示
      *
      * @param weatherJsonRootNode {@code JsonNode} 天气json数据根节点（showapi_res_body）

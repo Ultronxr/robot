@@ -32,36 +32,17 @@
 #
 ########## botMenu.yaml 配置项解释 结束 ##########
 
-briefDesc: PornHub图标
-detailedDesc: 生成PornHub图标样式的图片
+briefDesc: QQRobot菜单
+detailedDesc: 获取QQRobot功能命令菜单
 triggerList:
-  - pornhub
-  - phub
+  - menu
 options:
-  - opt: p
-    longOpt: prefix
-    desc: 前缀文字内容
-    hasArg: true
-    argName: prefix
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: s
-    longOpt: suffix
-    desc: 后缀文字内容
-    hasArg: true
-    argName: suffix
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
   - longOpt: help
     hasArg: false
     desc: 命令解释说明
     required: false
-handler: msgImgHandler
-handlerMethod: groupImgPornHubIconHandler
+handler: msgRobotMenuHandler
+handlerMethod: groupRobotMenuHandler
 
 ---
 briefDesc: clear清屏
@@ -84,29 +65,6 @@ options:
     required: false
 handler: msgClearHandler
 handlerMethod: groupClearHandler
-
----
-briefDesc: 车牌号磁力搜索
-detailedDesc: 用“车牌号”搜索磁力链种子
-triggerList:
-  - magnet
-  - 车牌
-options:
-  - opt: k
-    longOpt: key
-    desc: 车牌号（关键词）
-    hasArg: true
-    argName: 车牌号
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - longOpt: help
-    hasArg: false
-    desc: 命令解释说明
-    required: false
-handler: msgMagnetHandler
-handlerMethod: groupMagnetHandler
 
 ---
 briefDesc: 随机整数
@@ -158,31 +116,118 @@ options:
 handler: msgRandomHandler
 handlerMethod: groupRandomNumberHandler
 
-#---
-#briefDesc: 天气信息。
-#detailedDesc: 获取指定地区的天气信息；缺省地区为杭州。
-#triggerList:
-#  - 天气
-#  - weather
-#optionsList:
-#  -
-#  -
-#    - opt: a
-#      longOpt: area
-#      hasArg: true
-#      argName: 地区地名
-#      type: java.lang.String
-#      desc: 指定地区地名
-#      required: true
-#  -
-#    - opt: h
-#      longOpt: help
-#      hasArg: false
-#      desc: 命令解释说明
-#      required: true
-#handler: msgWeatherHandler
-#handlerMethodList:
-#  - method: groupWeatherHandler
-#  - method: groupWeatherHandler
-#  - method: groupWeatherHandler
-#
+---
+briefDesc: 舔狗发言
+detailedDesc: 获取一条舔狗/彩虹屁发言。（接口：https://chp.shadiao.app/api.php）
+triggerList:
+  - flatter
+  - 舔狗
+  - 彩虹屁
+options:
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgSentenceHandler
+handlerMethod: groupSentenceFlatterHandler
+
+---
+briefDesc: 脏话发言
+detailedDesc: 获取一条脏话/口吐芬芳/火力全开发言，无参数选项时默认获取脏话/口吐芬芳发言，加 -m 选项时获取火力全开发言。
+  （接口：https://zuanbot.com/api.php?lang=zh_cn）
+triggerList:
+  - abuse
+  - 脏话
+  - 芬芳
+  - 口吐芬芳
+  - 火力全开
+options:
+  - opt: m
+    longOpt: max
+    desc: 火力全开
+    hasArg: false
+    required: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgSentenceHandler
+handlerMethod: groupSentenceAbuseHandler
+
+---
+briefDesc: 车牌号磁力搜索
+detailedDesc: 用“车牌号”搜索磁力链种子
+triggerList:
+  - magnet
+  - 车牌
+options:
+  - opt: k
+    longOpt: key
+    desc: 车牌号（关键词）
+    hasArg: true
+    argName: 车牌号
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgMagnetHandler
+handlerMethod: groupMagnetHandler
+
+---
+briefDesc: PornHub图标
+detailedDesc: 生成PornHub图标样式的图片
+triggerList:
+  - pornhub
+  - phub
+options:
+  - opt: p
+    longOpt: prefix
+    desc: 前缀文字内容
+    hasArg: true
+    argName: prefix
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: s
+    longOpt: suffix
+    desc: 后缀文字内容
+    hasArg: true
+    argName: suffix
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgImgHandler
+handlerMethod: groupImgPornHubIconHandler
+
+---
+briefDesc: 天气信息
+detailedDesc: 获取指定地区的天气信息；缺省地区为杭州。
+triggerList:
+  - weather
+  - 天气
+options:
+  - opt: a
+    longOpt: area
+    desc: 地区地名
+    hasArg: true
+    argName: area
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgWeatherHandler
+handlerMethod: groupWeatherHandler

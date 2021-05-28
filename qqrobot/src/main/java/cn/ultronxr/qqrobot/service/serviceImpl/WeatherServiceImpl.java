@@ -1,7 +1,10 @@
 package cn.ultronxr.qqrobot.service.serviceImpl;
 
 import cn.ultronxr.qqrobot.service.WeatherService;
+import cn.ultronxr.qqrobot.util.AliWeatherAPIUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,31 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WeatherServiceImpl implements WeatherService {
 
+    private final ObjectMapper jsonObjMapper = new ObjectMapper();
+
+
+    @Override
+    public String processWeatherApiAndModifyResult(String area) {
+        JsonNode rootNode = null;
+        try {
+            String weatherJson = AliWeatherAPIUtils.getWeatherByArea(area);
+            rootNode = jsonObjMapper.readTree(weatherJson).path("showapi_res_body");
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+            log.warn("[Service] 天气信息json解析异常！");
+            return "天气信息json解析异常！";
+        }
+
+        String resStr = null;
+        if(! "0".equals(rootNode.path("ret_code").asText())){
+            // 数据错误，返回说明信息
+            resStr = rootNode.path("remark").asText();
+        } else {
+            // 数据正确，解析数据
+            resStr = modifyWeatherJson(rootNode);
+        }
+        return resStr;
+    }
 
     @Override
     public String modifyWeatherJson(JsonNode weatherJsonRootNode){
