@@ -9,6 +9,7 @@ import cn.ultronxr.qqrobot.util.DateTimeUtils;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -38,10 +39,18 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
+    /**
+     * 在Redis中存储的内容：
+     * REDIS_KEY：Redis存储键
+     * Map<QQGroupMember, QQGroupMemberChat>：一个HashMap，key是群员对象，value是对于群员的发言记录对象
+     */
     private static final String REDIS_KEY = "qqrobot_group_member_chats";
 
     /**
-     * 机器人加入的群及群成员
+     * 机器人加入的群及群成员缓存
      * MapKey：QQ群号
      * MapValue：对应群内的群成员对象List
      */
@@ -103,20 +112,34 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
 
             // 存在该群成员发言记录，增加chatNum
             if(redisTemplate.opsForHash().hasKey(REDIS_KEY, qqGroupMember)){
-                redisTemplate.opsForHash().increment(REDIS_KEY, qqGroupMember, chatNum);
-                log.info("[function] 维护redis发言记录 - {}，k-v值增长{}：{} = {}",
-                        REDIS_KEY, chatNum, qqGroupMember.toString(), redisTemplate.opsForHash().get(REDIS_KEY, qqGroupMember));
+                QQGroupMemberChat qqGroupMemberChat = new QQGroupMemberChat(
+                        (LinkedHashMap<Object, Object>) redisTemplate.opsForHash().get(REDIS_KEY, qqGroupMember)
+                );
+                qqGroupMemberChat.setChatNum(qqGroupMemberChat.getChatNum() + chatNum);
+                redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, qqGroupMemberChat);
+                log.info("[function] 维护redis发言记录，REDIS_KEY - {}，发言数量增长 {} ：\nk - {} \nv - {}",
+                        REDIS_KEY, chatNum, qqGroupMember, qqGroupMemberChat);
                 return;
             }
+
             // 不存在该群成员发言记录，新增发言记录
-            redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, chatNum);
-            log.info("[function] 维护redis发言记录 - {}，新增k-v：{} - {}", REDIS_KEY, qqGroupMember.toString(), chatNum);
+            QQGroupMemberChat qqGroupMemberChat = QQGroupMemberChat.builder()
+                    .groupId(qqGroupMember.getGroupId())
+                    .memberId(qqGroupMember.getMemberId())
+                    .isStatistic(1)
+                    .chatNum(chatNum)
+                    .chatTime(DateTimeUtils.getFormattedCalendar(null, "yyyy-MM-dd HH"))
+                    .build();
+
+            redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, qqGroupMemberChat);
+            log.info("[function] 维护redis发言记录，REDIS_KEY - {}，新增发言记录：\nk - {}\nv - {}",
+                    REDIS_KEY, qqGroupMember, qqGroupMemberChat);
         }
     }
 
     @Override
     @Scheduled(cron = "0 59 0/1 * * ? ")
-    // TODO 2021-5-23 00:33:48 已知缺陷/问题：如果redis中的发言数据因特殊情况（如程序关闭未执行等）未被插入数据库，那么这些发言数据的时间标记会被一直延后到下一次插入数据库的时间
+    //@Scheduled(cron = "0,30 * * * * ? ")
     public void insertRedisToDb(){
         synchronized (this) {
             log.info("[function] redis群成员发言记录插入数据库 启动...");
@@ -125,13 +148,10 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
                 log.info("[function] redis群成员发言记录为空。");
                 return;
             }
-            String chatTime = DateTimeUtils.getFormattedCalendar(null, "yyyy-MM-dd HH");
             entries.keySet().forEach(member -> {
-                Map<Object, Object> memberMap = (LinkedHashMap<Object, Object>) member;
-                String groupId = (String) memberMap.get("groupId");
-                String memberId = (String) memberMap.get("memberId");
-                Integer chatNum = (Integer) entries.get(member);
-                QQGroupMemberChat chat = new QQGroupMemberChat(groupId, memberId, chatTime, chatNum, 1);
+                QQGroupMemberChat chat = new QQGroupMemberChat(
+                        (LinkedHashMap<Object, Object>) entries.get(member)
+                );
                 qqGroupMemberChatMapper.insert(chat);
                 log.info("[function] redis群成员发言记录插入数据库：{}", chat);
             });

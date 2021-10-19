@@ -1,12 +1,17 @@
 package cn.ultronxr.qqrobot.bean.mybatis.bean;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class QQGroupMemberChat {
     private String groupId;
 
@@ -17,6 +22,15 @@ public class QQGroupMemberChat {
     private Integer chatNum;
 
     private Integer isStatistic;
+
+
+    public QQGroupMemberChat(@NotNull Map<Object, Object> map) {
+        this.groupId = String.valueOf(map.get("groupId"));
+        this.memberId = String.valueOf(map.get("memberId"));
+        this.chatTime = String.valueOf(map.get("chatTime"));
+        this.chatNum = (Integer) map.get("chatNum");
+        this.isStatistic = (Integer) map.get("isStatistic");
+    }
 
     public String getGroupId() {
         return groupId;

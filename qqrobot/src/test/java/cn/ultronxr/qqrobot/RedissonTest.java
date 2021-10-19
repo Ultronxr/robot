@@ -2,9 +2,12 @@ package cn.ultronxr.qqrobot;
 
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroup;
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroupMember;
+import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroupMemberChat;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,10 +27,16 @@ import static java.util.Collections.EMPTY_MAP;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RedissionTest {
+public class RedissonTest {
 
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
+
+    @Autowired
+    private RedissonClient redissonClient;
+
+    private static final String REDIS_KEY = "qqrobot_group_member_chats";
+
 
     @Test
     public void test() {
@@ -56,6 +65,14 @@ public class RedissionTest {
         );
 
         System.out.println(redisTemplate.opsForHash().entries(redisKey).size());
+    }
+
+    @Test
+    public void redissonClientTest() {
+        RBucket bucket = redissonClient.getBucket(REDIS_KEY);
+        System.out.println(bucket.get());
+
+
     }
 
 }

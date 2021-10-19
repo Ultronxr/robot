@@ -2,7 +2,7 @@
 
 当前QQRobot版本：[查看pom.xml文件version标签](./pom.xml#L13)
 
-依赖mirai版本：2.6.4
+依赖mirai版本：2.7.1
 
 ## 1. 项目主要目录结构
 
@@ -153,3 +153,25 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 + 命令筛查步骤代码请查看 [MsgGroupListener.java](src/main/java/cn/ultronxr/qqrobot/listener/MsgGroupListener.java) ；
 + 命令解析步骤代码请查看 [BotCmdHandler.java](src/main/java/cn/ultronxr/qqrobot/eventHandler/BotCmdHandler.java) ；
 + 涉及到事件监听器和事件处理器的内容，请参见本文前面的 [事件通道（EventChannel）和事件（Event）监听注册](#5-事件通道eventchannel和事件event监听注册) 。
+
+## 9. 登录验证（滑块验证）
+
+有时QQ登录时需要进行登录验证，在使用 `MiraiProtocol.ANDROID_PHONE` 协议情况下，一般会提示使用滑块验证。
+
+滑块验证打印日志打印样例如下：
+
+```log
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] 需要滑动验证码, 请按照以下链接的步骤完成滑动验证码, 然后输入获取到的 ticket
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] Slider captcha required. Please solve the captcha with following link. Type ticket here after completion.
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] @see https://github.com/project-mirai/mirai-login-solver-selenium
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] @see https://docs.mirai.mamoe.net/mirai-login-solver-selenium
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] 或者输入 TxCaptchaHelper 来使用 TxCaptchaHelper 完成滑动验证码
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] Or type `TxCaptchaHelper` to resolve slider captcha with TxCaptchaHelper.apk
+2021-10-19 16:08:11 I/Net xx: [SliderCaptcha] Captcha link: https://ssl.captcha.qq.com/template/wireless_mqq_captcha.html?style=simple&aid=xx&uin=xx&sid=xx&cap_cd=xx&clientype=1&apptype=2
+```
+
+这里我推荐使用 [`TxCaptchaHelper.apk`](https://github.com/mzdluo123/TxCaptchaHelper/releases) 进行滑块验证，事先在手机上安装这个APP，然后使用以下任一步骤进行验证：
+
++ 在终端窗口中输入 `TxCaptchaHelper` 回车确认，会生成一个请求码，在APP中输入请求码之后返回ticket，再在终端中输入ticket回车确认；
++ 直接把日志打印的Captcha link验证链接复制到APP中输入，同样会返回ticket，在终端中输入ticket回车确认。
+

@@ -36,4 +36,4 @@ build/
 botConfig.properties
 aliCloudConfig.properties
 deviceInfo.json
-redission.yaml
+redisson.yaml
