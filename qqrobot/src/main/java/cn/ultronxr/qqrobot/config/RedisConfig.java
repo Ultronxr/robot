@@ -48,12 +48,9 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedissonClient getRedissonClient() throws IOException {
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("redisson.yaml");
-        Config config = Config.fromYAML(resource.getInputStream());
-        config.useSingleServer();
-        return Redisson.create();
+    public RedissonClient redisson() throws IOException {
+        Config config = Config.fromYAML(RedisConfig.class.getClassLoader().getResource("redisson.yaml"));
+        return Redisson.create(config);
     }
 
 }
