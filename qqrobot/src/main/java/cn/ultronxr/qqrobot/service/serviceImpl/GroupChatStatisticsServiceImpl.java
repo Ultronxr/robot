@@ -45,7 +45,8 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
     /**
      * 在Redis中存储的内容：
      * REDIS_KEY：Redis存储键
-     * Map<QQGroupMember, QQGroupMemberChat>：一个HashMap，key是群员对象，value是对于群员的发言记录对象
+     * Map<QQGroupMember, List<QQGroupMemberChat>>：一个HashMap，key是群员对象，value是对于群员的发言记录对象的List数组
+     *                                                                  （value为什么要用List数组：因为有可能存在同一群员在不同时间段的发言记录数据）
      */
     private static final String REDIS_KEY = "qqrobot_group_member_chats";
 
@@ -110,30 +111,48 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
                 log.info("[function] 新建redis发言记录REDIS_KEY - {}", REDIS_KEY);
             }
 
+            String chatTime = DateTimeUtils.getFormattedCalendar(null, "yyyy-MM-dd HH");
+
             // 存在该群成员发言记录，增加chatNum
             if(redisTemplate.opsForHash().hasKey(REDIS_KEY, qqGroupMember)){
-                QQGroupMemberChat qqGroupMemberChat = new QQGroupMemberChat(
-                        (LinkedHashMap<Object, Object>) redisTemplate.opsForHash().get(REDIS_KEY, qqGroupMember)
-                );
-                qqGroupMemberChat.setChatNum(qqGroupMemberChat.getChatNum() + chatNum);
-                redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, qqGroupMemberChat);
+                List<LinkedHashMap<Object, Object>> list = (List<LinkedHashMap<Object, Object>>) redisTemplate.opsForHash().get(REDIS_KEY, qqGroupMember);
+                LinkedHashMap<Object, Object> theLastOfList = list.get(list.size()-1);
+
+                // 只比较List的最后一个元素的chatTime是否与当前时间相等即可（List中元素的chatTime一定是随着index增大而递增的）
+                if(String.valueOf(theLastOfList.get("chatTime")).equals(chatTime)) {
+                    // 如果相等，则直接在这个元素上增加chatNum
+                    theLastOfList.put("chatNum", (Integer) theLastOfList.get("chatNum") + chatNum);
+                } else {
+                    // 如果不相等，说明List中存在其他时间段的发言记录数据，则在List末尾另外增加一个当前时间段的发言记录
+                    QQGroupMemberChat qqGroupMemberChat = QQGroupMemberChat.builder()
+                            .groupId(qqGroupMember.getGroupId())
+                            .memberId(qqGroupMember.getMemberId())
+                            .isStatistic(1)
+                            .chatNum(chatNum)
+                            .chatTime(chatTime)
+                            .build();
+                    list.add(qqGroupMemberChat.toLinkedHashMap());
+                }
+                redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, list);
                 log.info("[function] 维护redis发言记录，REDIS_KEY - {}，发言数量增长 {} ：\nk - {} \nv - {}",
-                        REDIS_KEY, chatNum, qqGroupMember, qqGroupMemberChat);
+                        REDIS_KEY, chatNum, qqGroupMember, list);
                 return;
             }
 
-            // 不存在该群成员发言记录，新增发言记录
+            // 不存在该群成员发言记录，新增发言记录List
             QQGroupMemberChat qqGroupMemberChat = QQGroupMemberChat.builder()
                     .groupId(qqGroupMember.getGroupId())
                     .memberId(qqGroupMember.getMemberId())
                     .isStatistic(1)
                     .chatNum(chatNum)
-                    .chatTime(DateTimeUtils.getFormattedCalendar(null, "yyyy-MM-dd HH"))
+                    .chatTime(chatTime)
                     .build();
+            ArrayList<QQGroupMemberChat> memberChatList = new ArrayList<>(1);
+            memberChatList.add(qqGroupMemberChat);
 
-            redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, qqGroupMemberChat);
+            redisTemplate.opsForHash().put(REDIS_KEY, qqGroupMember, memberChatList);
             log.info("[function] 维护redis发言记录，REDIS_KEY - {}，新增发言记录：\nk - {}\nv - {}",
-                    REDIS_KEY, qqGroupMember, qqGroupMemberChat);
+                    REDIS_KEY, qqGroupMember, memberChatList);
         }
     }
 
@@ -149,11 +168,12 @@ public class GroupChatStatisticsServiceImpl implements GroupChatStatisticsServic
                 return;
             }
             entries.keySet().forEach(member -> {
-                QQGroupMemberChat chat = new QQGroupMemberChat(
-                        (LinkedHashMap<Object, Object>) entries.get(member)
-                );
-                qqGroupMemberChatMapper.insert(chat);
-                log.info("[function] redis群成员发言记录插入数据库：{}", chat);
+                List<LinkedHashMap<Object, Object>> list = (List<LinkedHashMap<Object, Object>>) entries.get(member);
+                list.forEach(elem -> {
+                    QQGroupMemberChat chat = new QQGroupMemberChat(elem);
+                    qqGroupMemberChatMapper.insert(chat);
+                    log.info("[function] redis群成员发言记录插入数据库：{}", chat);
+                });
             });
 
             redisTemplate.opsForHash().keys(REDIS_KEY).forEach(key ->

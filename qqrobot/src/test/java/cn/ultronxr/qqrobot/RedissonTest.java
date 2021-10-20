@@ -3,6 +3,7 @@ package cn.ultronxr.qqrobot;
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroup;
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroupMember;
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroupMemberChat;
+import cn.ultronxr.qqrobot.service.GroupChatStatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,10 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Collections.EMPTY_MAP;
 
@@ -74,5 +72,19 @@ public class RedissonTest {
 
 
     }
+
+
+    @Autowired
+    GroupChatStatisticsService chatService;
+    /**
+     * @date 2021/10/20 14:27
+     * Redis中的内容由于旧数据出错，手动维护一次
+     */
+    @Test
+    public void redisToDBTest(){
+        //chatService.insertRedisToDb();
+        //redisTemplate.delete(REDIS_KEY);
+    }
+
 
 }

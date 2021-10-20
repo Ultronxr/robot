@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
@@ -30,6 +31,16 @@ public class QQGroupMemberChat {
         this.chatTime = String.valueOf(map.get("chatTime"));
         this.chatNum = (Integer) map.get("chatNum");
         this.isStatistic = (Integer) map.get("isStatistic");
+    }
+
+    public LinkedHashMap<Object, Object> toLinkedHashMap() {
+        LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
+        map.put("groupId", this.groupId);
+        map.put("memberId", this.memberId);
+        map.put("chatTime", this.chatTime);
+        map.put("chatNum", this.chatNum);
+        map.put("isStatistic", this.isStatistic);
+        return map;
     }
 
     public String getGroupId() {
