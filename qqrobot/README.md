@@ -2,7 +2,7 @@
 
 当前QQRobot版本：[查看pom.xml文件version标签](./pom.xml#L13)
 
-依赖mirai版本：2.7.1
+依赖mirai版本：2.9.2
 
 ## 1. 项目主要目录结构
 

@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>qqrobot</artifactId>
-    <version>2.9.2_3_0</version>
+    <version>2.10.0_0_0</version>
     <name>qqrobot</name>
     <description>A QQ Robot based on Mirai framework.</description>
 
@@ -38,10 +38,11 @@
         <devtools.version>2.3.5.RELEASE</devtools.version>
         <lombok.version>1.18.8</lombok.version>
         <hutool.version>5.5.8</hutool.version>
-        <mirai.version>2.7.1</mirai.version>
+        <mirai.version>2.9.2</mirai.version>
         <kotlin.version>1.5.10</kotlin.version>
         <aliyun-sdk-oss.version>3.11.0</aliyun-sdk-oss.version>
         <!--<selenium.version>3.141.59</selenium.version>-->
+        <!--<quartz.version>2.3.2</quartz.version>-->
         <quartz.version>2.3.2</quartz.version>
         <jsoup.version>1.13.1</jsoup.version>
         <xk-time.version>3.1.0</xk-time.version>
