@@ -44,7 +44,7 @@
         <!--<selenium.version>3.141.59</selenium.version>-->
         <!--<quartz.version>2.3.2</quartz.version>-->
         <quartz.version>2.3.2</quartz.version>
-        <jsoup.version>1.13.1</jsoup.version>
+        <jsoup.version>1.14.2</jsoup.version>
         <xk-time.version>3.1.0</xk-time.version>
     </properties>
 
