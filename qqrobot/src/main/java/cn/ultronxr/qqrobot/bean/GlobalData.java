@@ -18,9 +18,9 @@ public abstract class GlobalData {
     @Data
     public static class ResBundle {
 
-        public static final ResourceBundle BOT = ResourceBundle.getBundle("botConfig");
+        public static final ResourceBundle BOT = ResourceBundle.getBundle("conf.botConfig");
 
-        public static final ResourceBundle ALI_CLOUD = ResourceBundle.getBundle("aliCloudConfig");
+        public static final ResourceBundle ALI_CLOUD = ResourceBundle.getBundle("conf.aliCloudConfig");
 
     }
 

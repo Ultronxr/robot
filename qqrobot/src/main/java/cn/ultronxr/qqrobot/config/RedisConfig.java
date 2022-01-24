@@ -3,11 +3,9 @@ package cn.ultronxr.qqrobot.config;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -24,6 +22,9 @@ import java.net.UnknownHostException;
  */
 @Configuration
 public class RedisConfig {
+
+    @Value("${redisson-env-filename}")
+    private String RedissonFileName;
 
     /**
      * 修改 RedisTemplate 配置
@@ -49,7 +50,8 @@ public class RedisConfig {
 
     @Bean
     public RedissonClient redisson() throws IOException {
-        Config config = Config.fromYAML(RedisConfig.class.getClassLoader().getResource("redisson.yaml"));
+        String resource = "env/" + RedissonFileName;
+        Config config = Config.fromYAML(RedisConfig.class.getClassLoader().getResource(resource));
         return Redisson.create(config);
     }
 

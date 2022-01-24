@@ -2,6 +2,7 @@ package cn.ultronxr.qqrobot.config;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class DruidConfig {
+
+    @Value("${}")
+    private String DruidUsername;
+
+    @Value("${}")
+    private String DruidPassword;
 
     /**
      * Druid Web配置

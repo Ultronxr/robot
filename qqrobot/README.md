@@ -28,6 +28,8 @@
       |  |           |  \--serviceImpl           具体逻辑处理代码接口实现包
       |  |           \--util                   公共方法类包
       |  \--resources                      项目资源文件包
+      |     |--conf                          通用配置文件资源
+      |     |--env                           环境配置相关文件资源
       |     |--fonts                         字体文件资源
       |     |--img                           图像文件资源
       |     \--mapper                        数据库表映射mapper.xml
@@ -142,7 +144,7 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 ## 8. 项目代码中使用 `BotCmd` 与 `BotMenu` 架构
 
-1. 在 [botMenu.yaml](src/main/resources/botMenu.yaml) 配置文件中配置功能命令和命令选项；
+1. 在 [botMenu.yaml](src/main/resources/conf/botMenu.yaml) 配置文件中配置功能命令和命令选项；
 2. 在 [eventHandler包](src/main/java/cn/ultronxr/qqrobot/eventHandler) 添加事件处理器（Handler）代码；
 3. 在 [service包](src/main/java/cn/ultronxr/qqrobot/service) 添加业务逻辑处理（Service）代码；
 4. 在 [BotMenuConfig.java](src/main/java/cn/ultronxr/qqrobot/config/BotMenuConfig.java) 文件中注入（@Autowired）handler对象。

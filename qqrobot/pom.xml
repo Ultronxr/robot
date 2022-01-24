@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>qqrobot</artifactId>
-    <version>2.10.0_0_0</version>
+    <version>2.10.1_0_1</version>
     <name>qqrobot</name>
     <description>A QQ Robot based on Mirai framework.</description>
 
@@ -291,7 +291,71 @@
     </repositories>
 
     <build>
+        <!-- 资源文件配置 -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>fonts/*.*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>img/groupNewMemberJoin.jpg</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
+            <!-- 资源文件插件配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes</outputDirectory>
+                            <encoding>UTF-8</encoding>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                                <delimiter>$</delimiter>
+                            </delimiters>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <excludes>
+                                        <exclude>fonts/*.*</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*.yml</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -309,7 +373,7 @@
                     <overwrite>true</overwrite>
                     <!--允许移动生成的文件 -->
                     <verbose>true</verbose>
-                    <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
+                    <configurationFile>src/main/resources/conf/generatorConfig.xml</configurationFile>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -338,12 +402,21 @@
 
         </plugins>
 
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

@@ -32,7 +32,7 @@ import java.util.List;
 public class BotMenuConfig {
 
     /** botCmd/botMenu配置文件路径，以 resources包 为根目录 */
-    public static final String CONFIG_YAML_PATH = "/botMenu.yaml";
+    public static final String CONFIG_YAML_PATH = "/conf/botMenu.yaml";
 
     @Autowired
     private MsgGroupChatStatisticsHandler msgGroupChatStatisticsHandler;
