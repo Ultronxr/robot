@@ -2,13 +2,13 @@ spring:
   profiles:
     active: $spring.profiles.active$
     # maven打包时添加参数 -P dev/prod
-    # 应用启动时添加参数 -Dspring.profiles.active=dev/prod
+    # 应用启动、测试时添加参数 -Dspring.profiles.active=dev/prod
 
   application:
     name: robot-qqrobot
 
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat,wall
     maxActive: 20
@@ -55,6 +55,10 @@ spring:
     username: root
     password: root
 
+druid:
+  username: druid
+  password: 123456
+
 
 ---
 spring:
@@ -71,3 +75,7 @@ spring:
     url: jdbc:mysql://192.168.0.30:3306/robot?characterEncoding=utf-8&useSSL=false
     username: root
     password: ULTR999)_+mysql
+
+druid:
+  username: druid
+  password: 123456

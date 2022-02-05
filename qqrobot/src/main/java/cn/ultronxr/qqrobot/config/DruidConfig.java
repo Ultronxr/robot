@@ -17,11 +17,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DruidConfig {
 
-    @Value("${}")
+    @Value("${druid.username}")
     private String DruidUsername;
 
-    @Value("${}")
+    @Value("${druid.password}")
     private String DruidPassword;
+
+    private static final String RESET_ENABLE = "false";
+
 
     /**
      * Druid Web配置
@@ -30,9 +33,9 @@ public class DruidConfig {
     public ServletRegistrationBean<StatViewServlet> statViewServlet() {
         ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>(new StatViewServlet(), "/druid/*");
 
-        servletRegistrationBean.addInitParameter("loginUsername","druid");
-        servletRegistrationBean.addInitParameter("loginPassword","123456");
-        servletRegistrationBean.addInitParameter("resetEnable","false");
+        servletRegistrationBean.addInitParameter("loginUsername", DruidUsername);
+        servletRegistrationBean.addInitParameter("loginPassword", DruidPassword);
+        servletRegistrationBean.addInitParameter("resetEnable", RESET_ENABLE);
 
         // 访问白名单和黑名单
         //servletRegistrationBean.addInitParameter("allow","127.0.0.1");
