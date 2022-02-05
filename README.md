@@ -8,22 +8,19 @@ Java 11, [openjdk 11](https://adoptopenjdk.net/releases.html?variant=openjdk11&j
 
 [maven 3.5.4](https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/)
 
-IntelliJ IDEA 2020.1.1
+IntelliJ IDEA 2021.3
 
 ## 2. 项目结构
 
 ```text
 \--robot
-   |--common
    |--qqrobot
    \--remote
 ```
 
-1. `common` 模块：存放公用功能方法（目前暂时无用）；
+1. `qqrobot` 模块：主要QQ机器人模块，包含与QQ机器人相关的事件监听、功能实现；
 
-2. `qqrobot` 模块：主要QQ机器人模块，包含与QQ机器人相关的事件监听、功能实现；
-
-3. `remote` 模块：远程服务器功能模块，由于QQ登录存在异地检测机制，所以我把机器人跑在本地微型服务器上，但是本地机器稳定性不够，部分需要持续稳定运行的独立功能就写在这个模块，放在阿里云服务器上跑。
+2. `remote` 模块：远程服务器功能模块，由于QQ登录存在异地检测机制，所以我把机器人跑在本地微型服务器上，但是本地机器稳定性不够，部分需要持续稳定运行的独立功能就写在这个模块，放在阿里云服务器上跑。
 
 ## 3. 项目版本迭代规范
 
