@@ -2,7 +2,7 @@
 
 当前QQRobot版本：[查看pom.xml文件version标签](./pom.xml#L13)
 
-依赖mirai版本：2.9.2
+依赖mirai版本：2.10.0
 
 ## 1. 项目主要目录结构
 
@@ -50,7 +50,103 @@
 
 mirai版本规范见此 [链接](https://github.com/mamoe/mirai/blob/dev/docs/Evolution.md#%E7%89%88%E6%9C%AC%E8%A7%84%E8%8C%83) 。
 
-## 4. `deviceInfo.json`设备信息文件路径问题
+
+## 4. gitignore的配置文件
+
+`resources` 包内部分配置文件涉及敏感信息（如账号密码、数据库URL等），添加了gitignore未上传至Git。
+
+这里解释它们的用途及配置格式。
+
+![gitignore的配置文件](./gitignore的配置文件.png)
+
+### 4.1 conf/aliCloudConfig.properties
+
+有关阿里云账号的配置文件。
+
+```properties
+# 阿里云天气接口appKey
+ali.weatherAPI.app.key=
+ali.weatherAPI.app.secret=
+ali.weatherAPI.app.code=
+
+# 阿里云OSS子用户（OSSUserTwo）
+ali.subUser.accessKey.id=
+ali.subUser.accessKey.secret=
+
+# 阿里云OSS配置
+ali.oss.endPoint=
+ali.oss.bucketName=
+ali.oss.folderKey=
+```
+
+### 4.2 conf/botConfig.properties
+
+QQ机器人账号配置文件。
+
+```properties
+# bot账号信息
+bot.qq=
+bot.pwd=
+bot.nick=
+
+# 日志记录路径和文件
+bot.log.path.bot=logs/bot
+bot.log.path.network=logs/network
+bot.log.file.bot=
+bot.log.file.network=
+```
+
+### 4.3 env/redisson-dev.yaml 与 env/redisson-prod.yaml
+
+Redisson配置文件，分为开发环境与生产环境两份。
+
+```properties
+# 单节点配置
+singleServerConfig:
+  # 空闲等待超时（毫秒）
+  idleConnectionTimeout: 10000
+  # 连接等待超时（毫秒）
+  connectTimeout: 10000
+  # 命令等待超时（毫秒）
+  timeout: 3000
+  # 命令执行失败重试次数
+  retryAttempts: 3
+  # 命令重试时间间隔（毫秒）
+  retryInterval: 1500
+  # 客户端名称、地址、密码
+  clientName: null
+  address: 
+  password: 
+  # 单个连接最大订阅数量
+  subscriptionsPerConnection: 5
+  # 发布和订阅最小空闲连接数量
+  subscriptionConnectionMinimumIdleSize: 1
+  # 发布和订阅连接池大小
+  subscriptionConnectionPoolSize: 50
+  # 最小连接空闲数量
+  connectionMinimumIdleSize: 24
+  # 连接池大小
+  connectionPoolSize: 64
+  # 数据库编号
+  database: 0
+  # DNS监测时间间隔（毫秒）
+  dnsMonitoringInterval: 5000
+# 线程池线程数量，默认值：CPU核心数*2
+threads: 4
+# netty线程池线程数量，默认值：CPU核心数*2
+nettyThreads: 4
+# 编码
+codec: !<org.redisson.codec.MarshallingCodec> {}
+# 传输模式
+transportMode: "NIO"
+```
+
+### 4.4 deviceInfo.json
+
+mirai登录QQ账号时产生的设备信息记录文件。
+
+
+## 5. `deviceInfo.json`设备信息文件路径问题
 
 有关`deviceInfo.json`设备信息文件说明请查阅 [官方说明](https://github.com/mamoe/mirai/blob/dev/docs/Bots.md#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF) 。
 
@@ -84,7 +180,7 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 + 如果在jar包中运行，则不使用jar包*classpath*中的`deviceInfo.json`文件路径，改成jar包所处路径（由jar包内路径改成jar包外路径），当然 **这需要在jar包所处路径手动放置deviceInfo.json文件** 。
 
-## 5. 事件通道（EventChannel）和事件（Event）监听注册
+## 6. 事件通道（EventChannel）和事件（Event）监听注册
 
 [事件通道](https://github.com/mamoe/mirai/blob/dev/docs/Events.md#%E4%BA%8B%E4%BB%B6%E9%80%9A%E9%81%93) 介绍
 
@@ -98,7 +194,7 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 + 上述 `listener` 和 `eventHandler` 包内文件的命名遵循事件分类易读的原则，以 **Bot** 命名开头的文件中的方法都是与 `BOT事件` 相关的；以 **Msg** 命名开头的文件中的方法都是与 `消息事件` 相关的；以 **Group** 命名开头的文件中的方法都是与 `群事件` 相关的；等等；
 
-## 6. 命令化的消息语句格式
+## 7. 命令化的消息语句格式
 
 此QQRobot与QQ消息内容的交互采用 `命令化的消息语句格式` 。
 
@@ -134,7 +230,7 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 为了实现上述功能，在此引入下面一节内容：[BotCmd与BotMenu架构](#7-botcmd-与-botmenu-架构)
 
-## 7. `BotCmd` 与 `BotMenu` 架构
+## 8. `BotCmd` 与 `BotMenu` 架构
 
 `BotCmd` 是对BOT功能命令的封装，一个BotCmd代表一个业务功能命令，所有BotCmd组合成 `BotMenu` ，即BOT功能菜单，统一管理业务功能。
 
@@ -142,7 +238,7 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 
 ![BotCmd与BotMenu架构](./BotCmd与BotMenu架构.svg)
 
-## 8. 项目代码中使用 `BotCmd` 与 `BotMenu` 架构
+## 9. 项目代码中使用 `BotCmd` 与 `BotMenu` 架构
 
 1. 在 [botMenu.yaml](src/main/resources/conf/botMenu.yaml) 配置文件中配置功能命令和命令选项；
 2. 在 [eventHandler包](src/main/java/cn/ultronxr/qqrobot/eventHandler) 添加事件处理器（Handler）代码；
@@ -156,7 +252,7 @@ BotEntity.class.getResourceAsStream("/deviceInfo.json");
 + 命令解析步骤代码请查看 [BotCmdHandler.java](src/main/java/cn/ultronxr/qqrobot/eventHandler/BotCmdHandler.java) ；
 + 涉及到事件监听器和事件处理器的内容，请参见本文前面的 [事件通道（EventChannel）和事件（Event）监听注册](#5-事件通道eventchannel和事件event监听注册) 。
 
-## 9. 登录验证（滑块验证）
+## 10. 登录验证（滑块验证）
 
 有时QQ登录时需要进行登录验证，在使用 `MiraiProtocol.ANDROID_PHONE` 协议情况下，一般会提示使用滑块验证。
 
