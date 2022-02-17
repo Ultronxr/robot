@@ -57,9 +57,11 @@ public class MsgImgHandlerImpl extends GlobalData implements MsgImgHandler {
 
         try {
             InputStream inputStream = imgService.createPornHubIconImgInputStream(prefix, suffix);
-            Image image = groupMsgEvent.getSubject().uploadImage(ExternalResource.create(inputStream));
+            ExternalResource externalResource = ExternalResource.create(inputStream);
+            Image image = groupMsgEvent.getSubject().uploadImage(externalResource);
             inputStream.close();
             groupMsgEvent.getSubject().sendMessage(image);
+            externalResource.close();
             log.info("[Msg-Send] 发送PornHub图标样式图片：prefix suffix - {} {}", prefix, suffix);
         } catch (IOException ex) {
             ex.printStackTrace();

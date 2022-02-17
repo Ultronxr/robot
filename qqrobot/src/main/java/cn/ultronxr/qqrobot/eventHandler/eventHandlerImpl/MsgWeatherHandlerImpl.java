@@ -34,9 +34,15 @@ public class MsgWeatherHandlerImpl extends GlobalData implements MsgWeatherHandl
         }
 
         String area = null;
+        // 无任何选项时
         if(cmdLine.getOptions().length == 0) {
-            // 无任何选项时，地区默认设置为杭州
-            area = "杭州";
+            if(cmdLine.getArgList().size() > 1) {
+                // 如果无选项但带了arg1参数，如 ">weather 萧山区"
+                area = cmdLine.getArgList().get(1);
+            } else {
+                // 无选项且无参数，地区默认设置为杭州
+                area = "杭州";
+            }
         } else if(cmdLine.hasOption("a")) {
             // 有 -a 选项时，获取地区名称
             area = cmdLine.getOptionValue("a");

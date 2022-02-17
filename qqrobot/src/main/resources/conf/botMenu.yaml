@@ -231,3 +231,34 @@ options:
     required: false
 handler: msgWeatherHandler
 handlerMethod: groupWeatherHandler
+
+---
+briefDesc: 二维码解析/生成
+detailedDesc: 二维码解析和生成工具。解析二维码时，请在同一条消息内发送指令和图片；生成二维码时，文本内容不能含有空格、换行符等导致无法识别为同一参数的符号。
+triggerList:
+  - qr
+  - QR
+  - qrcode
+  - QRCode
+  - 二维码
+options:
+  - opt: e
+    longOpt: encode
+    desc: 生成二维码
+    hasArg: true
+    argName: 待生成二维码的文本内容
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: d
+    longOpt: decode
+    desc: 解析二维码
+    hasArg: false
+    required: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgQRCodeHandler
+handlerMethod: groupQRCodeHandler

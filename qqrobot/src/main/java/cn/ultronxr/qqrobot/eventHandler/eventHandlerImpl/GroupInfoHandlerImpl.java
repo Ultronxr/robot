@@ -56,8 +56,10 @@ public class GroupInfoHandlerImpl implements GroupInfoHandler {
         Image image = null;
         try {
             InputStream inputStream = this.getClass().getResourceAsStream(GROUP_NEW_MEMBER_JOIN_JPG_FILEPATH);
-            image = memberJoinEvent.getGroup().uploadImage(ExternalResource.create(inputStream));
+            ExternalResource externalResource = ExternalResource.create(inputStream);
+            image = memberJoinEvent.getGroup().uploadImage(externalResource);
             inputStream.close();
+            externalResource.close();
         } catch (IOException ex) {
             ex.printStackTrace();
             log.warn("[function] 新成员入群提示图片获取失败！");

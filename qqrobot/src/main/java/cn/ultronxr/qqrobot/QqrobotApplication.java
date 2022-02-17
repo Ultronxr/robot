@@ -19,8 +19,8 @@ public class QqrobotApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QqrobotApplication.class, args);
-        //BotEntity.BOT_ENTITY.login();
-        //BotEntity.BOT_ENTITY.join();
+        BotEntity.BOT_ENTITY.login();
+        BotEntity.BOT_ENTITY.join();
     }
 
 }
