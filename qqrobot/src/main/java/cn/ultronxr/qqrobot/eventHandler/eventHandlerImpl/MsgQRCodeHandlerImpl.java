@@ -42,7 +42,7 @@ public class MsgQRCodeHandlerImpl implements MsgQRCodeHandler {
         String msgRes = "";
         String content = null;
         // 无任何选项时
-        if(cmdLine.getOptions().length == 0 && cmdLine.getArgList().size() > 1) {
+        if(cmdLine.getOptions().length == 0 && cmdLine.getArgList().size() == 2) {
             // 如果无选项但带了arg1参数，如 ">qr 待转换成二维码的文本内容"
             content = cmdLine.getArgList().get(1);
         } else if(cmdLine.hasOption("e")) {

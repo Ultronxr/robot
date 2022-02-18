@@ -9,6 +9,8 @@ import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.At;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.regex.Matcher;
+
 /**
  * @author Ultronxr
  * @date 2020/12/31 15:03
@@ -19,11 +21,12 @@ import org.jetbrains.annotations.NotNull;
 public class MiraiUtils extends GlobalData {
 
     /**
-     * Mirai会在消息内容中转义的符号             ,  :  [  ]
-     * 上面的符号会在msgCode和msgPlain中显示为  \, \: \[ \]
+     * Mirai会在消息内容中转义的符号             [  ]  :  , \
+     * 上面的符号会在msgCode和msgPlain中显示为  \[ \] \: \, \\
      * 所以需要把它们去掉反斜杠，转义回来
+     * @link https://github.com/mamoe/mirai/blob/dev/docs/Messages.md#%E8%BD%AC%E4%B9%89%E8%A7%84%E5%88%99
      */
-    public static final String MIRAI_PUNCTUATION = "\\\\[,:\\[\\]]";
+    public static final String MIRAI_PUNCTUATION = "\\\\[\\[\\]:,\\\\]";
 
     /*
      * 以下自定义了三种Mirai消息类别：
@@ -96,7 +99,14 @@ public class MiraiUtils extends GlobalData {
      */
     public static String escapeMiraiPunctuation(String msg){
         return ReUtil.replaceAll(msg, MIRAI_PUNCTUATION,
-                matcher -> matcher.group().replaceFirst("\\\\", ""));
+                matcher -> matcher.group().replaceFirst("\\\\", Matcher.quoteReplacement("\\")));
+        // 这里需要使用 Matcher.quoteReplacement("\\") 方法，不能直接用 "" ，如下是对这个问题的解释：
+        // 当 "\," "\[" 等（[]:,）被替换掉反斜杠，留下符号自身 "," "[" 时没有问题，
+        // 但 "\\" 被替换掉反斜杠，留下符号自身 "\" 时，会被认为是转义符号，从而抛出“character to be escaped is missing”缺少转义内容的异常。
+        // 官方文档：
+        // Note that backslashes (\) and dollar signs ($) in the replacement string may cause the results to be different than if it were being treated as a literal replacement string; see Matcher.replaceFirst.
+        // Use Matcher.quoteReplacement to suppress the special meaning of these characters, if desired.
+        // Slashes ('\') and dollar signs ('$') will be given no special meaning.
     }
 
 
