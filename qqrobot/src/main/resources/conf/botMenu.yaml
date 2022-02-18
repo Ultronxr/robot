@@ -262,3 +262,113 @@ options:
     required: false
 handler: msgQRCodeHandler
 handlerMethod: groupQRCodeHandler
+
+---
+
+briefDesc: MD5工具
+detailedDesc: 生成文本内容的32位MD5算法结果值。默认小写，可以自定义添加盐值。文本内容不能含有空格、换行符等导致无法识别为同一参数的符号。
+triggerList:
+  - md5
+  - MD5
+options:
+  - opt: p
+    longOpt: plainText
+    desc: 待加密文本
+    hasArg: true
+    argName: 待加密文本
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: s
+    longOpt: salt
+    desc: 盐值
+    hasArg: true
+    argName: 盐值
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: U
+    longOpt: Uppercase
+    desc: 返回大写的字符串结果
+    hasArg: false
+    required: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgCodeToolkitHandler
+handlerMethod: groupMD5Handler
+
+---
+briefDesc: URL/URI转码/解码
+detailedDesc: 对URL/URI中的特殊符号进行转码/解码。默认只转码query部分，可以添加参数进行完全转码。文本内容不能含有空格、换行符等导致无法识别为同一参数的符号。
+triggerList:
+  - url
+  - URL
+  - uri
+  - URI
+options:
+  - opt: e
+    longOpt: encode
+    desc: 转码
+    hasArg: true
+    argName: 待转码内容
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: d
+    longOpt: decode
+    desc: 解码
+    hasArg: true
+    argName: 待解码内容
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: c
+    longOpt: component
+    desc: 转义链接中的所有符号
+    hasArg: false
+    required: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgCodeToolkitHandler
+handlerMethod: groupURLHandler
+
+---
+briefDesc: Unicode转码/解码
+detailedDesc: 对文本内容进行Unicode转码/解码。文本内容不能含有空格、换行符等导致无法识别为同一参数的符号。
+triggerList:
+  - unicode
+  - uni
+  - Unicode
+options:
+  - opt: e
+    longOpt: encode
+    desc: 转码
+    hasArg: true
+    argName: 待转码内容
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - opt: d
+    longOpt: decode
+    desc: 解码
+    hasArg: true
+    argName: 待解码内容
+    argNumber: 1
+    type: java.lang.String
+    required: false
+    optional: false
+  - longOpt: help
+    hasArg: false
+    desc: 命令解释说明
+    required: false
+handler: msgCodeToolkitHandler
+handlerMethod: groupUnicodeHandler

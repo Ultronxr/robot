@@ -67,6 +67,9 @@ public class BotMenuConfig {
     @Autowired
     private MsgQRCodeHandler msgQRCodeHandler;
 
+    @Autowired
+    private MsgCodeToolkitHandler msgCodeToolkitHandler;
+
 
     /**
      * 初始化BOT命令菜单BotMenu
