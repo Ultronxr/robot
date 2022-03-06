@@ -90,7 +90,7 @@ public class MsgQRCodeHandlerImpl implements MsgQRCodeHandler {
             externalResource.close();
         } catch (IOException | WriterException ex) {
             ex.printStackTrace();
-            log.error("[function] 二维码图片操作失败！");
+            log.warn("[function] 二维码图片操作失败！");
         }
         return image;
     }
@@ -113,7 +113,7 @@ public class MsgQRCodeHandlerImpl implements MsgQRCodeHandler {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     res = "解析二维码图片时IO出错！";
-                    log.error("[function] {}", res);
+                    log.warn("[function] {}", res);
                 } catch (NotFoundException ex) {
                     ex.printStackTrace();
                     res = "图像中未发现/无法解析二维码！";

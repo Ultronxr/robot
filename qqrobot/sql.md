@@ -95,3 +95,38 @@ order by
     chat_sum desc
 ;
 ```
+
+## qqrobot - Quartz定时任务
+
+### 建表
+
+```mysql
+CREATE TABLE quartz_job(
+    `job_id` int NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+    `job_name` varchar(25) NOT NULL COMMENT '任务名称',
+    `job_group` varchar(25) NOT NULL COMMENT '任务分组',
+    `job_description` varchar(255) DEFAULT NULL COMMENT '任务描述',
+    `job_class` varchar(255) DEFAULT NULL COMMENT '全限定类名，任务执行的类方法',
+    `job_cron` varchar(25) NOT NULL COMMENT 'cron表达式，用于设置任务循环时间',
+    `pause_time_limit` datetime DEFAULT NULL COMMENT '暂停时间期限，当任务暂停到此期限之后，任务自动被重新激活',
+    `status` int(1) NOT NULL DEFAULT 1 COMMENT '任务状态，0停止、1激活、2暂停',
+    `is_del` int(1) NOT NULL DEFAULT 0 COMMENT '是否删除，0未删除、1已删除',
+    `attach_files` varchar(255) DEFAULT NULL COMMENT '任务附件路径',
+    `sms_contact` varchar(25) DEFAULT NULL COMMENT '手机短信联系方式，为NULL则不激活',
+    `email_contact` varchar(50) DEFAULT NULL COMMENT '邮件联系方式，为NULL则不激活',
+    `create_time` datetime NOT NULL DEFAULT now() COMMENT '创建时间',
+    `create_user` varchar(25) NOT NULL COMMENT '创建者',
+    `update_time` datetime NOT NULL DEFAULT now() COMMENT '最后更新时间',
+    `update_user` varchar(25) NOT NULL COMMENT '最后更新者',
+    PRIMARY KEY(`job_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'Quartz任务表';
+
+CREATE TABLE quartz_job_target(
+    `job_id` int NOT NULL COMMENT '任务ID',
+    `group_id` varchar(25) DEFAULT NULL COMMENT '目标群ID',
+    `qq_id` varchar(25) DEFAULT NULL COMMENT 'QQ号'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '“Quartz任务目标群/群成员”表';
+```
+
+
+
