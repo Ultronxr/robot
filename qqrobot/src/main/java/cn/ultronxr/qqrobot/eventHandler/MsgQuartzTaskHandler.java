@@ -6,11 +6,11 @@ import org.apache.commons.cli.CommandLine;
 
 /**
  * @author Ultronxr
- * @date 2022/03/04 17:17
+ * @date 2022/03/09 20:54
  *
- * 消息事件 - 自定义提醒Handler
+ * 消息事件 - quartz任务handler
  */
-public interface MsgReminderHandler {
+public interface MsgQuartzTaskHandler {
 
     /**
      * 套用BotCmd/BotMenu框架
@@ -22,6 +22,6 @@ public interface MsgReminderHandler {
      * @param msgPlain      纯消息主体文本内容（MiraiUtils自定义消息类型三）
      *                      {@link cn.ultronxr.qqrobot.util.MiraiUtils#getMsgPlain(net.mamoe.mirai.event.events.MessageEvent)}
      */
-    void groupReminderLevatorAniMuscleTrainingHandler(BotCmd botCmd, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain);
+    void groupQuartzTaskHandler(BotCmd botCmd, CommandLine cmdLine, GroupMessageEvent groupMsgEvent, String msgPlain);
 
 }

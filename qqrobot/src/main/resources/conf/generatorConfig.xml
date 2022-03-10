@@ -31,8 +31,9 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="dbo" tableName="quartz_job" domainObjectName="QuartzJob" />
-        <table schema="dbo" tableName="quartz_job_target" domainObjectName="QuartzJobTarget" />
+        <table schema="dbo" tableName="quartz_task" domainObjectName="QuartzTask" />
+        <table schema="dbo" tableName="quartz_task_extend" domainObjectName="QuartzTaskExtend" />
+        <table schema="dbo" tableName="quartz_task_target" domainObjectName="QuartzTaskTarget" />
 
     </context>
 </generatorConfiguration>

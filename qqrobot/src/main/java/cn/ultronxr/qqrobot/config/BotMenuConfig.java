@@ -70,6 +70,9 @@ public class BotMenuConfig {
     @Autowired
     private MsgCodeToolkitHandler msgCodeToolkitHandler;
 
+    @Autowired
+    private MsgQuartzTaskHandler msgQuartzTaskHandler;
+
 
     /**
      * 初始化BOT命令菜单BotMenu

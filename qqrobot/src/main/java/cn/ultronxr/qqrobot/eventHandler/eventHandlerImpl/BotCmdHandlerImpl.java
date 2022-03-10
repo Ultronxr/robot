@@ -3,6 +3,7 @@ package cn.ultronxr.qqrobot.eventHandler.eventHandlerImpl;
 import cn.ultronxr.qqrobot.bean.BotCmd;
 import cn.ultronxr.qqrobot.eventHandler.BotCmdHandler;
 import cn.ultronxr.qqrobot.util.CommonCliUtils;
+import cn.ultronxr.qqrobot.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.apache.commons.cli.CommandLine;
@@ -23,7 +24,7 @@ public class BotCmdHandlerImpl implements BotCmdHandler {
 
     @Override
     public void botCmdHandler(@NotNull BotCmd botCmd, @NotNull GroupMessageEvent groupMsgEvent, @NotNull String msgPlain) {
-        String[] args = msgPlain.strip().split(" +");
+        String[] args = StringUtils.splitBySpacesNotInQuotesWithoutQuotes(msgPlain.strip()).toArray(new String[] {});
         Options options = botCmd.getOptions();
         CommandLine cmdLine = null;
 

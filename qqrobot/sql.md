@@ -100,29 +100,37 @@ order by
 
 ### 建表
 
+这里的任务均使用 `task` 命名，用于区分 quartz 的 job 。
+
 ```mysql
-CREATE TABLE quartz_job(
-    `job_id` int NOT NULL AUTO_INCREMENT COMMENT '任务ID',
-    `job_name` varchar(25) NOT NULL COMMENT '任务名称',
-    `job_group` varchar(25) NOT NULL COMMENT '任务分组',
-    `job_description` varchar(255) DEFAULT NULL COMMENT '任务描述',
-    `job_class` varchar(255) DEFAULT NULL COMMENT '全限定类名，任务执行的类方法',
-    `job_cron` varchar(25) NOT NULL COMMENT 'cron表达式，用于设置任务循环时间',
-    `pause_time_limit` datetime DEFAULT NULL COMMENT '暂停时间期限，当任务暂停到此期限之后，任务自动被重新激活',
+CREATE TABLE quartz_task(
+    `task_name` varchar(25) NOT NULL COMMENT '任务名称',
+    `task_group` varchar(25) NOT NULL COMMENT '任务分组',
+    `task_description` varchar(255) DEFAULT NULL COMMENT '任务描述',
+    `task_class` varchar(255) DEFAULT NULL COMMENT '全限定类名，任务执行的类方法',
+    `task_cron` varchar(25) NOT NULL COMMENT 'cron表达式，用于设置任务循环时间',
     `status` int(1) NOT NULL DEFAULT 1 COMMENT '任务状态，0停止、1激活、2暂停',
-    `is_del` int(1) NOT NULL DEFAULT 0 COMMENT '是否删除，0未删除、1已删除',
-    `attach_files` varchar(255) DEFAULT NULL COMMENT '任务附件路径',
-    `sms_contact` varchar(25) DEFAULT NULL COMMENT '手机短信联系方式，为NULL则不激活',
-    `email_contact` varchar(50) DEFAULT NULL COMMENT '邮件联系方式，为NULL则不激活',
-    `create_time` datetime NOT NULL DEFAULT now() COMMENT '创建时间',
+    `pause_time_limit` datetime DEFAULT NULL COMMENT '暂停时间期限，当任务暂停到此期限之后，任务自动被重新激活',
     `create_user` varchar(25) NOT NULL COMMENT '创建者',
-    `update_time` datetime NOT NULL DEFAULT now() COMMENT '最后更新时间',
+    `create_time` datetime NOT NULL DEFAULT now() COMMENT '创建时间',
     `update_user` varchar(25) NOT NULL COMMENT '最后更新者',
-    PRIMARY KEY(`job_id`)
+    `update_time` datetime NOT NULL DEFAULT now() COMMENT '最后更新时间',
+    PRIMARY KEY(`task_name`, `task_group`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'Quartz任务表';
 
-CREATE TABLE quartz_job_target(
-    `job_id` int NOT NULL COMMENT '任务ID',
+CREATE TABLE quartz_task_extend(
+    `task_name` varchar(25) NOT NULL COMMENT '任务名称',
+    `task_group` varchar(25) NOT NULL COMMENT '任务分组',
+    `msg` varchar(500) DEFAULT NULL COMMENT '信息内容',
+    `files` varchar(255) DEFAULT NULL COMMENT '任务附件（主要是图片）路径，如果有多个附件，使用逗号隔开，如："filepath1","filepath2"',
+    `sms` varchar(25) DEFAULT NULL COMMENT '手机短信联系方式',
+    `email` varchar(50) DEFAULT NULL COMMENT '邮件联系方式',
+    PRIMARY KEY(`task_name`, `task_group`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'Quartz任务内容表';  
+
+CREATE TABLE quartz_task_target(
+    `task_name` varchar(25) NOT NULL COMMENT '任务名称',
+    `task_group` varchar(25) NOT NULL COMMENT '任务分组',
     `group_id` varchar(25) DEFAULT NULL COMMENT '目标群ID',
     `qq_id` varchar(25) DEFAULT NULL COMMENT 'QQ号'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '“Quartz任务目标群/群成员”表';

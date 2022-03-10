@@ -25,6 +25,11 @@ public class MiraiUtils extends GlobalData {
      * 上面的符号会在msgCode和msgPlain中显示为  \[ \] \: \, \\
      * 所以需要把它们去掉反斜杠，转义回来
      * @link https://github.com/mamoe/mirai/blob/dev/docs/Messages.md#%E8%BD%AC%E4%B9%89%E8%A7%84%E5%88%99
+     *
+     * 下面这个正则的可读形式：\\[\[\]:,\\]
+     *             分开解释：     \\        [        \[        \]        :        ,        \\        ]
+     *         分别对应匹配：      \     开始标记[     [         ]        :        ,         \     ]结束标记
+     *            也就是说：首先开头一个反斜杠 \ 后面跟着可能是这些符号 []:,\ 的其中任意一个
      */
     public static final String MIRAI_PUNCTUATION = "\\\\[\\[\\]:,\\\\]";
 

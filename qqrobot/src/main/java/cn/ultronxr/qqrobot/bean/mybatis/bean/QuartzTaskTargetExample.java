@@ -3,14 +3,14 @@ package cn.ultronxr.qqrobot.bean.mybatis.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuartzJobTargetExample {
+public class QuartzTaskTargetExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public QuartzJobTargetExample() {
+    public QuartzTaskTargetExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -104,63 +104,143 @@ public class QuartzJobTargetExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andJobIdIsNull() {
-            addCriterion("job_id is null");
+        public Criteria andTaskNameIsNull() {
+            addCriterion("task_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdIsNotNull() {
-            addCriterion("job_id is not null");
+        public Criteria andTaskNameIsNotNull() {
+            addCriterion("task_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdEqualTo(Integer value) {
-            addCriterion("job_id =", value, "jobId");
+        public Criteria andTaskNameEqualTo(String value) {
+            addCriterion("task_name =", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdNotEqualTo(Integer value) {
-            addCriterion("job_id <>", value, "jobId");
+        public Criteria andTaskNameNotEqualTo(String value) {
+            addCriterion("task_name <>", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdGreaterThan(Integer value) {
-            addCriterion("job_id >", value, "jobId");
+        public Criteria andTaskNameGreaterThan(String value) {
+            addCriterion("task_name >", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("job_id >=", value, "jobId");
+        public Criteria andTaskNameGreaterThanOrEqualTo(String value) {
+            addCriterion("task_name >=", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdLessThan(Integer value) {
-            addCriterion("job_id <", value, "jobId");
+        public Criteria andTaskNameLessThan(String value) {
+            addCriterion("task_name <", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdLessThanOrEqualTo(Integer value) {
-            addCriterion("job_id <=", value, "jobId");
+        public Criteria andTaskNameLessThanOrEqualTo(String value) {
+            addCriterion("task_name <=", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdIn(List<Integer> values) {
-            addCriterion("job_id in", values, "jobId");
+        public Criteria andTaskNameLike(String value) {
+            addCriterion("task_name like", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdNotIn(List<Integer> values) {
-            addCriterion("job_id not in", values, "jobId");
+        public Criteria andTaskNameNotLike(String value) {
+            addCriterion("task_name not like", value, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdBetween(Integer value1, Integer value2) {
-            addCriterion("job_id between", value1, value2, "jobId");
+        public Criteria andTaskNameIn(List<String> values) {
+            addCriterion("task_name in", values, "taskName");
             return (Criteria) this;
         }
 
-        public Criteria andJobIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("job_id not between", value1, value2, "jobId");
+        public Criteria andTaskNameNotIn(List<String> values) {
+            addCriterion("task_name not in", values, "taskName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNameBetween(String value1, String value2) {
+            addCriterion("task_name between", value1, value2, "taskName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNameNotBetween(String value1, String value2) {
+            addCriterion("task_name not between", value1, value2, "taskName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupIsNull() {
+            addCriterion("task_group is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupIsNotNull() {
+            addCriterion("task_group is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupEqualTo(String value) {
+            addCriterion("task_group =", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotEqualTo(String value) {
+            addCriterion("task_group <>", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupGreaterThan(String value) {
+            addCriterion("task_group >", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupGreaterThanOrEqualTo(String value) {
+            addCriterion("task_group >=", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupLessThan(String value) {
+            addCriterion("task_group <", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupLessThanOrEqualTo(String value) {
+            addCriterion("task_group <=", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupLike(String value) {
+            addCriterion("task_group like", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotLike(String value) {
+            addCriterion("task_group not like", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupIn(List<String> values) {
+            addCriterion("task_group in", values, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotIn(List<String> values) {
+            addCriterion("task_group not in", values, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupBetween(String value1, String value2) {
+            addCriterion("task_group between", value1, value2, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotBetween(String value1, String value2) {
+            addCriterion("task_group not between", value1, value2, "taskGroup");
             return (Criteria) this;
         }
 

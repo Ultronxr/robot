@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.ultronxr.qqrobot.bean.mybatis.mapper.QuartzJobTargetMapper">
-  <resultMap id="BaseResultMap" type="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJobTarget">
-    <result column="job_id" jdbcType="INTEGER" property="jobId" />
+<mapper namespace="cn.ultronxr.qqrobot.bean.mybatis.mapper.QuartzTaskTargetMapper">
+  <resultMap id="BaseResultMap" type="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTaskTarget">
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_group" jdbcType="VARCHAR" property="taskGroup" />
     <result column="group_id" jdbcType="VARCHAR" property="groupId" />
     <result column="qq_id" jdbcType="VARCHAR" property="qqId" />
   </resultMap>
@@ -65,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    job_id, group_id, qq_id
+    task_name, task_group, group_id, qq_id
   </sql>
-  <select id="selectByExample" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJobTargetExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTaskTargetExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from quartz_job_target
+    from quartz_task_target
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -81,23 +82,26 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJobTargetExample">
-    delete from quartz_job_target
+  <delete id="deleteByExample" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTaskTargetExample">
+    delete from quartz_task_target
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJobTarget">
-    insert into quartz_job_target (job_id, group_id, qq_id
-      )
-    values (#{jobId,jdbcType=INTEGER}, #{groupId,jdbcType=VARCHAR}, #{qqId,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTaskTarget">
+    insert into quartz_task_target (task_name, task_group, group_id, 
+      qq_id)
+    values (#{taskName,jdbcType=VARCHAR}, #{taskGroup,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, 
+      #{qqId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJobTarget">
-    insert into quartz_job_target
+  <insert id="insertSelective" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTaskTarget">
+    insert into quartz_task_target
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="jobId != null">
-        job_id,
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="taskGroup != null">
+        task_group,
       </if>
       <if test="groupId != null">
         group_id,
@@ -107,8 +111,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="jobId != null">
-        #{jobId,jdbcType=INTEGER},
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskGroup != null">
+        #{taskGroup,jdbcType=VARCHAR},
       </if>
       <if test="groupId != null">
         #{groupId,jdbcType=VARCHAR},
@@ -118,17 +125,20 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJobTargetExample" resultType="java.lang.Long">
-    select count(*) from quartz_job_target
+  <select id="countByExample" parameterType="cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTaskTargetExample" resultType="java.lang.Long">
+    select count(*) from quartz_task_target
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update quartz_job_target
+    update quartz_task_target
     <set>
-      <if test="record.jobId != null">
-        job_id = #{record.jobId,jdbcType=INTEGER},
+      <if test="record.taskName != null">
+        task_name = #{record.taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskGroup != null">
+        task_group = #{record.taskGroup,jdbcType=VARCHAR},
       </if>
       <if test="record.groupId != null">
         group_id = #{record.groupId,jdbcType=VARCHAR},
@@ -142,8 +152,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update quartz_job_target
-    set job_id = #{record.jobId,jdbcType=INTEGER},
+    update quartz_task_target
+    set task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_group = #{record.taskGroup,jdbcType=VARCHAR},
       group_id = #{record.groupId,jdbcType=VARCHAR},
       qq_id = #{record.qqId,jdbcType=VARCHAR}
     <if test="_parameter != null">

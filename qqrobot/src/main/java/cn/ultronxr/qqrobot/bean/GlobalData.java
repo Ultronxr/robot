@@ -56,6 +56,13 @@ public abstract class GlobalData {
          */
         public static final String MATH_INTERVAL = "([\\[(]([-+]?\\d+)|\\((-∞)),(([-+]?\\d+)[])]|(\\+∞)\\))";
 
+        /**
+         * 以所有 不被包围在引号内的空格 分割字符串<br/>
+         *      例：aa bb cc 'dd ee' ff gg "hh ii"<br/>
+         * 匹配结果：["aa","bb","cc","'dd ee'",ff,gg,"\"hh ii\""]
+         */
+        public static final String SPLIT_BY_SPACES_NOT_IN_QUOTES = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
+
     }
 
     /** 网络请求时使用的User-Agent */

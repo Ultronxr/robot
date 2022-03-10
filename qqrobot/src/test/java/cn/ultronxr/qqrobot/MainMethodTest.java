@@ -4,6 +4,7 @@ import cn.hutool.core.date.CalendarUtil;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.http.HttpRequest;
+import cn.ultronxr.qqrobot.bean.GlobalData;
 import cn.ultronxr.qqrobot.bean.mybatis.bean.QQGroup;
 import cn.ultronxr.qqrobot.util.CommonCliUtils;
 import cn.ultronxr.qqrobot.util.DateTimeUtils;
@@ -28,7 +29,8 @@ public class MainMethodTest {
 
     public static void main(String[] args) {
         //commonCliTest();
-        commonCliHelpTest();
+        //commonCliHelpTest();
+        commonCliCronTest();
     }
 
     /**
@@ -87,6 +89,27 @@ public class MainMethodTest {
         }
         System.out.println(CommonCliUtils.describeOptions("clear", options));
     }
+
+    public static void commonCliCronTest() {
+        CommandLineParser cliParser = CommonCliUtils.CLI_PARSER;
+        CommandLine cli = null;
+        Options options = new Options();
+        options.addOption(Option.builder("c").longOpt("cron").hasArg(true).argName("Cron表达式").type(String.class)
+                .desc("Cron表达式").required(false).optionalArg(false).build());
+
+        String cmd = "quartz -c '* 0/10 * * * ? *'";
+        String[] args1 = StringUtils.splitBySpacesNotInQuotesWithoutQuotes(cmd).toArray(new String[] {});
+        try {
+            cli = cliParser.parse(options, args1);
+            if(cli.hasOption("c")){
+                System.out.println(cli.getOptionValue("c"));
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(CommonCliUtils.describeOptions("quartz", options));
+    }
+
 
     /**
      * 自然语言时间描述解析测试

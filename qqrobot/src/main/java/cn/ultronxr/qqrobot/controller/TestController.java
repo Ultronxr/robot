@@ -1,7 +1,7 @@
 package cn.ultronxr.qqrobot.controller;
 
-import cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzJob;
-import cn.ultronxr.qqrobot.bean.mybatis.mapper.QuartzJobMapper;
+import cn.ultronxr.qqrobot.bean.mybatis.bean.QuartzTask;
+import cn.ultronxr.qqrobot.bean.mybatis.mapper.QuartzTaskMapper;
 import cn.ultronxr.qqrobot.framework.quartz.QuartzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.util.Date;
 public class TestController {
 
     @Autowired
-    private QuartzJobMapper quartzJobMapper;
+    private QuartzTaskMapper taskMapper;
 
     @Autowired
     private QuartzService quartzService;
@@ -27,12 +27,12 @@ public class TestController {
 
     @RequestMapping("addJob")
     @ResponseBody
-    public String addJob(@RequestBody QuartzJob quartzJob) {
+    public String addJob(@RequestBody QuartzTask task) {
         Date date = new Date();
-        quartzJob.setCreateTime(date);
-        quartzJob.setUpdateTime(date);
-        if(quartzService.addQuartzJobs(quartzJob)) {
-            quartzJobMapper.insert(quartzJob);
+        task.setCreateTime(date);
+        task.setUpdateTime(date);
+        if(quartzService.addJob(task)) {
+            taskMapper.insert(task);
             return "OK";
         }
         return "NOT OK";
@@ -40,7 +40,7 @@ public class TestController {
 
     @RequestMapping("reloadJob")
     public void reloadJob() {
-        quartzService.initQuartzJobs();
+        quartzService.initJobs();
     }
 
 }
