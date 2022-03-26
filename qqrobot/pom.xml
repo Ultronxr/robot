@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.ultronxr</groupId>
     <artifactId>qqrobot</artifactId>
-    <version>2.10.5_2_0</version>
+    <version>2.10.5_3_0</version>
     <name>qqrobot</name>
     <description>A QQ Robot based on Mirai framework.</description>
 
@@ -44,6 +44,7 @@
         <mirai.version>2.10.0</mirai.version>
         <kotlin.version>1.5.10</kotlin.version>
         <aliyun-sdk-oss.version>3.11.0</aliyun-sdk-oss.version>
+        <tencentcloud-sdk-java.version>3.1.466</tencentcloud-sdk-java.version>
         <!--<selenium.version>3.141.59</selenium.version>-->
         <quartz.version>2.3.2</quartz.version>
         <jsoup.version>1.14.2</jsoup.version>
@@ -273,6 +274,13 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun-sdk-oss.version}</version>
+        </dependency>
+
+        <!-- 腾讯云API -->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>${tencentcloud-sdk-java.version}</version>
         </dependency>
 
         <!-- selenium -->

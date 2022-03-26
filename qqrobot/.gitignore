@@ -35,5 +35,7 @@ build/
 ### Config Files ###
 botConfig.properties
 aliCloudConfig.properties
+tencentCloudConfig.properties
+sms.properties
 deviceInfo.json
 redisson*.yaml

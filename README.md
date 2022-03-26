@@ -6,9 +6,9 @@
 
 Java 11, [openjdk 11](https://adoptopenjdk.net/releases.html?variant=openjdk11&jvmVariant=hotspot)
 
-[maven 3.5.4](https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/)
+[mvnd 0.7.1](https://github.com/apache/maven-mvnd/releases/tag/0.7.1) (Apache Maven 3.8.3)
 
-IntelliJ IDEA 2021.3
+IntelliJ IDEA 2021.3.3
 
 ## 2. 项目结构
 

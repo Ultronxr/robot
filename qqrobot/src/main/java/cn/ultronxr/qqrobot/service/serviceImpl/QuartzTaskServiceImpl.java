@@ -19,12 +19,21 @@ public class QuartzTaskServiceImpl implements QuartzTaskService {
     /** 提肛提醒小助手图片文件位于resources下的路径 **/
     //private static final String REMINDER_LEVATOR_ANI_MUSCLE_TRAINING_JPG_FILEPATH = "/img/quartz/reminder_LevatorAniMuscleTraining.jpg";
 
+    private static final String DEFAULT_JOB_CLASS = "cn.ultronxr.qqrobot.framework.quartz.jobclass.TestJob";
+
 
     @Override
     public void handleAdd(BotCmd botCmd, CommandLine cmdLine, GroupMessageEvent groupMsgEvent) {
         if(cmdLine.hasOption("help")) {
             // 优先判断 --help 选项
-            CommonCliUtils.defaultOptionHelper(groupMsgEvent, botCmd);
+            // CommonCliUtils.defaultOptionHelper(groupMsgEvent, botCmd);
+            // CommonCliUtils.defaultOptionExceptionHandler(groupMsgEvent);
+            String name = cmdLine.getOptionValue("n"),
+                    group = cmdLine.getOptionValue("g"),
+                    desc = cmdLine.getOptionValue("d"),
+                    cron = cmdLine.getOptionValue("c");
+
+
             return;
         }
     }

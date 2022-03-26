@@ -22,6 +22,10 @@ public abstract class GlobalData {
 
         public static final ResourceBundle ALI_CLOUD = ResourceBundle.getBundle("conf.aliCloudConfig");
 
+        public static final ResourceBundle TENCENT_CLOUD = ResourceBundle.getBundle("conf.tencentCloudConfig");
+
+        public static final ResourceBundle SMS = ResourceBundle.getBundle("conf.sms");
+
     }
 
     /**

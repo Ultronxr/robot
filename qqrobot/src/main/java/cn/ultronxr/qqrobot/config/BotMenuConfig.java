@@ -50,9 +50,6 @@ public class BotMenuConfig {
     private MsgRobotMenuHandler msgRobotMenuHandler;
 
     @Autowired
-    private MsgScheduledTaskHandler msgScheduledTaskHandler;
-
-    @Autowired
     private MsgSentenceHandler msgSentenceHandler;
 
     @Autowired

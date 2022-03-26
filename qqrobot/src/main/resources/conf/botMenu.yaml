@@ -374,8 +374,8 @@ handler: msgCodeToolkitHandler
 handlerMethod: groupUnicodeHandler
 
 ---
-briefDesc: Quartz定时任务
-detailedDesc: 配置Quartz定时任务。包括添加、暂停、恢复、停止、删除任务，以及查询任务列表和任务详情等功能。
+briefDesc: Quartz定时重复任务
+detailedDesc: 配置Quartz定时重复任务。包括添加、暂停、恢复、停止、删除任务，以及查询任务列表和任务详情等功能。
 triggerList:
 #  - quartz-help
   - quartz-add
