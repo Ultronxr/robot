@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @Configuration
 @Slf4j
-@MapperScan(basePackages = {"cn.ultronxr.qqrobot.bean.mybatis.mapper"})
+//@MapperScan(basePackages = {"cn.ultronxr.qqrobot.bean.mybatis.mapper"})
 public class QqrobotApplication {
 
     public static void main(String[] args) {

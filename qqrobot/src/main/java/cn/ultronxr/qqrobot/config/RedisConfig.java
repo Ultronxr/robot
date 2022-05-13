@@ -23,8 +23,12 @@ import java.net.UnknownHostException;
 @Configuration
 public class RedisConfig {
 
-    @Value("${redisson-env-filename}")
-    private String RedissonFileName;
+    @Value("${spring.redis.redisson.singleServerConfig.address}")
+    private String address;
+
+    @Value("${spring.redis.redisson.singleServerConfig.password}")
+    private String password;
+
 
     /**
      * 修改 RedisTemplate 配置
@@ -50,8 +54,10 @@ public class RedisConfig {
 
     @Bean
     public RedissonClient redisson() throws IOException {
-        String resource = "env/" + RedissonFileName;
+        String resource = "conf/redisson.yaml";
         Config config = Config.fromYAML(RedisConfig.class.getClassLoader().getResource(resource));
+        config.useSingleServer().setAddress(address);
+        config.useSingleServer().setPassword(password);
         return Redisson.create(config);
     }
 

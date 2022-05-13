@@ -38,4 +38,4 @@ aliCloudConfig.properties
 tencentCloudConfig.properties
 sms.properties
 deviceInfo.json
-redisson*.yaml
+application-*.yml

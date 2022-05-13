@@ -107,52 +107,77 @@ bot.log.file.bot=
 bot.log.file.network=
 ```
 
-### 5.3 env/redisson-dev.yaml 与 env/redisson-prod.yaml
+### 5.3 conf/tencentCloudConfig.properties
 
-Redisson配置文件，分为开发环境与生产环境两份。
+腾讯云配置文件。
 
 ```properties
-# 单节点配置
-singleServerConfig:
-  # 空闲等待超时（毫秒）
-  idleConnectionTimeout: 10000
-  # 连接等待超时（毫秒）
-  connectTimeout: 10000
-  # 命令等待超时（毫秒）
-  timeout: 3000
-  # 命令执行失败重试次数
-  retryAttempts: 3
-  # 命令重试时间间隔（毫秒）
-  retryInterval: 1500
-  # 客户端名称、地址、密码
-  clientName: null
-  address: 
-  password: 
-  # 单个连接最大订阅数量
-  subscriptionsPerConnection: 5
-  # 发布和订阅最小空闲连接数量
-  subscriptionConnectionMinimumIdleSize: 1
-  # 发布和订阅连接池大小
-  subscriptionConnectionPoolSize: 50
-  # 最小连接空闲数量
-  connectionMinimumIdleSize: 24
-  # 连接池大小
-  connectionPoolSize: 64
-  # 数据库编号
-  database: 0
-  # DNS监测时间间隔（毫秒）
-  dnsMonitoringInterval: 5000
-# 线程池线程数量，默认值：CPU核心数*2
-threads: 4
-# netty线程池线程数量，默认值：CPU核心数*2
-nettyThreads: 4
-# 编码
-codec: !<org.redisson.codec.MarshallingCodec> {}
-# 传输模式
-transportMode: "NIO"
+# 腾讯云账户的SecretId和SecretKey（权限最高）
+secret.id=
+secret.key=
+
+# 腾讯云短信服务APP信息
+app.name=
+app.id=
+app.key=
+app.createTime=
+
+# 短信签名与模板ID
+sms.sign=
+sms.template.id.a=
+sms.template.id.b=
 ```
 
-### 5.4 deviceInfo.json
+### 5.4 application-devenv.yml 与 application-prodenv.yml
+
+这两个配置文件分别是开发环境、生产环境的springboot配置文件，包含了 datasource（数据源/数据库）、redis 的敏感配置。 
+
+会在激活 `dev` 、 `prod` 配置时被分别动态引入（include） application.yml 。
+
+```yaml
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      # 访问druid web控制台页面的用户名和密码
+      username: 
+      password: 
+      filters: stat,wall
+      initialSize: 5
+      maxActive: 20
+      maxWait: 60000
+      minIdle: 5
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 1 from dual
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      datasource-main:
+        url: jdbc:mysql://?characterEncoding=utf-8&useSSL=false
+        # 连接数据库的用户名和密码
+        username: 
+        password: 
+      # 多数据源配置
+      # datasource-second:
+        # url:
+        # username:
+        # password:
+
+  redis:
+    redisson:
+      singleServerConfig:
+        # 连接redis的地址和密码
+        address: redis://
+        password: 
+
+```
+
+
+### 5.5 deviceInfo.json
 
 mirai登录QQ账号时产生的设备信息记录文件。
 

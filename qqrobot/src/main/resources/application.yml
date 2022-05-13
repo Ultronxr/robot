@@ -1,28 +1,21 @@
+# maven打包时添加参数 -P dev/prod
+# 应用启动、测试时添加参数 -Dspring.profiles.active=dev/prod
+profile: $spring.profiles.active$
+
 spring:
   profiles:
-    active: $spring.profiles.active$
-    # maven打包时添加参数 -P dev/prod
-    # 应用启动、测试时添加参数 -Dspring.profiles.active=dev/prod
+    # 激活的配置（dev/prod）
+    active: ${profile}
+    # 引入的配置（application-devenv.yml/application-prodenv.yml）
+    include:
+      - ${profile}env
 
   application:
     name: robot-qqrobot
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-    filters: stat,wall
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 1 from dual
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
+  redis:
+    redisson:
+      file: classpath:conf/redisson.yaml
 
 mybatis:
   type-aliases-package: cn.ultronxr.qqrobot.bean.mybatis.bean
@@ -36,28 +29,12 @@ server:
 logging:
   config: classpath:log4j.properties
 
-redisson-env-filename: redisson-$spring.profiles.active$.yaml
-
 
 ---
 spring:
   config:
     activate:
       on-profile: dev
-
-  redis:
-    redisson:
-      file: classpath:redisson-dev.yaml
-
-  datasource:
-    name: robot
-    url: jdbc:mysql://127.0.0.1:3306/robot?characterEncoding=utf-8&useSSL=false
-    username: root
-    password: root
-
-druid:
-  username: druid
-  password: 123456
 
 
 ---
@@ -66,16 +43,3 @@ spring:
     activate:
       on-profile: prod
 
-  redis:
-    redisson:
-      file: classpath:redisson-prod.yaml
-
-  datasource:
-    name: robot
-    url: jdbc:mysql://192.168.0.30:3306/robot?characterEncoding=utf-8&useSSL=false
-    username: root
-    password: ULTR999)_+mysql
-
-druid:
-  username: druid
-  password: 123456
