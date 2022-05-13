@@ -31,7 +31,6 @@
       |  |           \--util                   公共方法类包
       |  \--resources                      项目资源文件包
       |     |--conf                          通用配置文件资源
-      |     |--env                           环境配置相关文件资源
       |     |--fonts                         字体文件资源
       |     |--img                           图像文件资源
       |     \--mapper                        数据库表映射mapper.xml
