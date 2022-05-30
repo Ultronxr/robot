@@ -2,7 +2,7 @@
 
 当前QQRobot版本：[查看pom.xml文件version标签](./pom.xml#L13)
 
-依赖mirai版本：2.10.0
+依赖mirai版本：2.11.0
 
 ## 1. 项目主要目录结构
 
@@ -41,7 +41,7 @@
 
 使用开源框架 [mirai](https://github.com/mamoe/mirai) ，其开发文档见 [mirai开发文档](https://github.com/mamoe/mirai/blob/dev/docs/README.md) ，其Java API文档见 [Mirai - Core API](https://github.com/mamoe/mirai/blob/dev/docs/CoreAPI.md) 。
 
-这里是对mirai的功能应用。
+这里是对mirai的功能应用。目前该机器人主要面向qq群使用，单独添加机器人好友及私聊功能极不完善。
 
 ## 3. 依赖
 

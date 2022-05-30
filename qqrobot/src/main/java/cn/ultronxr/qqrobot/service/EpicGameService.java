@@ -16,10 +16,18 @@ public interface EpicGameService {
     String freeGamesPromotionsWeekly();
 
     /**
-     * 获取所有免费游戏信息
+     * 请求免费游戏接口
      *
      * @return
      */
-    String freeGamesPromotions();
+    String httpRequest();
+
+    /**
+     * 解析免费游戏内容json
+     *
+     * @param response 请求接口获得的json
+     * @return
+     */
+    String parseJson(String response);
 
 }

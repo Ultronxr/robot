@@ -4,8 +4,10 @@ import cn.hutool.core.date.CalendarUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Ultronxr
@@ -16,6 +18,13 @@ import java.util.Calendar;
 public class DateTimeUtils {
 
     public static final String STANDARD_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String UTC_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS Z";
+
+    public static final SimpleDateFormat STANDARD_FORMAT = new SimpleDateFormat(STANDARD_FORMAT_PATTERN);
+
+    public static final SimpleDateFormat UTC_FORMAT = new SimpleDateFormat(UTC_FORMAT_PATTERN);
+
 
     /**
      * 把Calendar日期时间根据指定格式进行格式化
@@ -28,11 +37,32 @@ public class DateTimeUtils {
      */
     public static String getFormattedCalendar(@Nullable Calendar calendar, @Nullable String formatPattern) {
         calendar = ifNullGetInstance(calendar);
-        if(StringUtils.isEmpty(formatPattern)){
-            formatPattern = STANDARD_FORMAT_PATTERN;
+        if(StringUtils.isEmpty(formatPattern) || formatPattern.equals(STANDARD_FORMAT_PATTERN)){
+            return STANDARD_FORMAT.format(calendar.getTime());
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatPattern);
-        return simpleDateFormat.format(calendar.getTime());
+        return new SimpleDateFormat(formatPattern).format(calendar.getTime());
+    }
+
+    /**
+     * 把指定格式的日期时间字符串转为Calendar
+     *
+     * @param dateTimeString 待转化为Calendar的日期时间字符串
+     * @param formatPattern  格式化格式，如果为null或为空则使用 {@link #STANDARD_FORMAT_PATTERN}
+     * @return 转化之后的Calendar
+     */
+    public static Calendar parseStringToCalendar(String dateTimeString, String formatPattern) {
+        try {
+            Date date = null;
+            if(StringUtils.isEmpty(formatPattern) || formatPattern.equals(STANDARD_FORMAT_PATTERN)){
+                date = STANDARD_FORMAT.parse(dateTimeString);
+            } else {
+                date = new SimpleDateFormat(formatPattern).parse(dateTimeString);
+            }
+            return CalendarUtil.calendar(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -276,6 +306,48 @@ public class DateTimeUtils {
         } else {
             return dayOfWeek - 1;
         }
+    }
+
+    /**
+     * UTC格式的时间字符串 转换为 北京时间（UTC+8）标准格式 字符串<br/>
+     * 例：2022-01-01T16:00:00.000Z  ==>  2022-01-02 00:00:00
+     *
+     * @param utcDateTime UTC格式的时间字符串，包含 T、Z 标记
+     * @return 北京时间（UTC+8）标准格式 字符串
+     */
+    public static String utcToUtc8WithStandardFormat(String utcDateTime) {
+        utcDateTime = utcDateTime.replace("Z", " UTC");
+        try {
+            Date date = UTC_FORMAT.parse(utcDateTime);
+            return STANDARD_FORMAT.format(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 检查一个时间点是否处于一段时间区间中（包含时间区间两端点）
+     *
+     * @param target      待检查的时间点
+     * @param periodStart 时间区间开始
+     * @param periodEnd   时间区间结束
+     * @return true-处于；false-不处于
+     */
+    public static Boolean isTargetInCalendarPeriod(Calendar target, Calendar periodStart, Calendar periodEnd) {
+        return CalendarUtil.compare(target, periodStart) >= 0 && CalendarUtil.compare(target, periodEnd) <= 0
+            || CalendarUtil.compare(target, periodStart) <= 0 && CalendarUtil.compare(target, periodEnd) >= 0;
+    }
+
+    /**
+     * 检查现在时间点是否处于一段时间区间中（包含时间区间两端点）
+     *
+     * @param periodStart 时间区间开始
+     * @param periodEnd   时间区间结束
+     * @return true-处于；false-不处于
+     */
+    public static Boolean isNowInCalendarPeriod(Calendar periodStart, Calendar periodEnd) {
+        return isTargetInCalendarPeriod(Calendar.getInstance(), periodStart, periodEnd);
     }
 
 }
