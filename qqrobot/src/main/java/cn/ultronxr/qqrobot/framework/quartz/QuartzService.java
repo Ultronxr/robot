@@ -59,6 +59,8 @@ public interface QuartzService {
 
     Boolean updateTask(QuartzTask task);
 
-    List<QuartzTask> queryTask(QuartzTaskStatus status);
+    List<QuartzTask> queryTask(QuartzTask task);
+
+    Long countTask(QuartzTask task);
 
 }

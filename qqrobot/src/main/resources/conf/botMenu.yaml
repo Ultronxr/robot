@@ -373,134 +373,158 @@ options:
 handler: msgCodeToolkitHandler
 handlerMethod: groupUnicodeHandler
 
+#---
+#briefDesc: Quartz定时重复任务
+#detailedDesc: 配置Quartz定时重复任务。包括添加、暂停、恢复、停止、删除任务，以及查询任务列表和任务详情等功能。
+#triggerList:
+##  - quartz-help
+#  - quartz-add
+#  - quartz-pause
+#  - quartz-resume
+#  - quartz-stop
+#  - quartz-delete
+#  - quartz-list
+#  - quartz-query
+#  - quartz-copy
+#  - quartz-modify
+#options:
+#  - opt: n
+#    longOpt: name
+#    desc: 任务名称
+#    hasArg: true
+#    argName: 任务名称
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: g
+#    longOpt: group
+#    desc: 任务分组
+#    hasArg: true
+#    argName: 任务分组
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: desc
+#    longOpt: description
+#    desc: 任务描述，参数内容使用半角引号括起。
+#    hasArg: true
+#    argName: 任务描述内容
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: c
+#    longOpt: cron
+#    desc: Cron表达式，参数内容使用半角引号括起。
+#    hasArg: true
+#    argName: Cron表达式
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: msg
+#    longOpt: message
+#    desc: 任务消息内容，参数内容使用半角引号括起。
+#    hasArg: true
+#    argName: 任务消息内容
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: fals
+#  - opt: at
+#    longOpt: at
+#    desc: 是否@指定的群成员，如果不指定该参数，默认为普通群消息。
+#    hasArg: true
+#    argName: 群成员QQ号（多个QQ号使用半角逗号隔开）
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: s
+#    longOpt: status
+#    desc: 任务状态：0-停止，1-激活，2-暂停。如果不指定该参数，则默认激活状态；如果为暂停状态，则需要使用-p指定暂停结束时间。
+#    hasArg: true
+#    argName: 任务状态
+#    argNumber: 1
+#    type: java.lang.Integer
+#    required: false
+#    optional: false
+#  - opt: p
+#    longOpt: pauseTimeLimit
+#    desc: 任务暂停结束时间，参数内容使用半角引号括起。
+#    hasArg: true
+#    argName: 暂停结束时间
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: f
+#    longOpt: file
+#    desc: 附件（图片）。
+#    hasArg: false
+#    argName: 任务分组
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: sms
+#    longOpt: sms
+#    desc: 通知手机号码。该参数当前无效！
+#    hasArg: true
+#    argName: 手机号码
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: email
+#    longOpt: email
+#    desc: 通知邮箱地址。该参数当前无效！
+#    hasArg: true
+#    argName: 邮箱地址
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: q
+#    longOpt: query
+#    desc: 查询任务内容关键字，包括name、group、description。
+#    hasArg: true
+#    argName: 任务内容关键字
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - opt: class
+#    longOpt: jobclass
+#    desc: 反射获取的Job全限定类名，用于加入Quartz调度器执行。该参数仅供调试使用，正常运行请勿变更Job类！缺省Job类为“cn.ultronxr.qqrobot.framework.quartz.jobclass.QQGroupQuartzTaskJob”。
+#    hasArg: true
+#    argName: Job全限定类名
+#    argNumber: 1
+#    type: java.lang.String
+#    required: false
+#    optional: false
+#  - longOpt: help
+#    hasArg: false
+#    desc: 命令解释说明
+#    required: false
+#handler: msgQuartzTaskHandler
+#handlerMethod: groupQuartzTaskHandler
+
 ---
-briefDesc: Quartz定时重复任务
-detailedDesc: 配置Quartz定时重复任务。包括添加、暂停、恢复、停止、删除任务，以及查询任务列表和任务详情等功能。
+briefDesc: Epic白嫖游戏
+detailedDesc: 获取Epic游戏商城定期的免费（白嫖）游戏信息。
 triggerList:
-#  - quartz-help
-  - quartz-add
-  - quartz-pause
-  - quartz-resume
-  - quartz-stop
-  - quartz-delete
-  - quartz-list
-  - quartz-query
-  - quartz-copy
-  - quartz-modify
+  - epic
+  - epicgames
+  - epicfreegames
 options:
-  - opt: n
-    longOpt: name
-    desc: 任务名称
-    hasArg: true
-    argName: 任务名称
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: g
-    longOpt: group
-    desc: 任务分组
-    hasArg: true
-    argName: 任务分组
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: desc
-    longOpt: description
-    desc: 任务描述，参数内容使用半角引号括起。
-    hasArg: true
-    argName: 任务描述内容
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: c
-    longOpt: cron
-    desc: Cron表达式，参数内容使用半角引号括起。
-    hasArg: true
-    argName: Cron表达式
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: msg
-    longOpt: message
-    desc: 任务消息内容，参数内容使用半角引号括起。
-    hasArg: true
-    argName: 任务消息内容
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: fals
-  - opt: at
-    longOpt: at
-    desc: 是否@指定的群成员，如果不指定该参数，默认为普通群消息。
-    hasArg: true
-    argName: 群成员QQ号（多个QQ号使用半角逗号隔开）
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
   - opt: s
     longOpt: status
-    desc: 任务状态：0-停止，1-激活，2-暂停。如果不指定该参数，则默认激活状态；如果为暂停状态，则需要使用-p指定暂停结束时间。
+    desc: 开关定期提醒功能
     hasArg: true
-    argName: 任务状态
-    argNumber: 1
-    type: java.lang.Integer
-    required: false
-    optional: false
-  - opt: p
-    longOpt: pauseTimeLimit
-    desc: 任务暂停结束时间，参数内容使用半角引号括起。
-    hasArg: true
-    argName: 暂停结束时间
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: f
-    longOpt: file
-    desc: 附件（图片）。
-    hasArg: false
-    argName: 任务分组
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: sms
-    longOpt: sms
-    desc: 通知手机号码。该参数当前无效！
-    hasArg: true
-    argName: 手机号码
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: email
-    longOpt: email
-    desc: 通知邮箱地址。该参数当前无效！
-    hasArg: true
-    argName: 邮箱地址
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: q
-    longOpt: query
-    desc: 查询任务内容关键字，包括name、group、description。
-    hasArg: true
-    argName: 任务内容关键字
-    argNumber: 1
-    type: java.lang.String
-    required: false
-    optional: false
-  - opt: class
-    longOpt: jobclass
-    desc: 反射获取的Job全限定类名，用于加入Quartz调度器执行。该参数仅供调试使用，正常运行请勿变更Job类！缺省Job类为“cn.ultronxr.qqrobot.framework.quartz.jobclass.QQGroupQuartzTaskJob”。
-    hasArg: true
-    argName: Job全限定类名
+    argName: on/off
     argNumber: 1
     type: java.lang.String
     required: false
@@ -509,6 +533,6 @@ options:
     hasArg: false
     desc: 命令解释说明
     required: false
-handler: msgQuartzTaskHandler
-handlerMethod: groupQuartzTaskHandler
+handler: msgGameHandler
+handlerMethod: groupEpicFreeGameHandler
 

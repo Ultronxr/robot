@@ -17,14 +17,41 @@ spring:
     redisson:
       file: classpath:conf/redisson.yaml
 
-mybatis:
-  type-aliases-package: cn.ultronxr.qqrobot.bean.mybatis.bean
-  mapper-locations: classpath:mapper/*.xml
+  mvc:
+    static-path-pattern: /static/**
+#    view:
+#      prefix: /static/html/
+#      suffix: .html
+
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/templates/
+
+  thymeleaf:
+#    prefix: classpath:/templates/
+    prefix: classpath:/static/html/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
 
 server:
   port: 8093
   servlet:
     context-path: /qqrobot
+
+mybatis:
+  type-aliases-package: cn.ultronxr.qqrobot.bean.mybatis.bean
+  mapper-locations: classpath:mapper/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  params: count=countSql
+  supportMethodsArguments: true
+  pageSizeZero: true
 
 logging:
   config: classpath:log4j.properties

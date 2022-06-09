@@ -10,7 +10,6 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +43,11 @@ public class QuartzServiceImpl implements QuartzService {
             } else {
                 log.info("[Quartz] 添加 QuartzJob({}, {}) 失败！", task.getTaskName(), task.getTaskGroup());
             }
+        }
+        try {
+            scheduler.start();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -84,14 +88,15 @@ public class QuartzServiceImpl implements QuartzService {
             } else if(QuartzTaskStatus.isPaused(task.getStatus())) {
                 trigger.getTriggerBuilder().startAt(task.getPauseTimeLimit()).build();
             } else if(QuartzTaskStatus.isStopped(task.getStatus())) {
-                trigger.getTriggerBuilder().endAt(new Date()).build();
+                // Throw Exception: End time cannot be before start time
+                //trigger.getTriggerBuilder().endAt(new Date()).build();
             }
 
             scheduler.scheduleJob(jobDetail, trigger);
-            if(!scheduler.isShutdown() && !scheduler.isStarted()) {
-                // 这两个if条件方法并不会返回scheduler的当前状态，而是表示曾经是否已经shutdown过了、曾经是否已经start过了。参见其JavaDoc。
-                scheduler.start();
-            }
+            //if(!scheduler.isShutdown() && !scheduler.isStarted()) {
+            //    // 这两个if条件方法并不会返回scheduler的当前状态，而是表示曾经是否已经shutdown过了、曾经是否已经start过了。参见其JavaDoc。
+            //    scheduler.start();
+            //}
         } catch (SchedulerException ex) {
             ex.printStackTrace();
             log.warn("[Quartz] 添加 QuartzJob({}, {}) 时抛出异常！", task.getTaskName(), task.getTaskGroup());
@@ -185,15 +190,54 @@ public class QuartzServiceImpl implements QuartzService {
         return true;
     }
 
-    @Override
-    public List<QuartzTask> queryTask(QuartzTaskStatus status) {
-        QuartzTaskExample example = null;
-        if(null != status) {
-            example = new QuartzTaskExample();
-            example.createCriteria()
-                    .andStatusEqualTo(status.getStatus());
+    private QuartzTaskExample generateQuartzTaskExample(QuartzTask task) {
+        QuartzTaskExample example = new QuartzTaskExample();
+        if(null != task) {
+            QuartzTaskExample.Criteria criteria = example.createCriteria();
+            if(null != task.getTaskName()) {
+                criteria.andTaskNameLike("%" + task.getTaskName() + "%");
+            }
+            if(null != task.getTaskGroup()) {
+                criteria.andTaskGroupLike("%" + task.getTaskGroup() + "%");
+            }
+            if(null != task.getTaskDescription()) {
+                criteria.andTaskDescriptionLike("%" + task.getTaskDescription() + "%");
+            }
+            if(null != task.getTaskClass()) {
+                criteria.andTaskClassLike("%" + task.getTaskClass() + "%");
+            }
+            if(null != task.getStatus()) {
+                criteria.andStatusEqualTo(task.getStatus());
+            }
+            if(null != task.getPauseTimeLimit()) {
+                criteria.andPauseTimeLimitEqualTo(task.getPauseTimeLimit());
+            }
+            if(null != task.getCreateUser()) {
+                criteria.andCreateUserLike("%" + task.getCreateUser() + "%");
+            }
+            if(null != task.getCreateTime()) {
+                criteria.andCreateTimeEqualTo(task.getCreateTime());
+            }
+            if(null != task.getUpdateUser()) {
+                criteria.andUpdateUserLike("%" + task.getUpdateUser() + "%");
+            }
+            if(null != task.getUpdateTime()) {
+                criteria.andUpdateTimeEqualTo(task.getUpdateTime());
+            }
         }
+        example.setOrderByClause("status desc, task_group asc, task_name asc");
+        return example;
+    }
+
+    @Override
+    public List<QuartzTask> queryTask(QuartzTask task) {
+        QuartzTaskExample example = generateQuartzTaskExample(task);
         return taskMapper.selectByExample(example);
     }
 
+    @Override
+    public Long countTask(QuartzTask task) {
+        QuartzTaskExample example = generateQuartzTaskExample(task);
+        return taskMapper.countByExample(example);
+    }
 }

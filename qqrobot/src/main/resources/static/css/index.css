@@ -1,0 +1,37 @@
+* {
+    font-family: "Segoe UI","Helvetica Neue","Helvetica",Arial,sans-serif;
+    box-sizing: border-box;
+}
+.site-header {
+    height: auto;
+    background-color: rgba(44, 44, 50, 1);
+    color: #444;
+    font-weight: 400;
+    font-size: 18px;
+    text-rendering: optimizeLegibility;
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+}
+.site-header a {
+    margin: auto 20px;
+    color: #999;
+    transition: ease-in-out color .15s;
+    text-decoration: none;
+}
+.site-header a:hover {
+    color: #fff!important;
+    text-decoration: none;
+}
+.container {
+    width: 60%;
+    margin: auto;
+}
+.navbar-header a {
+    color: #fff;
+}
+.navbar-left {
+    float: left;
+    display: flex;
+    flex: auto;
+    margin-left: 5%;
+}

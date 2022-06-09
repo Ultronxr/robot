@@ -22,7 +22,7 @@ public class QuartzJobInitListener implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            quartzService.initJobs();
+            //quartzService.initJobs();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
